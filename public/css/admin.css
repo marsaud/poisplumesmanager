@@ -1,0 +1,12 @@
+/*
+    Document   : admin
+    Created on : 25 juil. 2012, 23:17:11
+    Author     : fabrice
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+td, th {
+    border: solid black 1px;
+}
+

@@ -1,0 +1,87 @@
+<div>
+    <form>
+        <fieldset>
+            <legend>Créer un article</legend>
+            <label for="articleref">Référence de l'article</label>
+            <input id="articleref" type="text" name="articleref"/>
+            <br/>
+            <label for="articlename">Nom de l'article</label>
+            <input id="articlename" type="text" name="articlename"/>
+            <br/>
+            <label for="articledesc">Description de l'article (optionel)</label>
+            <textarea id="articledesc" name="articledesc">(r.a.s.)</textarea>
+            <br/>
+            <label for="priceht">Prix HT</label>
+            <input id="priceht" type="text" name="priceht"/>
+            <label for="tva">TVA</label>
+            <select id="tva" name="tva">
+                <option value="1">0%</option>
+                <option value="2">19.6%</option>
+                <option value="3">5.5%</option>
+            </select>
+            <fieldset>
+                <legend>Catégories auxquelles appartient l'article</legend>
+                <label for="resto">restaurant</label>
+                <input id="resto" type="checkbox" name="resto" value="on" /><br/>
+                <label for="entree">entrées</label>
+                <input id="entree" type="checkbox" name="entree" value="off" /><br/>
+                <label for="plat">Plats cuisinés</label>
+                <input id="plat" type="checkbox" name="plat" value="off" /><br/>
+                <label for="boutique">boutique</label>
+                <input id="boutique" type="checkbox" name="boutique" value="off" /><br/>
+            </fieldset>
+            <label for="stock">Géré en stock</label>
+            <input id="stock" type="checkbox" name="stock" value="off" /><br/>
+            <input type="submit" value="Créer"/>
+        </fieldset>
+    </form>
+</div>
+<div>
+    <form>
+        <fieldset>
+            <legend>Modifier un article</legend>
+            <label for="modarticleref">Référence de l'article</label>
+            <select id="modarticleref" name="modarticleref">
+                <option value="abc">ABC</option>
+                <option value="def">DEF</option>
+                <option value="ghi">GHI</option>
+            </select>
+            <br/>
+            <label for="modarticlename">Nom de l'article</label>
+            <input id="modarticlename" type="text" name="modarticlename"/>
+            <br/>
+            <label for="modarticledesc">Description de l'article (optionel)</label>
+            <textarea id="modarticledesc" name="modarticledesc">(r.a.s.)</textarea>
+            <br/>
+            <label for="priceht">Prix HT</label>
+            <input id="priceht" type="text" name="priceht"/>
+            <label for="tva">TVA</label>
+            <select id="tva" name="tva">
+                <option value="1">0%</option>
+                <option value="2">19.6%</option>
+                <option value="3">5.5%</option>
+            </select>
+            <fieldset>
+                <legend>Catégories auxquelles appartient l'article</legend>
+                <label for="resto">restaurant</label>
+                <input id="resto" type="checkbox" name="resto" value="on" /><br/>
+                <label for="entree">entrées</label>
+                <input id="entree" type="checkbox" name="entree" value="off" /><br/>
+                <label for="plat">Plats cuisinés</label>
+                <input id="plat" type="checkbox" name="plat" value="off" /><br/>
+                <label for="boutique">boutique</label>
+                <input id="boutique" type="checkbox" name="boutique" value="off" /><br/>
+            </fieldset>
+            <label for="stock">Géré en stock</label>
+            <input id="stock" type="checkbox" name="stock" value="off" /><br/>
+            <input type="submit" value="Modifier"/>
+        </fieldset>
+    </form>
+</div>
+<div>
+    <h2>Liste des articles</h2>
+    <table>
+        <tr><th>Référence</th><th>Nom</th><th>Description</th><th>Catégories</th><th>Prix H.T.</th><th>TVA</th><th>Prix TTC</th></tr>
+        <tr><td>abc</td><td>ABC</td><td>blabla</td><td>resto</td><td>5,00€</td><td>19.6%</td><td>5,98€</td></tr>
+    </table>
+</div>

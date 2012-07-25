@@ -1,0 +1,68 @@
+<div>
+    <form>
+        <fieldset>
+            <legend>Créer une catégorie</legend>
+            <label for="categoryref">Référence de la catégorie</label>
+            <input id="categoryref" type="text" name="categoryref"/>
+            <br/>
+            <label for="categoryname">Nom de la catégorie</label>
+            <input id="categoryname" type="text" name="categoryname"/>
+            <br/>
+            <label for="categorydesc">Description de la catégorie (optionel)</label>
+            <textarea id="categorydesc" name="categorydesc">(r.a.s.)</textarea>
+            <br/>
+            <label for="parentcategory">Catégorie parente (optionel)</label>
+            <select id="parentcategory" name="parentcategory">
+                <option value="" selected="selected"> - - </option>
+                <option value="resto">resto - restaurant</option>
+                <option value="resto">--> entree - entrées/salades</option>
+                <option value="resto">--> plat - Plats cuisinés</option>
+                <option value="boutique">boutique - boutique</option>
+            </select>
+            <br/>
+            <input type="submit" value="Créer"/>
+        </fieldset>
+    </form>
+</div>
+<div>
+    <form>
+        <fieldset>
+            <legend>Modifier une catégorie</legend>
+            <label for="modcategoryref">Catégorie à modifier</label>
+            <select id="modcategoryref" name="modcategoryref">
+                <option value="" selected="selected"> - - </option>
+                <option value="resto">resto - restaurant</option>
+                <option value="resto">--> entree - entrées/salades</option>
+                <option value="resto">--> plat - Plats cuisinés</option>
+                <option value="boutique">boutique - boutique</option>
+            </select>
+            <br/>
+            <label for="modcategoryname">Nom de la catégorie</label>
+            <input id="modcategoryname" type="text" name="modcategoryname"/>
+            <br/>
+            <label for="modcategorydesc">Description de la catégorie (optionel)</label>
+            <textarea id="modcategorydesc" name="modcategorydesc">(r.a.s.)</textarea>
+            <br/>
+            <label for="modparentcategory">Catégorie parente (optionel)</label>
+            <select id="modparentcategory" name="modparentcategory">
+                <option value="" selected="selected"> - - </option>
+                <option value="resto">resto - restaurant</option>
+                <option value="resto">--> entree - entrées/salades</option>
+                <option value="resto">--> plat - Plats cuisinés</option>
+                <option value="boutique">boutique - boutique</option>
+            </select>
+            <br/>
+            <input type="submit" value="Modifier"/>
+        </fieldset>
+    </form>
+</div>
+<div>
+    <h2>Liste des catégories</h2>
+    <table>
+        <tr><th colspan="2">Catégorie</th><th>Nom</th><th>Description</th></tr>
+        <tr><td>resto</td><td></td><td>restaurant</td><td>(r.a.s.)</td></tr>
+        <tr><td></td><td>entree</td><td>entrées/salades</td><td>(r.a.s.)</td></tr>
+        <tr><td></td><td>plat</td><td>Plats cuisinés</td><td>(r.a.s.)</td></tr>
+        <tr><td>boutique</td><td></td><td>boutique</td><td>(r.a.s.)</td></tr>
+    </table>
+</div>
