@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8"/>
+        <?php
+        echo $this->headLink()->appendStylesheet($this->baseUrl('/css/cash-register/front-end.css'));
+        echo $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->baseUrl('/js/prototype.js'));
+        ?>
+        <title>todo</title>
+    </head>
+    <body>
+        <?php echo $this->layout()->content; ?>
+    </body>
+</html>
