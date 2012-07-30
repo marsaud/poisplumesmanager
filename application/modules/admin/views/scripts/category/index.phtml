@@ -1,3 +1,6 @@
+<?php
+$this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
+?>
 <div>
     <form>
         <fieldset>
@@ -11,14 +14,11 @@
             <label for="categorydesc">Description de la catégorie (optionel)</label>
             <textarea id="categorydesc" name="categorydesc">(r.a.s.)</textarea>
             <br/>
-            <label for="parentcategory">Catégorie parente (optionel)</label>
-            <select id="parentcategory" name="parentcategory">
-                <option value="" selected="selected"> - - </option>
-                <option value="resto">resto - restaurant</option>
-                <option value="resto">--> entree - entrées/salades</option>
-                <option value="resto">--> plat - Plats cuisinés</option>
-                <option value="boutique">boutique - boutique</option>
-            </select>
+            <?php
+            echo $this->categoryBox(
+                'parentcategory', $this->categoryTree, 'Catégorie parente (optionel)', true
+            );
+            ?>
             <br/>
             <input type="submit" value="Créer"/>
         </fieldset>
@@ -28,14 +28,11 @@
     <form>
         <fieldset>
             <legend>Modifier une catégorie</legend>
-            <label for="modcategoryref">Catégorie à modifier</label>
-            <select id="modcategoryref" name="modcategoryref">
-                <option value="" selected="selected"> - - </option>
-                <option value="resto">resto - restaurant</option>
-                <option value="resto">--> entree - entrées/salades</option>
-                <option value="resto">--> plat - Plats cuisinés</option>
-                <option value="boutique">boutique - boutique</option>
-            </select>
+            <?php
+            echo $this->categoryBox(
+                'modcategoryref', $this->categoryTree, 'Catégorie à modifier'
+            );
+            ?>
             <br/>
             <label for="modcategoryname">Nom de la catégorie</label>
             <input id="modcategoryname" type="text" name="modcategoryname"/>
@@ -43,26 +40,18 @@
             <label for="modcategorydesc">Description de la catégorie (optionel)</label>
             <textarea id="modcategorydesc" name="modcategorydesc">(r.a.s.)</textarea>
             <br/>
-            <label for="modparentcategory">Catégorie parente (optionel)</label>
-            <select id="modparentcategory" name="modparentcategory">
-                <option value="" selected="selected"> - - </option>
-                <option value="resto">resto - restaurant</option>
-                <option value="resto">--> entree - entrées/salades</option>
-                <option value="resto">--> plat - Plats cuisinés</option>
-                <option value="boutique">boutique - boutique</option>
-            </select>
+            <?php
+            echo $this->categoryBox(
+                'parentcategory', $this->categoryTree, 'Catégorie parente (optionel)', true
+            );
+            ?>
             <br/>
             <input type="submit" value="Modifier"/>
         </fieldset>
     </form>
 </div>
 <div>
-    <h2>Liste des catégories</h2>
-    <table>
-        <tr><th colspan="2">Catégorie</th><th>Nom</th><th>Description</th></tr>
-        <tr><td>resto</td><td></td><td>restaurant</td><td>(r.a.s.)</td></tr>
-        <tr><td></td><td>entree</td><td>entrées/salades</td><td>(r.a.s.)</td></tr>
-        <tr><td></td><td>plat</td><td>Plats cuisinés</td><td>(r.a.s.)</td></tr>
-        <tr><td>boutique</td><td></td><td>boutique</td><td>(r.a.s.)</td></tr>
-    </table>
+    <?php
+    echo $this->categoryList($this->categoryTree);
+    ?>
 </div>
