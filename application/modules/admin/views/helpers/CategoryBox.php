@@ -14,7 +14,12 @@ class Admin_View_Helper_CategoryBox
 
     /**
      *
+     * @param string $name
      * @param Category[] $categoryTree
+     * @param string $label
+     * @param boolean $parentCategoriesOnly
+     *
+     * @return string
      */
     public function categoryBox($name, array $categoryTree, $label = NULL, $parentCategoriesOnly = false)
     {

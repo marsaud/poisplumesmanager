@@ -1,3 +1,6 @@
+<?php
+$this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
+?>
 <div>
     <form>
         <fieldset>
@@ -13,23 +16,14 @@
             <br/>
             <label for="priceht">Prix HT</label>
             <input id="priceht" type="text" name="priceht"/>
-            <label for="tva">TVA</label>
-            <select id="tva" name="tva">
-                <option value="1">0%</option>
-                <option value="2">19.6%</option>
-                <option value="3">5.5%</option>
-            </select>
-            <fieldset>
-                <legend>Catégories auxquelles appartient l'article</legend>
-                <label for="resto">restaurant</label>
-                <input id="resto" type="checkbox" name="resto" value="on" /><br/>
-                <label for="entree">entrées</label>
-                <input id="entree" type="checkbox" name="entree" value="off" /><br/>
-                <label for="plat">Plats cuisinés</label>
-                <input id="plat" type="checkbox" name="plat" value="off" /><br/>
-                <label for="boutique">boutique</label>
-                <input id="boutique" type="checkbox" name="boutique" value="off" /><br/>
-            </fieldset>
+            <?php
+            echo $this->taxBox('tva', $this->taxList, 'T.V.A.');
+            ?>
+            <?php
+            echo $this->categoryCheck(
+                $this->categoryTree, 'Catégories auxquelles appartient l\'article'
+            );
+            ?>
             <label for="provider">Fournisseur (optionel)</label>
             <select id="provider" name="provider">
                 <option value="0">- -</option>
@@ -61,35 +55,26 @@
             <label for="modarticledesc">Description de l'article (optionel)</label>
             <textarea id="modarticledesc" name="modarticledesc">(r.a.s.)</textarea>
             <br/>
-            <label for="priceht">Prix HT</label>
-            <input id="priceht" type="text" name="priceht"/>
-            <label for="tva">TVA</label>
-            <select id="tva" name="tva">
-                <option value="1">0%</option>
-                <option value="2">19.6%</option>
-                <option value="3">5.5%</option>
-            </select>
-            <fieldset>
-                <legend>Catégories auxquelles appartient l'article</legend>
-                <label for="resto">restaurant</label>
-                <input id="resto" type="checkbox" name="resto" value="on" /><br/>
-                <label for="entree">entrées</label>
-                <input id="entree" type="checkbox" name="entree" value="off" /><br/>
-                <label for="plat">Plats cuisinés</label>
-                <input id="plat" type="checkbox" name="plat" value="off" /><br/>
-                <label for="boutique">boutique</label>
-                <input id="boutique" type="checkbox" name="boutique" value="off" /><br/>
-            </fieldset>
-            <label for="provider">Fournisseur (optionel)</label>
-            <select id="provider" name="provider">
+            <label for="modpriceht">Prix HT</label>
+            <input id="modpriceht" type="text" name="modpriceht"/>
+            <?php
+            echo $this->taxBox('modtva', $this->taxList, 'T.V.A.');
+            ?>
+            <?php
+            echo $this->categoryCheck(
+                $this->categoryTree, 'Catégories auxquelles appartient l\'article', 'mod'
+            );
+            ?>
+            <label for="modprovider">Fournisseur (optionel)</label>
+            <select id="modprovider" name="modprovider">
                 <option value="0">- -</option>
                 <option value="1">La ferme aux lapins</option>
                 <option value="2">Le verger aux abris côtiers</option>
                 <option value="3">L'atelier des fous à lier</option>
             </select>
             <br/>
-            <label for="stock">Géré en stock</label>
-            <input id="stock" type="checkbox" name="stock" value="off" /><br/>
+            <label for="modstock">Géré en stock</label>
+            <input id="modstock" type="checkbox" name="modstock" value="off" /><br/>
             <input type="submit" value="Modifier"/>
         </fieldset>
     </form>
