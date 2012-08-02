@@ -31,20 +31,32 @@ class Admin_View_Helper_CategoryCheck
 
         foreach ($categoryList as $category)
         {
-            /* @var $category Category */
-            $categoryCheck .= '<label for="' . $prefix . $category->reference . '">'
-                . $category->name
-                . '</label>'
-                . PHP_EOL
-                . '<input id="' . $prefix . $category->reference
-                . '" type="checkbox" name="' . $prefix . $category->reference
-                . '" value="on" /><br/>'
-                . PHP_EOL;
+            $categoryCheck .= $this->_renderCategoryCheckBox(
+                $category, $prefix
+            );
+            foreach ($category as $subCategory)
+            {
+                $categoryCheck .= $this->_renderCategoryCheckBox(
+                    $subCategory, $prefix
+                );
+            }
         }
 
         $categoryCheck .= '</fieldset>' . PHP_EOL;
 
         return $categoryCheck;
+    }
+
+    protected function _renderCategoryCheckBox(Category $category, $prefix)
+    {
+        return '<label for="' . $prefix . $category->reference . '">'
+            . $category->name
+            . '</label>'
+            . PHP_EOL
+            . '<input id="' . $prefix . $category->reference
+            . '" type="checkbox" name="' . $prefix . $category->reference
+            . '" value="on" /><br/>'
+            . PHP_EOL;
     }
 
 }

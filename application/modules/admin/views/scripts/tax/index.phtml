@@ -1,0 +1,43 @@
+<?php
+$this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View_Helper');
+?>
+<?php
+echo $this->action('menu', 'index', 'admin');
+?>
+<form method="post" action="<?php echo $this->baseUrl('admin/tax/create'); ?>" id="createtaxform">
+    <fieldset>
+        <legend>Créer une taxe</legend>
+        <label for="name">Nom de la taxe</label>
+        <input type="text" name="name" id="name"/>
+        <br/>
+        <label for="ratio">Ratio</label>
+        <input type="text" name="ratio" id="ratio"/>
+        <br/>
+        <label for="desc">Description</label>
+        <textarea id="desc" name="desc">(r.a.s.)</textarea>
+        <br/>
+        <input type="Submit" value="Créer"/>
+    </fieldset>
+</form>
+<form method="post" action="<?php echo $this->baseUrl('admin/tax/update'); ?>" id="updatetaxform">
+    <fieldset>
+        <legend>Modifier une taxe</legend>
+        <?php
+        echo $this->taxBox('modid', $this->taxes, 'Nom de la taxe à modifier');
+        ?>
+        <br/>
+        <input type="hidden" name="modname" value=""/><!-- JAVASCRIPT INDISPENSABLE -->
+        <label for="modratio">Ratio</label>
+        <input type="text" name="modratio" id="modratio"/>
+        <br/>
+        <label for="moddesc">Description</label>
+        <textarea id="moddesc" name="moddesc">(r.a.s.)</textarea>
+        <br/>
+        <input type="Submit" value="Modifier"/>
+    </fieldset>
+</form>
+<div>
+    <?php
+    echo $this->taxList($this->taxes, 'Taxes existantes');
+    ?>
+</div>

@@ -1,33 +1,13 @@
+<?php
+$this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Stock_View_Helper');
+?>
 <div>
-    <div>
-        <label for="categoryfilter">Filtrer par catégorie</label>
-        <select id="categoryfilter">
-            <option value="" selected="selected"> - - </option>
-            <option value="resto">resto - restaurant</option>
-            <option value="resto">--> entree - entrées/salades</option>
-            <option value="resto">--> plat - Plats cuisinés</option>
-            <option value="boutique">boutique - boutique</option>
-        </select>
-    </div>
-    <table>
-        <tr>
-            <th>Article</th>
-            <th>Description</th>
-            <th>Quantité</th>
-            <th>Modifier</th>
-            <th>Commentaire</th>
-        </tr>
-        <tr>
-            <td>Toto</td><td>La tête à toto !!</td><td>5</td><td><input type="text" id="Toto"/><input type="button" id="v_Toto" value="Ok"/></td><td><textarea>(r.a.s.)</textarea></td>
-        </tr>
-        <tr>
-            <td>Toto</td><td>La tête à toto !!</td><td>5</td><td><input type="text" id="Toto"/><input type="button" id="v_Toto" value="Ok"/></td><td><textarea>(r.a.s.)</textarea></td>
-        </tr>
-        <tr>
-            <td>Toto</td><td>La tête à toto !!</td><td>5</td><td><input type="text" id="Toto"/><input type="button" id="v_Toto" value="Ok"/></td><td><textarea>(r.a.s.)</textarea></td>
-        </tr>
-        <tr>
-            <td>Toto</td><td>La tête à toto !!</td><td>5</td><td><input type="text" id="Toto"/><input type="button" id="v_Toto" value="Ok"/></td><td><textarea>(r.a.s.)</textarea></td>
-        </tr>
-    </table>
+    <?php
+    echo $this->categoryBox(
+        'categoryfilter', $this->categoryTree, 'Filtrer par catégorie'
+    );
+    ?>
 </div>
+<?php
+echo $this->articleGrid($this->articleList);
+?>

@@ -1,88 +1,81 @@
 <?php
 $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
 ?>
-<div>
-    <form>
-        <fieldset>
-            <legend>Créer un article</legend>
-            <label for="articleref">Référence de l'article</label>
-            <input id="articleref" type="text" name="articleref"/>
-            <br/>
-            <label for="articlename">Nom de l'article</label>
-            <input id="articlename" type="text" name="articlename"/>
-            <br/>
-            <label for="articledesc">Description de l'article (optionel)</label>
-            <textarea id="articledesc" name="articledesc">(r.a.s.)</textarea>
-            <br/>
-            <label for="priceht">Prix HT</label>
-            <input id="priceht" type="text" name="priceht"/>
-            <?php
-            echo $this->taxBox('tva', $this->taxList, 'T.V.A.');
-            ?>
-            <?php
-            echo $this->categoryCheck(
-                $this->categoryTree, 'Catégories auxquelles appartient l\'article'
-            );
-            ?>
-            <label for="provider">Fournisseur (optionel)</label>
-            <select id="provider" name="provider">
-                <option value="0">- -</option>
-                <option value="1">La ferme aux lapins</option>
-                <option value="2">Le verger aux abris côtiers</option>
-                <option value="3">L'atelier des fous à lier</option>
-            </select>
-            <br/>
-            <label for="stock">Géré en stock</label>
-            <input id="stock" type="checkbox" name="stock" value="off" /><br/>
-            <input type="submit" value="Créer"/>
-        </fieldset>
-    </form>
-</div>
-<div>
-    <form>
-        <fieldset>
-            <legend>Modifier un article</legend>
-            <label for="modarticleref">Référence de l'article</label>
-            <select id="modarticleref" name="modarticleref">
-                <option value="abc">ABC</option>
-                <option value="def">DEF</option>
-                <option value="ghi">GHI</option>
-            </select>
-            <br/>
-            <label for="modarticlename">Nom de l'article</label>
-            <input id="modarticlename" type="text" name="modarticlename"/>
-            <br/>
-            <label for="modarticledesc">Description de l'article (optionel)</label>
-            <textarea id="modarticledesc" name="modarticledesc">(r.a.s.)</textarea>
-            <br/>
-            <label for="modpriceht">Prix HT</label>
-            <input id="modpriceht" type="text" name="modpriceht"/>
-            <?php
-            echo $this->taxBox('modtva', $this->taxList, 'T.V.A.');
-            ?>
-            <?php
-            echo $this->categoryCheck(
-                $this->categoryTree, 'Catégories auxquelles appartient l\'article', 'mod'
-            );
-            ?>
-            <label for="modprovider">Fournisseur (optionel)</label>
-            <select id="modprovider" name="modprovider">
-                <option value="0">- -</option>
-                <option value="1">La ferme aux lapins</option>
-                <option value="2">Le verger aux abris côtiers</option>
-                <option value="3">L'atelier des fous à lier</option>
-            </select>
-            <br/>
-            <label for="modstock">Géré en stock</label>
-            <input id="modstock" type="checkbox" name="modstock" value="off" /><br/>
-            <input type="submit" value="Modifier"/>
-        </fieldset>
-    </form>
-</div>
-<div>
-    <h2>Liste des articles</h2>
-    <table>
-        <tr><th>Référence</th><th>Nom</th><th>Description</th><th>Catégories</th><th>Prix H.T.</th><th>TVA</th><th>Prix TTC</th></tr>
-        <tr><td>abc</td><td>ABC</td><td>blabla</td><td>resto</td><td>5,00€</td><td>19.6%</td><td>5,98€</td></tr>
-    </table>
+<?php
+echo $this->action('menu', 'index', 'admin');
+?>
+<form method="post" action="<?php echo $this->baseUrl('admin'); ?>" id="createarticleform">
+    <fieldset>
+        <legend>Créer un article</legend>
+        <label for="articleref">Référence de l'article</label>
+        <input id="articleref" type="text" name="articleref"/>
+        <br/>
+        <label for="articlename">Nom de l'article</label>
+        <input id="articlename" type="text" name="articlename"/>
+        <br/>
+        <label for="articledesc">Description de l'article (optionel)</label>
+        <textarea id="articledesc" name="articledesc">(r.a.s.)</textarea>
+        <br/>
+        <label for="priceht">Prix HT</label>
+        <input id="priceht" type="text" name="priceht"/>
+        <?php
+        echo $this->taxBox('tva', $this->taxList, 'T.V.A.');
+        ?>
+        <?php
+        echo $this->categoryCheck(
+            $this->categoryTree, 'Catégories auxquelles appartient l\'article'
+        );
+        ?>
+        <?php
+        echo $this->providerBox(
+            'provider', $this->providerList, '', 'Fournisseur (optionel)'
+        );
+        ?>
+        <br/>
+        <label for="stock">Géré en stock</label>
+        <input id="stock" type="checkbox" name="stock" value="off" /><br/>
+        <input type="submit" value="Créer"/>
+    </fieldset>
+</form>
+<form method="post" action="<?php echo $this->baseUrl('admin/article/update'); ?>" id="updatearticleform">
+    <fieldset>
+        <legend>Modifier un article</legend>
+        <label for="modarticleref">Référence de l'article</label>
+        <select id="modarticleref" name="modarticleref">
+            <option value="abc">ABC</option>
+            <option value="def">DEF</option>
+            <option value="ghi">GHI</option>
+        </select>
+        <br/>
+        <label for="modarticlename">Nom de l'article</label>
+        <input id="modarticlename" type="text" name="modarticlename"/>
+        <br/>
+        <label for="modarticledesc">Description de l'article (optionel)</label>
+        <textarea id="modarticledesc" name="modarticledesc">(r.a.s.)</textarea>
+        <br/>
+        <label for="modpriceht">Prix HT</label>
+        <input id="modpriceht" type="text" name="modpriceht"/>
+        <?php
+        echo $this->taxBox('modtva', $this->taxList, 'T.V.A.');
+        ?>
+        <?php
+        echo $this->categoryCheck(
+            $this->categoryTree, 'Catégories auxquelles appartient l\'article', 'mod'
+        );
+        ?>
+        <?php
+        echo $this->providerBox(
+            'provider', $this->providerList, 'mod', 'Fournisseur (optionel)'
+        );
+        ?>
+        <br/>
+        <label for="modstock">Géré en stock</label>
+        <input id="modstock" type="checkbox" name="modstock" value="off" /><br/>
+        <input type="submit" value="Modifier"/>
+    </fieldset>
+</form>
+<div id="articlelist">
+    <?php
+    echo $this->articleList($this->articleList, 'Liste des articles');
+    ?>
 </div>

@@ -25,9 +25,10 @@ class Admin_View_Helper_TaxBox
         $label !== NULL
             || $label = $name;
 
-        $taxBox = '<label for="' . $name . '">' . $label . '<label>'
+        $taxBox = '<label for="' . $name . '">' . $label . '</label>'
             . PHP_EOL
-            . '<select id="' . $name . '" name="' . $name . '">';
+            . '<select id="' . $name . '" name="' . $name . '">' . PHP_EOL
+            . '<option value="0">- -</option>' . PHP_EOL;
         foreach ($taxList as $tax)
         {
             /* @var $tax Tax */

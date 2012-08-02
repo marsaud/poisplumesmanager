@@ -48,4 +48,22 @@ class Article
      */
     public $stock;
 
+    /**
+     *
+     * @var Category[]
+     */
+    public $categories;
+
+    /**
+     *
+     * @var float
+     */
+    public $quantity;
+
+    /**
+     *
+     * @var string
+     */
+    public $unit;
+
 }

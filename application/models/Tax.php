@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  */
 
 /**
@@ -35,5 +35,27 @@ class Tax
      * @var string;
      */
     public $description;
+
+    /**
+     *
+     * @param float $price
+     *
+     * @return float
+     */
+    public function apply($price)
+    {
+        return $price * (1 + ($this->ratio / 100));
+    }
+
+    /**
+     *
+     * @param float $price
+     * 
+     * @return float
+     */
+    public function remove($price)
+    {
+        return $price / (1 + ($this->ratio / 100));
+    }
 
 }
