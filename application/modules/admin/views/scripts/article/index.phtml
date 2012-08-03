@@ -6,14 +6,14 @@ echo $this->action('menu', 'index', 'admin');
 <form method="post" action="<?php echo $this->baseUrl('admin/article/create'); ?>" id="createarticleform">
     <fieldset>
         <legend>Créer un article</legend>
-        <label for="articleref">Référence de l'article</label>
-        <input id="articleref" type="text" name="articleref"/>
+        <label for="ref">Référence de l'article</label>
+        <input id="ref" type="text" name="ref"/>
         <br/>
-        <label for="articlename">Nom de l'article</label>
-        <input id="articlename" type="text" name="articlename"/>
+        <label for="name">Nom de l'article</label>
+        <input id="name" type="text" name="name"/>
         <br/>
-        <label for="articledesc">Description de l'article (optionel)</label>
-        <textarea id="articledesc" name="articledesc">(r.a.s.)</textarea>
+        <label for="desc">Description de l'article (optionel)</label>
+        <textarea id="desc" name="desc">(r.a.s.)</textarea>
         <br/>
         <label for="priceht">Prix HT</label>
         <input id="priceht" type="text" name="priceht"/>
@@ -28,9 +28,13 @@ echo $this->action('menu', 'index', 'admin');
             'provider', $this->providerList, 'Fournisseur (optionel)'
         );
         ?>
-        <br/>
-        <label for="stock">Géré en stock</label>
-        <input id="stock" type="checkbox" name="stock" value="off" /><br/>
+        <fieldset>
+            <legend>Gestion du stock</legend>
+            <label for="stock">Géré en stock</label>
+            <input id="stock" type="checkbox" name="stock" value="off" /><br/>
+            <label for="unit">Unité de quantité (optionel)</label>
+            <input type="text" name="unit" id="unit"/>
+        </fieldset>
         <input type="submit" value="Créer"/>
     </fieldset>
 </form>
@@ -39,15 +43,15 @@ echo $this->action('menu', 'index', 'admin');
         <legend>Modifier un article</legend>
         <?php
         echo $this->articleBox(
-            'modarticleref', $this->articleList, 'Référence de l\'article à modifier'
+            'modref', $this->articleList, 'Référence de l\'article à modifier'
         );
         ?>
         <br/>
-        <label for="modarticlename">Nom de l'article</label>
-        <input id="modarticlename" type="text" name="modarticlename"/>
+        <label for="modname">Nom de l'article</label>
+        <input id="modname" type="text" name="modname"/>
         <br/>
-        <label for="modarticledesc">Description de l'article (optionel)</label>
-        <textarea id="modarticledesc" name="modarticledesc">(r.a.s.)</textarea>
+        <label for="moddesc">Description de l'article (optionel)</label>
+        <textarea id="moddesc" name="moddesc">(r.a.s.)</textarea>
         <br/>
         <label for="modpriceht">Prix HT</label>
         <input id="modpriceht" type="text" name="modpriceht"/>
@@ -62,9 +66,13 @@ echo $this->action('menu', 'index', 'admin');
             'modprovider', $this->providerList, 'Fournisseur (optionel)'
         );
         ?>
-        <br/>
-        <label for="modstock">Géré en stock</label>
-        <input id="modstock" type="checkbox" name="modstock" value="off" /><br/>
+        <fieldset>
+            <legend>Gestion du stock</legend>
+            <label for="modstock">Géré en stock</label>
+            <input id="modstock" type="checkbox" name="modstock" value="off" /><br/>
+            <label for="modunit">Unité de quantité (optionel)</label>
+            <input type="text" name="modunit" id="modunit"/>
+        </fieldset>
         <input type="submit" value="Modifier"/>
     </fieldset>
 </form>
@@ -73,3 +81,7 @@ echo $this->action('menu', 'index', 'admin');
     echo $this->articleList($this->articleList, 'Liste des articles');
     ?>
 </div>
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/article.js'); ?>"></script>
+<script type="text/javascript">
+    articleInit();
+</script>

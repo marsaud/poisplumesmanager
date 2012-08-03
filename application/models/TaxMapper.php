@@ -30,7 +30,7 @@ class TaxMapper
     public function getTaxes()
     {
         $select = $this->_db->select()
-            ->from('tva')
+            ->from('tax')
             ->order('name ASC');
 
         $query = $select->query();
@@ -59,7 +59,7 @@ class TaxMapper
     public function find($id)
     {
         $select = $this->_db->select()
-            ->from('tva')
+            ->from('tax')
             ->where('id = ?', $id, Zend_Db::PARAM_INT);
 
         $query = $select->query();
@@ -94,13 +94,13 @@ class TaxMapper
             'description' => $tax->description
         );
 
-        $this->_db->insert('tva', $bind);
+        $this->_db->insert('tax', $bind);
     }
 
     public function update(Tax $tax)
     {
         $select = $this->_db->select()
-            ->from('tva', 'id')
+            ->from('tax', 'id')
             ->where('id = ?', $tax->id, Zend_Db::PARAM_INT);
 
         $query = $select->query();
@@ -117,7 +117,7 @@ class TaxMapper
 
         $where['id = ?'] = $tax->id;
 
-        $this->_db->update('tva', $bind, $where);
+        $this->_db->update('tax', $bind, $where);
     }
 
 }

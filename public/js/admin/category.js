@@ -11,16 +11,31 @@ function requestForCategory()
     var categoryBox = $('modcategoryref');
     var ref = $F(categoryBox);
 
-    new Ajax.Request('/admin/category/get/format/json/ref/' + ref,
+    if (ref == '')
     {
-        onSuccess: function (response){
-            updateUpdateCategoryForm(response);
-        },
-        onFailure: function() {
-            alert('ERROR');
-        }
+        defaultUpdateCategoryForm();
     }
-    );
+    else
+    {
+
+        new Ajax.Request('/admin/category/get/format/json/ref/' + ref,
+        {
+            onSuccess: function (response){
+                updateUpdateCategoryForm(response);
+            },
+            onFailure: function() {
+                alert('ERROR');
+            }
+        }
+        );
+    }
+}
+
+function defaultUpdateCategoryForm()
+{
+    $('modcategoryname').setValue('');
+    $('modcategorydesc').setValue('(r.a.s.)');
+    $('modparentcategory').setValue('');
 }
 
 function updateUpdateCategoryForm(response)

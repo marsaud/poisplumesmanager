@@ -27,7 +27,8 @@ class Admin_View_Helper_ArticleBox
 
         $articleBox = '<label for="' . $name . '">' . $label . '</label>'
             . PHP_EOL
-            . '<select id="' . $name . '" name="' . $name . '">' . PHP_EOL;
+            . '<select id="' . $name . '" name="' . $name . '">' . PHP_EOL
+            . '<option value="">- -</option>' . PHP_EOL;
 
         foreach ($articles as $article)
         {

@@ -3,6 +3,7 @@ $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
 
 echo $this->action('menu', 'index', 'admin');
 ?>
+<h1>Gestion des fournisseurs</h1>
 <form method="post" action="<?php echo $this->baseUrl('admin/provider/create'); ?>" id="createproviderform">
     <fieldset>
         <legend>Créer un founisseur</legend>
@@ -41,3 +42,7 @@ echo $this->action('menu', 'index', 'admin');
     echo $this->providerList($this->providerList, 'Fournisseurs existants');
     ?>
 </div>
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/provider.js'); ?>"></script>
+<script type="text/javascript">
+    providerInit();
+</script>

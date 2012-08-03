@@ -15,7 +15,7 @@ CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`category` (
   `ref` VARCHAR(45) NOT NULL ,
   `name` VARCHAR(255) NOT NULL ,
   `desc` TEXT NULL ,
-  `category_ref` VARCHAR(45) NOT NULL ,
+  `category_ref` VARCHAR(45) NULL ,
   PRIMARY KEY (`ref`) ,
   CONSTRAINT `fk_category_category1`
     FOREIGN KEY (`category_ref` )
@@ -30,19 +30,19 @@ CREATE INDEX `fk_category_category1` ON `poisplumesmanager`.`category` (`categor
 
 
 -- -----------------------------------------------------
--- Table `poisplumesmanager`.`tva`
+-- Table `poisplumesmanager`.`tax`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `poisplumesmanager`.`tva` ;
+DROP TABLE IF EXISTS `poisplumesmanager`.`tax` ;
 
-CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`tva` (
+CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`tax` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `ratio` DECIMAL NOT NULL ,
+  `ratio` DECIMAL(10,2) NOT NULL ,
   `name` VARCHAR(45) NOT NULL ,
   `description` TEXT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
-CREATE UNIQUE INDEX `name_UNIQUE` ON `poisplumesmanager`.`tva` (`name` ASC) ;
+CREATE UNIQUE INDEX `name_UNIQUE` ON `poisplumesmanager`.`tax` (`name` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -54,20 +54,22 @@ CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`article` (
   `ref` VARCHAR(45) NOT NULL ,
   `name` VARCHAR(255) NOT NULL ,
   `description` TEXT NULL ,
-  `tva_id` INT NOT NULL ,
-  `priceht` DECIMAL NOT NULL ,
+  `tax_id` INT NOT NULL ,
+  `priceht` DECIMAL(10,2) NOT NULL ,
   `stocked` TINYINT(1) NOT NULL ,
+  `qty` DECIMAL NULL ,
+  `unit` VARCHAR(45) NULL ,
   PRIMARY KEY (`ref`) ,
   CONSTRAINT `fk_article_tva1`
-    FOREIGN KEY (`tva_id` )
-    REFERENCES `poisplumesmanager`.`tva` (`id` )
+    FOREIGN KEY (`tax_id` )
+    REFERENCES `poisplumesmanager`.`tax` (`id` )
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
 CREATE UNIQUE INDEX `name_UNIQUE` ON `poisplumesmanager`.`article` (`name` ASC) ;
 
-CREATE INDEX `fk_article_tva1` ON `poisplumesmanager`.`article` (`tva_id` ASC) ;
+CREATE INDEX `fk_article_tva1` ON `poisplumesmanager`.`article` (`tax_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -110,24 +112,6 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_categoryarticle_article1` ON `poisplumesmanager`.`categoryarticle` (`article_ref` ASC) ;
 
 CREATE INDEX `fk_categoryarticle_category1` ON `poisplumesmanager`.`categoryarticle` (`category_ref` ASC) ;
-
-
--- -----------------------------------------------------
--- Table `poisplumesmanager`.`stock`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `poisplumesmanager`.`stock` ;
-
-CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`stock` (
-  `qty` DECIMAL NOT NULL ,
-  `unit` VARCHAR(45) NULL ,
-  `article_ref` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`article_ref`) ,
-  CONSTRAINT `fk_stock_article1`
-    FOREIGN KEY (`article_ref` )
-    REFERENCES `poisplumesmanager`.`article` (`ref` )
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT)
-ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------

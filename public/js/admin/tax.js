@@ -11,16 +11,29 @@ function requestForTax()
     var taxBox = $('modid');
     var id = $F(taxBox);
 
-    new Ajax.Request('/admin/tax/get/format/json/id/' + id,
+    if (id == 0)
     {
-        onSuccess: function (response){
-            updateUpdateTaxForm(response);
-        },
-        onFailure: function() {
-            alert('ERROR');
+        defaultUpdateTaxForm();
+    }else
+    {
+
+        new Ajax.Request('/admin/tax/get/format/json/id/' + id,
+        {
+            onSuccess: function (response){
+                updateUpdateTaxForm(response);
+            },
+            onFailure: function() {
+                alert('ERROR');
+            }
         }
+        );
     }
-    );
+}
+
+function defaultUpdateTaxForm()
+{
+    $('modratio').setValue('');
+    $('moddesc').setValue('(r.a.s.)');
 }
 
 function updateUpdateTaxForm(response)

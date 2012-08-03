@@ -52,7 +52,7 @@ class Article
      *
      * @var Category[]
      */
-    public $categories;
+    public $categories = array();
 
     /**
      *
@@ -65,5 +65,11 @@ class Article
      * @var string
      */
     public $unit;
+
+    /**
+     *
+     * @var Provider
+     */
+    public $provider;
 
 }
