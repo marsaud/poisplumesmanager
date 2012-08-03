@@ -5,15 +5,13 @@ class Stock_IndexController extends Zend_Controller_Action
 
     public function init()
     {
-        /* Initialize action controller here */
+        require_once APPLICATION_PATH . '/models/Category.php';
+        require_once APPLICATION_PATH . '/models/Article.php';
+        require_once APPLICATION_PATH . '/models/Tax.php';
     }
 
     public function indexAction()
     {
-        require_once APPLICATION_PATH . '/models/Category.php';
-        require_once APPLICATION_PATH . '/models/Article.php';
-        require_once APPLICATION_PATH . '/models/Tax.php';
-
         $categoryTree = array();
 
         $c = new Category();
@@ -62,7 +60,6 @@ class Stock_IndexController extends Zend_Controller_Action
 
         $this->view->articleList = $articleList;
     }
-
 
 }
 

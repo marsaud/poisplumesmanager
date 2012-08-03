@@ -15,7 +15,7 @@ class Admin_ArticleController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        /* @var $multidb Zend_Db_Adapter_Pdo_Abstract */
+        /* @var $db Zend_Db_Adapter_Pdo_Abstract */
         $db = $this->getInvokeArg('bootstrap')
             ->getResource('multidb')
             ->getDb('ppmdb');

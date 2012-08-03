@@ -1,9 +1,9 @@
 <?php
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View_Helper');
-?>
-<?php
+
 echo $this->action('menu', 'index', 'admin');
 ?>
+<h1>Gestion des taxes</h1>
 <form method="post" action="<?php echo $this->baseUrl('admin/tax/create'); ?>" id="createtaxform">
     <fieldset>
         <legend>Créer une taxe</legend>
@@ -11,7 +11,7 @@ echo $this->action('menu', 'index', 'admin');
         <input type="text" name="name" id="name"/>
         <br/>
         <label for="ratio">Ratio</label>
-        <input type="text" name="ratio" id="ratio"/>
+        <input type="text" name="ratio" id="ratio"/><span>%</span>
         <br/>
         <label for="desc">Description</label>
         <textarea id="desc" name="desc">(r.a.s.)</textarea>
@@ -26,9 +26,8 @@ echo $this->action('menu', 'index', 'admin');
         echo $this->taxBox('modid', $this->taxes, 'Nom de la taxe à modifier');
         ?>
         <br/>
-        <input type="hidden" name="modname" value=""/><!-- JAVASCRIPT INDISPENSABLE -->
         <label for="modratio">Ratio</label>
-        <input type="text" name="modratio" id="modratio"/>
+        <input type="text" name="modratio" id="modratio"/><span>%</span>
         <br/>
         <label for="moddesc">Description</label>
         <textarea id="moddesc" name="moddesc">(r.a.s.)</textarea>
@@ -41,3 +40,7 @@ echo $this->action('menu', 'index', 'admin');
     echo $this->taxList($this->taxes, 'Taxes existantes');
     ?>
 </div>
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/tax.js'); ?>"></script>
+<script type="text/javascript">
+    taxInit();
+</script>

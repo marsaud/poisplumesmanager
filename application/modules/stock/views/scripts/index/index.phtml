@@ -1,13 +1,15 @@
 <?php
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Stock_View_Helper');
 ?>
-<div>
+<div id="categoryfilterdiv">
     <?php
     echo $this->categoryBox(
         'categoryfilter', $this->categoryTree, 'Filtrer par catégorie'
     );
     ?>
 </div>
-<?php
-echo $this->articleGrid($this->articleList);
-?>
+<div id="articelgrid">
+    <?php
+    echo $this->articleGrid($this->articleList);
+    ?>
+</div>

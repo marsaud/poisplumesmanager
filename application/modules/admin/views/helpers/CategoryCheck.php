@@ -1,8 +1,7 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
  */
 
 /**
@@ -24,10 +23,8 @@ class Admin_View_Helper_CategoryCheck
     public function categoryCheck(array $categoryList, $legend, $prefix = '')
     {
 
-        $categoryCheck = '<fieldset>'
-            . PHP_EOL
-            . '<legend>' . $legend . '</legend>'
-            . PHP_EOL;
+        $categoryCheck = '<fieldset>' . PHP_EOL
+            . '<legend>' . $legend . '</legend>' . PHP_EOL;
 
         foreach ($categoryList as $category)
         {

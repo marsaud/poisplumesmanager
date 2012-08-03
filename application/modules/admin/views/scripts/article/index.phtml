@@ -1,10 +1,9 @@
 <?php
 $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
-?>
-<?php
+
 echo $this->action('menu', 'index', 'admin');
 ?>
-<form method="post" action="<?php echo $this->baseUrl('admin'); ?>" id="createarticleform">
+<form method="post" action="<?php echo $this->baseUrl('admin/article/create'); ?>" id="createarticleform">
     <fieldset>
         <legend>Créer un article</legend>
         <label for="articleref">Référence de l'article</label>
@@ -20,15 +19,13 @@ echo $this->action('menu', 'index', 'admin');
         <input id="priceht" type="text" name="priceht"/>
         <?php
         echo $this->taxBox('tva', $this->taxList, 'T.V.A.');
-        ?>
-        <?php
+
         echo $this->categoryCheck(
             $this->categoryTree, 'Catégories auxquelles appartient l\'article'
         );
-        ?>
-        <?php
+
         echo $this->providerBox(
-            'provider', $this->providerList, '', 'Fournisseur (optionel)'
+            'provider', $this->providerList, 'Fournisseur (optionel)'
         );
         ?>
         <br/>
@@ -40,12 +37,11 @@ echo $this->action('menu', 'index', 'admin');
 <form method="post" action="<?php echo $this->baseUrl('admin/article/update'); ?>" id="updatearticleform">
     <fieldset>
         <legend>Modifier un article</legend>
-        <label for="modarticleref">Référence de l'article</label>
-        <select id="modarticleref" name="modarticleref">
-            <option value="abc">ABC</option>
-            <option value="def">DEF</option>
-            <option value="ghi">GHI</option>
-        </select>
+        <?php
+        echo $this->articleBox(
+            'modarticleref', $this->articleList, 'Référence de l\'article à modifier'
+        );
+        ?>
         <br/>
         <label for="modarticlename">Nom de l'article</label>
         <input id="modarticlename" type="text" name="modarticlename"/>
@@ -57,15 +53,13 @@ echo $this->action('menu', 'index', 'admin');
         <input id="modpriceht" type="text" name="modpriceht"/>
         <?php
         echo $this->taxBox('modtva', $this->taxList, 'T.V.A.');
-        ?>
-        <?php
+
         echo $this->categoryCheck(
             $this->categoryTree, 'Catégories auxquelles appartient l\'article', 'mod'
         );
-        ?>
-        <?php
+
         echo $this->providerBox(
-            'provider', $this->providerList, 'mod', 'Fournisseur (optionel)'
+            'modprovider', $this->providerList, 'Fournisseur (optionel)'
         );
         ?>
         <br/>

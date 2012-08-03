@@ -24,6 +24,10 @@ class CategoryMapper
         $this->_db = $_db;
     }
 
+    /**
+     *
+     * @return Category[]
+     */
     public function getCategoryTree()
     {
         $select = $this->_db->select()
@@ -54,6 +58,101 @@ class CategoryMapper
         return $categoryTree;
     }
 
+    /**
+     *
+     * @param string $reference
+     * @return Category|null
+     */
+    public function find($reference)
+    {
+        $select = $this->_db->select()
+            ->from('category', array('ref', 'name', 'desc'))
+            ->where('ref = ?', $reference);
+
+        $query = $select->query();
+        if ($query->rowCount() == 1)
+        {
+            $row = $query->fetch(Zend_Db::FETCH_OBJ);
+
+            $category = new Category();
+            $category->reference = $row->ref;
+            $category->name = $row->name;
+            $category->description = $row->desc;
+
+            $this->_loadSubCategories($category);
+
+            return $category;
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+
+    /**
+     *
+     * @param Category $category
+     *
+     * @return void
+     */
+    protected function _loadSubCategories(Category $category)
+    {
+        $select = $this->_db->select()
+            ->from('category')
+            ->where('category_ref = ?', $category->reference);
+
+        $query = $select->query();
+        while ($row = $query->fetch(Zend_Db::FETCH_OBJ))
+        {
+            $subCategory = new Category();
+            $subCategory->reference = $row->ref;
+            $subCategory->name = $row->name;
+            $subCategory->description = $row->desc;
+
+            $category->subCategories[] = $category;
+        }
+    }
+
+    /**
+     *
+     * @param Category $category
+     *
+     * @return Category
+     *
+     * @throws RuntimeException
+     */
+    public function findParent(Category $category)
+    {
+        $select = $this->_db->select()
+            ->from('category', 'category_ref')
+            ->where('ref = ?', $category->reference);
+
+        $query = $select->query();
+        if ($query->rowCount() != 1)
+        {
+            throw new RuntimeException();
+        }
+
+        $ref = $query->fetchColumn(0);
+        if ($ref != NULL)
+        {
+            return $this->find($ref);
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+
+    /**
+     *
+     * @param Category $category
+     * @param string $parentReference
+     *
+     * @return void
+     *
+     * @throws RuntimeException
+     */
     public function insert(Category $category, $parentReference = NULL)
     {
         $bind = array(
@@ -81,6 +180,15 @@ class CategoryMapper
         $this->_db->insert('category', $bind);
     }
 
+    /**
+     *
+     * @param Category $category
+     * @param string $parentReference
+     *
+     * @return void
+     *
+     * @throws RuntimeException
+     */
     public function update(Category $category, $parentReference = NULL)
     {
         $bind = array(

@@ -1,8 +1,7 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
  */
 
 /**
@@ -25,6 +24,7 @@ class Admin_View_Helper_TaxList
         $taxList = '<table>' . PHP_EOL
             . '<caption>' . $caption . '</caption>' . PHP_EOL
             . '<tr><th>Nom</th><th>Ratio</th><th>Description</th></tr>' . PHP_EOL;
+
         foreach ($taxes as $tax)
         {
             /* @var $tax Tax */
@@ -35,7 +35,6 @@ class Admin_View_Helper_TaxList
         $taxList .= '</table>' . PHP_EOL;
 
         return $taxList;
-
     }
 
 }

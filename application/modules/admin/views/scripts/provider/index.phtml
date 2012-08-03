@@ -1,7 +1,6 @@
 <?php
 $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
-?>
-<?php
+
 echo $this->action('menu', 'index', 'admin');
 ?>
 <form method="post" action="<?php echo $this->baseUrl('admin/provider/create'); ?>" id="createproviderform">
@@ -24,10 +23,9 @@ echo $this->action('menu', 'index', 'admin');
         <legend>Modifier un fournisseur</legend>
         <?php
         echo $this->providerBox(
-            'id', $this->providerList, 'mod', 'Nom du fournisseur à modifier'
+            'modid', $this->providerList, 'Nom du fournisseur à modifier'
             );
         ?>
-        <input type="hidden" name="modname" value=""/><!-- JAVASCRIPT -->
         <br/>
         <label for="modinfo">Informations et coordonnées</label>
         <textarea name="modinfo" id="modinfo">(r.a.s.)</textarea>

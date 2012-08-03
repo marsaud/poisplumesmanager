@@ -11,7 +11,7 @@ class Admin_ProviderController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        /* @var $multidb Zend_Db_Adapter_Pdo_Abstract */
+        /* @var $db Zend_Db_Adapter_Pdo_Abstract */
         $db = $this->getInvokeArg('bootstrap')
             ->getResource('multidb')
             ->getDb('ppmdb');
@@ -31,7 +31,7 @@ class Admin_ProviderController extends Zend_Controller_Action
             $provider->info = $_POST['info'];
             $provider->comment = $_POST['comment'];
 
-            /* @var $multidb Zend_Db_Adapter_Pdo_Abstract */
+            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
             $db = $this->getInvokeArg('bootstrap')
                 ->getResource('multidb')
                 ->getDb('ppmdb');
@@ -52,7 +52,7 @@ class Admin_ProviderController extends Zend_Controller_Action
             $provider->info = $_POST['modinfo'];
             $provider->comment = $_POST['modcomment'];
 
-            /* @var $multidb Zend_Db_Adapter_Pdo_Abstract */
+            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
             $db = $this->getInvokeArg('bootstrap')
                 ->getResource('multidb')
                 ->getDb('ppmdb');

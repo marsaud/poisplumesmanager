@@ -1,7 +1,7 @@
 <?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+
+/**
+ * 
  */
 
 /**
@@ -18,15 +18,13 @@ class Admin_View_Helper_ProviderBox
      * @param array $providerList
      * @param string $prefix
      * @param string $label
-     * 
+     *
      * @return string
      */
-    public function providerBox($name, array $providerList, $prefix = '', $label = NULL)
+    public function providerBox($name, array $providerList, $label = NULL)
     {
         $label !== NULL
             || $label = $name;
-
-        $name = $prefix . $name;
 
         $providerBox = '<label for="' . $name . '">' . $label . '</label>'
             . PHP_EOL
