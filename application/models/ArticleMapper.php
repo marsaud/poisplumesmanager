@@ -26,6 +26,12 @@ class ArticleMapper
 
     /**
      *
+     * @var PromotionMapper
+     */
+    protected $_promoModel;
+
+    /**
+     *
      * @var ProviderMapper
      */
     protected $_providerModel;
@@ -48,6 +54,9 @@ class ArticleMapper
                 , 'ca.article_ref = a.ref'
                 , array('ca.category_ref')
             )
+            ->joinLeft(array('pa' => 'promoarticle')
+                , 'pa.article_ref = a.ref'
+                , array('pa.promo_id'))
             ->joinLeft(
                 array('ap' => 'articleprovider')
                 , 'ap.article_ref = a.ref'
@@ -89,6 +98,12 @@ class ArticleMapper
                     $article->provider = $provider;
                 }
 
+                if ($row->promo_id != NULL)
+                {
+                    $promo = $this->_getPromotionModel()->find($row->promo_id);
+                    $article->promos[] = $promo;
+                }
+
                 if ($row->category_ref != NULL)
                 {
                     $category = $this->_getCategoryModel()->find(
@@ -115,7 +130,10 @@ class ArticleMapper
                 array('ca' => 'categoryarticle')
                 , 'ca.article_ref = a.ref'
                 , array('ca.category_ref')
-                )
+            )
+            ->joinLeft(array('pa' => 'promoarticle')
+                , 'pa.article_ref = a.ref'
+                , array('pa.promo_id'))
             ->joinLeft(
                 array('ap' => 'articleprovider')
                 , 'ap.article_ref = a.ref'
@@ -153,6 +171,12 @@ class ArticleMapper
                         $row->category_ref
                     );
                     $article->categories[] = $category;
+                }
+
+                if ($row->promo_id != NULL)
+                {
+                    $promo = $this->_getPromotionModel()->find($row->promo_id);
+                    $article->promos[] = $promo;
                 }
 
                 if ($row->provider_id != NULL)
@@ -200,6 +224,20 @@ class ArticleMapper
         return $this->_providerModel;
     }
 
+    /**
+     *
+     * @return PromotionMapper
+     */
+    protected function _getPromotionModel()
+    {
+        if (NULL === $this->_promoModel)
+        {
+            $this->_promoModel = new PromotionMapper($this->_db);
+        }
+
+        return $this->_promoModel;
+    }
+
     public function create(Article $article)
     {
         $bind = array(
@@ -226,6 +264,13 @@ class ArticleMapper
                 $this->_db->insert('categoryarticle', array(
                     'article_ref' => $article->reference,
                     'category_ref' => $category->reference
+                ));
+            }
+            foreach ($article->promos as $promo)
+            {
+                $this->_db->insert('promoarticle', array(
+                    'article_ref' => $article->reference,
+                    'promo_id' => $promo->id
                 ));
             }
             if ($article->provider != NULL)
@@ -272,6 +317,8 @@ class ArticleMapper
 
             $whereDeleteCat['article_ref = ?'] = $article->reference;
             $this->_db->delete('categoryarticle', $whereDeleteCat);
+            $this->_db->delete('promoarticle', $whereDeleteCat);
+
             foreach ($article->categories as $category)
             {
                 $this->_db->insert('categoryarticle', array(
@@ -279,7 +326,13 @@ class ArticleMapper
                     'category_ref' => $category->reference
                 ));
             }
-
+            foreach ($article->promos as $promo)
+            {
+                $this->_db->insert('promoarticle', array(
+                    'article_ref' => $article->reference,
+                    'promo_id' => $promo->id
+                ));
+            }
             $whereDeleteProv['article_ref = ?'] = $article->reference;
             $this->_db->delete('articleprovider', $whereDeleteProv);
             if ($article->provider != NULL)

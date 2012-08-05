@@ -57,7 +57,7 @@ CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`article` (
   `tax_id` INT NOT NULL ,
   `priceht` DECIMAL(10,2) NOT NULL ,
   `stocked` TINYINT(1) NOT NULL ,
-  `qty` DECIMAL NULL ,
+  `qty` DECIMAL(10,2) NULL ,
   `unit` VARCHAR(45) NULL ,
   PRIMARY KEY (`ref`) ,
   CONSTRAINT `fk_article_tva1`
@@ -256,6 +256,46 @@ CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`comboarticle` (
 ENGINE = InnoDB;
 
 CREATE INDEX `fk_comboarticle_article1` ON `poisplumesmanager`.`comboarticle` (`article_ref` ASC) ;
+
+
+-- -----------------------------------------------------
+-- Table `poisplumesmanager`.`promo`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `poisplumesmanager`.`promo` ;
+
+CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`promo` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `ratio` DECIMAL(10,2) NOT NULL ,
+  `name` VARCHAR(45) NOT NULL ,
+  `description` TEXT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
+CREATE UNIQUE INDEX `name_uniq` ON `poisplumesmanager`.`promo` (`name` ASC) ;
+
+
+-- -----------------------------------------------------
+-- Table `poisplumesmanager`.`promoarticle`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `poisplumesmanager`.`promoarticle` ;
+
+CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`promoarticle` (
+  `article_ref` VARCHAR(45) NOT NULL ,
+  `promo_id` INT NOT NULL ,
+  PRIMARY KEY (`article_ref`, `promo_id`) ,
+  CONSTRAINT `fk_promoarticle_article1`
+    FOREIGN KEY (`article_ref` )
+    REFERENCES `poisplumesmanager`.`article` (`ref` )
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT,
+  CONSTRAINT `fk_promoarticle_promo1`
+    FOREIGN KEY (`promo_id` )
+    REFERENCES `poisplumesmanager`.`promo` (`id` )
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_promoarticle_promo1` ON `poisplumesmanager`.`promoarticle` (`promo_id` ASC) ;
 
 
 

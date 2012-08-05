@@ -39,7 +39,8 @@ function defaultUpdateArticleForm()
     $('modtva').setValue(0);
     $('modstock').setValue(null);
     $('modunit').setValue('');
-    cleanCheckBoxes('modcat');
+    // cleanCheckBoxes('modcat');
+    cleanMultiSelect('modcat');
 }
 
 function cleanCheckBoxes(id)
@@ -48,6 +49,14 @@ function cleanCheckBoxes(id)
     var checkBoxes = $A(fieldset.getElementsByTagName('input'));
     checkBoxes.each(function (item){
         item.setValue(null);
+    });
+}
+
+function cleanMultiSelect(id)
+{
+    var options = $A($(id).options);
+    options.each(function(option){
+        option.selected = false;
     });
 }
 
@@ -70,11 +79,21 @@ function updateUpdateArticleForm(response)
             $('modstock').setValue(null);
         }
         $('modunit').setValue(article.unit);
-        cleanCheckBoxes('modcat');
+
+        cleanMultiSelect('modcat');
         var categories = $A(article.categories);
-        categories.each(function (item){
-            $('mod' + item).setValue('on');
+        var options = $A($('modcat').options);
+        options.each(function(option){
+            categories.each(function (categorie){
+                if (option.value == categorie)
+                {
+                    option.selected = true;
+                }
+            });
         });
+
+
+
         $('modprovider').setValue(article.provider);
     }
     else

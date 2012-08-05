@@ -19,6 +19,8 @@ class Admin_ArticleController extends Zend_Controller_Action
         require_once APPLICATION_PATH . '/models/CategoryMapper.php';
         require_once APPLICATION_PATH . '/models/Provider.php';
         require_once APPLICATION_PATH . '/models/ProviderMapper.php';
+        require_once APPLICATION_PATH . '/models/Promotion.php';
+        require_once APPLICATION_PATH . '/models/PromotionMapper.php';
 
         $ajaxContext = $this->_helper->getHelper('AjaxContext');
         /* @var $ajaxContext Zend_Controller_Action_Helper_AjaxContext */
@@ -42,6 +44,9 @@ class Admin_ArticleController extends Zend_Controller_Action
         $providerModel = new ProviderMapper($db);
         $this->view->providerList = $providerModel->getProviders();
 
+        $promoModel = new PromotionMapper($db);
+        $this->view->promoList = $promoModel->getPromotions();
+
         $articleModel = new ArticleMapper($db);
         $this->view->articleList = $articleModel->getArticles();
     }
@@ -50,6 +55,8 @@ class Admin_ArticleController extends Zend_Controller_Action
     {
         if (isset($_POST))
         {
+            var_dump($_POST);
+
             $article = new Article();
 
             $article->reference = $_POST['ref'];
@@ -77,13 +84,10 @@ class Admin_ArticleController extends Zend_Controller_Action
                 $article->provider = $providerModel->find($_POST['provider']);
             }
 
-            foreach ($_POST as $ref => $value)
+            foreach ($_POST['cat'] as $ref)
             {
-                if ($value == 'on')
-                {
-                    $category = $this->_getCategoryModel($db)->find($ref);
-                    $article->categories[] = $category;
-                }
+                $category = $this->_getCategoryModel($db)->find($ref);
+                $article->categories[] = $category;
             }
 
             $articleModel = new ArticleMapper($db);
@@ -124,16 +128,10 @@ class Admin_ArticleController extends Zend_Controller_Action
                 $article->provider = $providerModel->find($_POST['modprovider']);
             }
 
-            foreach ($_POST as $ref => $value)
+            foreach ($_POST['modcat'] as $ref)
             {
-                if ($value == 'on')
-                {
-                    /*
-                     * On supprime le préfixe 'mod' avec un substr
-                     */
-                    $category = $this->_getCategoryModel($db)->find(substr($ref, 3));
-                    $article->categories[] = $category;
-                }
+                $category = $this->_getCategoryModel($db)->find($ref);
+                $article->categories[] = $category;
             }
 
             $articleModel = new ArticleMapper($db);
@@ -193,7 +191,14 @@ class Admin_ArticleController extends Zend_Controller_Action
                 $categories[] = $category->reference;
             }
             $this->view->categories = $categories;
-            
+
+            $promotions = array();
+            foreach ($article->promos as $promo)
+            {
+                $promotions[] = $promo->id;
+            }
+            $this->view->promos = $promotions;
+
             if (NULL !== $article->provider)
             {
                 $this->view->provider = $article->provider->id;

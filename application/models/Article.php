@@ -56,6 +56,12 @@ class Article
 
     /**
      *
+     * @var Promotion[]
+     */
+    public $promos = array();
+
+    /**
+     *
      * @var float
      */
     public $quantity;

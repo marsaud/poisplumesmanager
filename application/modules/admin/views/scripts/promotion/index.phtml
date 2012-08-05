@@ -1,0 +1,48 @@
+<?php
+$this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View_Helper');
+
+echo $this->action('menu', 'index', 'admin');
+?>
+<h1>Gestion des promotions</h1>
+<div class="leftpart">
+    <form method="post" action="<?php echo $this->baseUrl('admin/promotion/create'); ?>" id="createpromoform" class="createform">
+        <fieldset>
+            <legend>Créer une promotion</legend>
+            <label for="name">Nom de la promotion</label>
+            <input type="text" name="name" id="name"/>
+            <br/>
+            <label for="ratio">Ratio</label>
+            <input type="text" name="ratio" id="ratio"/><span>%</span>
+            <br/>
+            <label for="desc">Description</label>
+            <textarea id="desc" name="desc">(r.a.s.)</textarea>
+            <br/>
+            <input type="Submit" value="Créer"/>
+        </fieldset>
+    </form>
+    <form method="post" action="<?php echo $this->baseUrl('admin/promotion/update'); ?>" id="updatepromoform" class="updateform">
+        <fieldset>
+            <legend>Modifier une promotion</legend>
+            <?php
+            echo $this->promoBox('modid', $this->promos, 'Nom de la promotion à modifier');
+            ?>
+            <br/>
+            <label for="modratio">Ratio</label>
+            <input type="text" name="modratio" id="modratio"/><span>%</span>
+            <br/>
+            <label for="moddesc">Description</label>
+            <textarea id="moddesc" name="moddesc">(r.a.s.)</textarea>
+            <br/>
+            <input type="Submit" value="Modifier"/>
+        </fieldset>
+    </form>
+</div>
+<div id="promolist" class="listdisplay rightpart">
+    <?php
+    echo $this->promoList($this->promos, 'Promotions existantes');
+    ?>
+</div>
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/promotion.js'); ?>"></script>
+<script type="text/javascript">
+    promoInit();
+</script>

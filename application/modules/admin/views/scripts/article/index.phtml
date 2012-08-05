@@ -21,8 +21,11 @@ echo $this->action('menu', 'index', 'admin');
             <?php
             echo $this->taxBox('tva', $this->taxList, 'T.V.A.');
 
-            echo $this->categoryCheck(
-                $this->categoryTree, 'cat', 'Catégories auxquelles appartient l\'article'
+//            echo $this->categoryCheck(
+//                $this->categoryTree, 'catold', 'Catégories auxquelles appartient l\'article'
+//            );
+            echo $this->categorySelect(
+                'cat',$this->categoryTree, 'Catégories auxquelles appartient l\'article'
             );
 
             echo $this->providerBox(
@@ -59,8 +62,11 @@ echo $this->action('menu', 'index', 'admin');
             <?php
             echo $this->taxBox('modtva', $this->taxList, 'T.V.A.');
 
-            echo $this->categoryCheck(
-                $this->categoryTree, 'modcat', 'Catégories auxquelles appartient l\'article', 'mod'
+//            echo $this->categoryCheck(
+//                $this->categoryTree, 'modcat', 'Catégories auxquelles appartient l\'article', 'mod'
+//            );
+            echo $this->categorySelect(
+                'modcat',$this->categoryTree, 'Catégories auxquelles appartient l\'article'
             );
 
             echo $this->providerBox(
