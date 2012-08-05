@@ -1,82 +1,84 @@
 <?php
 $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
-
 echo $this->action('menu', 'index', 'admin');
 ?>
-<form method="post" action="<?php echo $this->baseUrl('admin/article/create'); ?>" id="createarticleform">
-    <fieldset>
-        <legend>Créer un article</legend>
-        <label for="ref">Référence de l'article</label>
-        <input id="ref" type="text" name="ref"/>
-        <br/>
-        <label for="name">Nom de l'article</label>
-        <input id="name" type="text" name="name"/>
-        <br/>
-        <label for="desc">Description de l'article (optionel)</label>
-        <textarea id="desc" name="desc">(r.a.s.)</textarea>
-        <br/>
-        <label for="priceht">Prix HT</label>
-        <input id="priceht" type="text" name="priceht"/>
-        <?php
-        echo $this->taxBox('tva', $this->taxList, 'T.V.A.');
-
-        echo $this->categoryCheck(
-            $this->categoryTree, 'Catégories auxquelles appartient l\'article'
-        );
-
-        echo $this->providerBox(
-            'provider', $this->providerList, 'Fournisseur (optionel)'
-        );
-        ?>
+<h1>Gestion des articles</h1>
+<div class="leftpart">
+    <form method="post" action="<?php echo $this->baseUrl('admin/article/create'); ?>" id="createarticleform" class="createform">
         <fieldset>
-            <legend>Gestion du stock</legend>
-            <label for="stock">Géré en stock</label>
-            <input id="stock" type="checkbox" name="stock" value="off" /><br/>
-            <label for="unit">Unité de quantité (optionel)</label>
-            <input type="text" name="unit" id="unit"/>
+            <legend>Créer un article</legend>
+            <label for="ref">Référence de l'article</label>
+            <input id="ref" type="text" name="ref"/>
+            <br/>
+            <label for="name">Nom de l'article</label>
+            <input id="name" type="text" name="name"/>
+            <br/>
+            <label for="desc">Description de l'article (optionel)</label>
+            <textarea id="desc" name="desc">(r.a.s.)</textarea>
+            <br/>
+            <label for="priceht">Prix HT</label>
+            <input id="priceht" type="text" name="priceht"/>
+            <?php
+            echo $this->taxBox('tva', $this->taxList, 'T.V.A.');
+
+            echo $this->categoryCheck(
+                $this->categoryTree, 'cat', 'Catégories auxquelles appartient l\'article'
+            );
+
+            echo $this->providerBox(
+                'provider', $this->providerList, 'Fournisseur (optionel)'
+            );
+            ?>
+            <fieldset>
+                <legend>Gestion du stock</legend>
+                <label for="stock">Géré en stock</label>
+                <input id="stock" type="checkbox" name="stock" value="off" /><br/>
+                <label for="unit">Unité de quantité (optionel)</label>
+                <input type="text" name="unit" id="unit"/>
+            </fieldset>
+            <input type="submit" value="Créer"/>
         </fieldset>
-        <input type="submit" value="Créer"/>
-    </fieldset>
-</form>
-<form method="post" action="<?php echo $this->baseUrl('admin/article/update'); ?>" id="updatearticleform">
-    <fieldset>
-        <legend>Modifier un article</legend>
-        <?php
-        echo $this->articleBox(
-            'modref', $this->articleList, 'Référence de l\'article à modifier'
-        );
-        ?>
-        <br/>
-        <label for="modname">Nom de l'article</label>
-        <input id="modname" type="text" name="modname"/>
-        <br/>
-        <label for="moddesc">Description de l'article (optionel)</label>
-        <textarea id="moddesc" name="moddesc">(r.a.s.)</textarea>
-        <br/>
-        <label for="modpriceht">Prix HT</label>
-        <input id="modpriceht" type="text" name="modpriceht"/>
-        <?php
-        echo $this->taxBox('modtva', $this->taxList, 'T.V.A.');
-
-        echo $this->categoryCheck(
-            $this->categoryTree, 'Catégories auxquelles appartient l\'article', 'mod'
-        );
-
-        echo $this->providerBox(
-            'modprovider', $this->providerList, 'Fournisseur (optionel)'
-        );
-        ?>
+    </form>
+    <form method="post" action="<?php echo $this->baseUrl('admin/article/update'); ?>" id="updatearticleform" class="updateform">
         <fieldset>
-            <legend>Gestion du stock</legend>
-            <label for="modstock">Géré en stock</label>
-            <input id="modstock" type="checkbox" name="modstock" value="off" /><br/>
-            <label for="modunit">Unité de quantité (optionel)</label>
-            <input type="text" name="modunit" id="modunit"/>
+            <legend>Modifier un article</legend>
+            <?php
+            echo $this->articleBox(
+                'modref', $this->articleList, 'Référence de l\'article à modifier'
+            );
+            ?>
+            <br/>
+            <label for="modname">Nom de l'article</label>
+            <input id="modname" type="text" name="modname"/>
+            <br/>
+            <label for="moddesc">Description de l'article (optionel)</label>
+            <textarea id="moddesc" name="moddesc">(r.a.s.)</textarea>
+            <br/>
+            <label for="modpriceht">Prix HT</label>
+            <input id="modpriceht" type="text" name="modpriceht"/>
+            <?php
+            echo $this->taxBox('modtva', $this->taxList, 'T.V.A.');
+
+            echo $this->categoryCheck(
+                $this->categoryTree, 'modcat', 'Catégories auxquelles appartient l\'article', 'mod'
+            );
+
+            echo $this->providerBox(
+                'modprovider', $this->providerList, 'Fournisseur (optionel)'
+            );
+            ?>
+            <fieldset>
+                <legend>Gestion du stock</legend>
+                <label for="modstock">Géré en stock</label>
+                <input id="modstock" type="checkbox" name="modstock" value="off" /><br/>
+                <label for="modunit">Unité de quantité (optionel)</label>
+                <input type="text" name="modunit" id="modunit"/>
+            </fieldset>
+            <input type="submit" value="Modifier"/>
         </fieldset>
-        <input type="submit" value="Modifier"/>
-    </fieldset>
-</form>
-<div id="articlelist">
+    </form>
+</div>
+<div id="articlelist" class="listdisplay rightpart">
     <?php
     echo $this->articleList($this->articleList, 'Liste des articles');
     ?>

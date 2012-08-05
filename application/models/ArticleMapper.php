@@ -24,6 +24,12 @@ class ArticleMapper
      */
     protected $_categoryModel;
 
+    /**
+     *
+     * @var ProviderMapper
+     */
+    protected $_providerModel;
+
     public function __construct(Zend_Db_Adapter_Pdo_Abstract $db)
     {
         $this->_db = $db;
@@ -37,9 +43,17 @@ class ArticleMapper
     {
         $select = $this->_db->select()
             ->from(array('a' => 'article'))
-            ->joinLeft(array('ca' => 'categoryarticle'), 'ca.article_ref = a.ref', array())
-            ->joinLeft(array('c' => 'category'), 'c.ref = ca.category_ref', array('cref' => 'ref'))
-            ->order(array('ref ASC', 'cref ASC'));
+            ->joinLeft(
+                array('ca' => 'categoryarticle')
+                , 'ca.article_ref = a.ref'
+                , array('ca.category_ref')
+            )
+            ->joinLeft(
+                array('ap' => 'articleprovider')
+                , 'ap.article_ref = a.ref'
+                , array('ap.provider_id')
+            )
+            ->order(array('ref ASC', 'category_ref ASC'));
 
         $articles = array();
         $query = $select->query();
@@ -67,9 +81,19 @@ class ArticleMapper
                     $articles[] = $article;
                 }
 
-                if ($row->cref != NULL)
+                if ($row->provider_id != NULL)
                 {
-                    $category = $this->_getCategoryModel()->find($row->cref);
+                    $provider = $this->_getProviderModel()->find(
+                        $row->provider_id
+                    );
+                    $article->provider = $provider;
+                }
+
+                if ($row->category_ref != NULL)
+                {
+                    $category = $this->_getCategoryModel()->find(
+                        $row->category_ref
+                    );
                     $article->categories[] = $category;
                 }
             }
@@ -87,10 +111,18 @@ class ArticleMapper
     {
         $select = $this->_db->select()
             ->from(array('a' => 'article'))
-            ->joinLeft(array('ca' => 'categoryarticle'), 'ca.article_ref = a.ref', array())
-            ->joinLeft(array('c' => 'category'), 'c.ref = ca.category_ref', array('cref' => 'ref'))
+            ->joinLeft(
+                array('ca' => 'categoryarticle')
+                , 'ca.article_ref = a.ref'
+                , array('ca.category_ref')
+                )
+            ->joinLeft(
+                array('ap' => 'articleprovider')
+                , 'ap.article_ref = a.ref'
+                , array('ap.provider_id')
+            )
             ->where('a.ref = ?', $reference)
-            ->order(array('cref ASC'));
+            ->order(array('category_ref ASC'));
 
         $query = $select->query();
         if ($query->rowCount() > 0)
@@ -115,10 +147,20 @@ class ArticleMapper
                     $article->tax = $taxModel->find($row->tax_id);
                 }
 
-                if ($row->cref != NULL)
+                if ($row->category_ref != NULL)
                 {
-                    $category = $this->_getCategoryModel()->find($row->cref);
+                    $category = $this->_getCategoryModel()->find(
+                        $row->category_ref
+                    );
                     $article->categories[] = $category;
+                }
+
+                if ($row->provider_id != NULL)
+                {
+                    $provider = $this->_getProviderModel()->find(
+                        $row->provider_id
+                    );
+                    $article->provider = $provider;
                 }
             }
 
@@ -142,6 +184,20 @@ class ArticleMapper
         }
 
         return $this->_categoryModel;
+    }
+
+    /**
+     *
+     * @return ProviderMapper
+     */
+    protected function _getProviderModel()
+    {
+        if (NULL === $this->_providerModel)
+        {
+            $this->_providerModel = new ProviderMapper($this->_db);
+        }
+
+        return $this->_providerModel;
     }
 
     public function create(Article $article)
@@ -170,6 +226,13 @@ class ArticleMapper
                 $this->_db->insert('categoryarticle', array(
                     'article_ref' => $article->reference,
                     'category_ref' => $category->reference
+                ));
+            }
+            if ($article->provider != NULL)
+            {
+                $this->_db->insert('articleprovider', array(
+                    'provider_id' => $article->provider->id,
+                    'article_ref' => $article->reference
                 ));
             }
             $this->_db->commit();
@@ -206,9 +269,9 @@ class ArticleMapper
         {
             $whereUpdate['ref = ?'] = $article->reference;
             $this->_db->update('article', $bind, $whereUpdate);
-            $whereDelete['article_ref = ?'] = $article->reference;
-            $this->_db->delete('categoryarticle', $whereDelete);
 
+            $whereDeleteCat['article_ref = ?'] = $article->reference;
+            $this->_db->delete('categoryarticle', $whereDeleteCat);
             foreach ($article->categories as $category)
             {
                 $this->_db->insert('categoryarticle', array(
@@ -216,6 +279,17 @@ class ArticleMapper
                     'category_ref' => $category->reference
                 ));
             }
+
+            $whereDeleteProv['article_ref = ?'] = $article->reference;
+            $this->_db->delete('articleprovider', $whereDeleteProv);
+            if ($article->provider != NULL)
+            {
+                $this->_db->insert('articleprovider', array(
+                    'provider_id' => $article->provider->id,
+                    'article_ref' => $article->reference
+                ));
+            }
+
             $this->_db->commit();
         }
         catch (Exception $exc)

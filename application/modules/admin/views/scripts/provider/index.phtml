@@ -4,40 +4,42 @@ $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
 echo $this->action('menu', 'index', 'admin');
 ?>
 <h1>Gestion des fournisseurs</h1>
-<form method="post" action="<?php echo $this->baseUrl('admin/provider/create'); ?>" id="createproviderform">
-    <fieldset>
-        <legend>Créer un founisseur</legend>
-        <label for="name">Nom</label>
-        <input type="text" name="name" id="name"/>
-        <br/>
-        <label for="info">Informations et coordonnées</label>
-        <textarea name="info" id="info">(r.a.s.)</textarea>
-        <br/>
-        <label for="comment">Commentaires</label>
-        <textarea name="comment" id="comment">(r.a.s.)</textarea>
-        <br/>
-        <input type="submit" value="Créer"/>
-    </fieldset>
-</form>
-<form method="post" action="<?php echo $this->baseUrl('admin/provider/update'); ?>" id="updateproviderform">
-    <fieldset>
-        <legend>Modifier un fournisseur</legend>
-        <?php
-        echo $this->providerBox(
-            'modid', $this->providerList, 'Nom du fournisseur à modifier'
+<div class="leftpart">
+    <form method="post" action="<?php echo $this->baseUrl('admin/provider/create'); ?>" id="createproviderform" class="createform">
+        <fieldset>
+            <legend>Créer un founisseur</legend>
+            <label for="name">Nom</label>
+            <input type="text" name="name" id="name"/>
+            <br/>
+            <label for="info">Informations et coordonnées</label>
+            <textarea name="info" id="info">(r.a.s.)</textarea>
+            <br/>
+            <label for="comment">Commentaires</label>
+            <textarea name="comment" id="comment">(r.a.s.)</textarea>
+            <br/>
+            <input type="submit" value="Créer"/>
+        </fieldset>
+    </form>
+    <form method="post" action="<?php echo $this->baseUrl('admin/provider/update'); ?>" id="updateproviderform" class="updateform">
+        <fieldset>
+            <legend>Modifier un fournisseur</legend>
+            <?php
+            echo $this->providerBox(
+                'modid', $this->providerList, 'Nom du fournisseur à modifier'
             );
-        ?>
-        <br/>
-        <label for="modinfo">Informations et coordonnées</label>
-        <textarea name="modinfo" id="modinfo">(r.a.s.)</textarea>
-        <br/>
-        <label for="modcomment">Commentaires</label>
-        <textarea name="modcomment" id="modcomment">(r.a.s.)</textarea>
-        <br/>
-        <input type="submit" value="Modifier"/>
-    </fieldset>
-</form>
-<div id="providerlist">
+            ?>
+            <br/>
+            <label for="modinfo">Informations et coordonnées</label>
+            <textarea name="modinfo" id="modinfo">(r.a.s.)</textarea>
+            <br/>
+            <label for="modcomment">Commentaires</label>
+            <textarea name="modcomment" id="modcomment">(r.a.s.)</textarea>
+            <br/>
+            <input type="submit" value="Modifier"/>
+        </fieldset>
+    </form>
+</div>
+<div id="providerlist" class="listdisplay rightpart">
     <?php
     echo $this->providerList($this->providerList, 'Fournisseurs existants');
     ?>

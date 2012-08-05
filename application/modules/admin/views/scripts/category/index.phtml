@@ -4,52 +4,54 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View
 echo $this->action('menu', 'index', 'admin');
 ?>
 <h1>Gestion des catégories</h1>
-<form method="post" action="<?php echo $this->baseUrl('admin/category/create'); ?>" id="createcategoryform">
-    <fieldset>
-        <legend>Créer une catégorie</legend>
-        <label for="categoryref">Référence de la catégorie</label>
-        <input id="categoryref" type="text" name="categoryref"/>
-        <br/>
-        <label for="categoryname">Nom de la catégorie</label>
-        <input id="categoryname" type="text" name="categoryname"/>
-        <br/>
-        <label for="categorydesc">Description de la catégorie (optionel)</label>
-        <textarea id="categorydesc" name="categorydesc">(r.a.s.)</textarea>
-        <br/>
-        <?php
-        echo $this->categoryBox(
-            'parentcategory', $this->categoryTree, 'Catégorie parente (optionel)', true
-        );
-        ?>
-        <br/>
-        <input type="submit" value="Créer"/>
-    </fieldset>
-</form>
-<form method="post" action="<?php echo $this->baseUrl('admin/category/update'); ?>" id="updatecategoryform">
-    <fieldset>
-        <legend>Modifier une catégorie</legend>
-        <?php
-        echo $this->categoryBox(
-            'modcategoryref', $this->categoryTree, 'Catégorie à modifier'
-        );
-        ?>
-        <br/>
-        <label for="modcategoryname">Nom de la catégorie</label>
-        <input id="modcategoryname" type="text" name="modcategoryname"/>
-        <br/>
-        <label for="modcategorydesc">Description de la catégorie (optionel)</label>
-        <textarea id="modcategorydesc" name="modcategorydesc">(r.a.s.)</textarea>
-        <br/>
-        <?php
-        echo $this->categoryBox(
-            'modparentcategory', $this->categoryTree, 'Catégorie parente (optionel)', true
-        );
-        ?>
-        <br/>
-        <input type="submit" value="Modifier"/>
-    </fieldset>
-</form>
-<div id="categorylist">
+<div class="leftpart">
+    <form method="post" action="<?php echo $this->baseUrl('admin/category/create'); ?>" id="createcategoryform" class="createform">
+        <fieldset>
+            <legend>Créer une catégorie</legend>
+            <label for="categoryref">Référence de la catégorie</label>
+            <input id="categoryref" type="text" name="categoryref"/>
+            <br/>
+            <label for="categoryname">Nom de la catégorie</label>
+            <input id="categoryname" type="text" name="categoryname"/>
+            <br/>
+            <label for="categorydesc">Description de la catégorie (optionel)</label>
+            <textarea id="categorydesc" name="categorydesc">(r.a.s.)</textarea>
+            <br/>
+            <?php
+            echo $this->categoryBox(
+                'parentcategory', $this->categoryTree, 'Catégorie parente (optionel)', true
+            );
+            ?>
+            <br/>
+            <input type="submit" value="Créer"/>
+        </fieldset>
+    </form>
+    <form method="post" action="<?php echo $this->baseUrl('admin/category/update'); ?>" id="updatecategoryform" class="updateform">
+        <fieldset>
+            <legend>Modifier une catégorie</legend>
+            <?php
+            echo $this->categoryBox(
+                'modcategoryref', $this->categoryTree, 'Catégorie à modifier'
+            );
+            ?>
+            <br/>
+            <label for="modcategoryname">Nom de la catégorie</label>
+            <input id="modcategoryname" type="text" name="modcategoryname"/>
+            <br/>
+            <label for="modcategorydesc">Description de la catégorie (optionel)</label>
+            <textarea id="modcategorydesc" name="modcategorydesc">(r.a.s.)</textarea>
+            <br/>
+            <?php
+            echo $this->categoryBox(
+                'modparentcategory', $this->categoryTree, 'Catégorie parente (optionel)', true
+            );
+            ?>
+            <br/>
+            <input type="submit" value="Modifier"/>
+        </fieldset>
+    </form>
+</div>
+<div id="categorylist" class="listdisplay rightpart">
     <?php
     echo $this->categoryList($this->categoryTree);
     ?>

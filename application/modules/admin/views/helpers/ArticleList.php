@@ -25,7 +25,7 @@ class Admin_View_Helper_ArticleList extends Zend_View_Helper_Abstract
             . '<captio>' . $caption . '</caption>' . PHP_EOL
             . '<tr><th>Référence</th><th>Nom</th><th>Description</th>'
             . '<th>Catégories</th><th>Prix HT</th><th>TVA</th><th>Prix TTC</th>'
-            . PHP_EOL . '</tr>';
+            . PHP_EOL . '<th>Fournisseur</th></tr>';
         foreach ($articles as $article)
         {
             /* @var $article Article */
@@ -46,6 +46,8 @@ class Admin_View_Helper_ArticleList extends Zend_View_Helper_Abstract
                 . $this->view->currency($article->price) . '</td><td>'
                 . $article->tax->ratio . '%</td><td>'
                 . $this->view->currency($article->tax->apply($article->price))
+                . '</td><td>'
+                . ($article->provider !== NULL ? $article->provider->name : '')
                 . '</td></tr>' . PHP_EOL;
         }
 

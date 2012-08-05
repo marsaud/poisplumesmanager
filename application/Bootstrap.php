@@ -2,6 +2,7 @@
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
+
     protected function _initCurrency()
     {
         $currency = new Zend_Currency('fr_FR');

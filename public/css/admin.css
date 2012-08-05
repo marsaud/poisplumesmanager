@@ -10,3 +10,40 @@ td, th {
     border: solid black 1px;
 }
 
+h1 {
+    background-color: lightblue;
+}
+
+input:focus, textarea:focus, select:focus {
+    background-color: lightblue;
+}
+
+.leftpart {
+    float:left;
+    width: 33%;
+}
+
+.rightpart {
+    margin-left: 33%;
+    clear:right;
+}
+
+.rightpart table {
+    width: 100%;
+}
+
+textarea {
+    width: 100%;
+}
+
+a {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    border-style: outset;
+}
+
+.menu ul li {
+    display: inline;
+    margin-left: 20px;
+}

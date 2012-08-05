@@ -37,8 +37,18 @@ function defaultUpdateArticleForm()
     $('moddesc').setValue('(r.a.s.)');
     $('modpriceht').setValue('');
     $('modtva').setValue(0);
-    $('modstock').setValue('off');
+    $('modstock').setValue(null);
     $('modunit').setValue('');
+    cleanCheckBoxes('modcat');
+}
+
+function cleanCheckBoxes(id)
+{
+    var fieldset = $(id);
+    var checkBoxes = $A(fieldset.getElementsByTagName('input'));
+    checkBoxes.each(function (item){
+        item.setValue(null);
+    });
 }
 
 function updateUpdateArticleForm(response)
@@ -51,17 +61,21 @@ function updateUpdateArticleForm(response)
         $('moddesc').setValue(article.description);
         $('modpriceht').setValue(article.priceht);
         $('modtva').setValue(article.tax);
-        alert(article.stock);
         if (article.stock == '1')
         {
             $('modstock').setValue('on');
-
         }
         else
         {
             $('modstock').setValue(null);
         }
         $('modunit').setValue(article.unit);
+        cleanCheckBoxes('modcat');
+        var categories = $A(article.categories);
+        categories.each(function (item){
+            $('mod' + item).setValue('on');
+        });
+        $('modprovider').setValue(article.provider);
     }
     else
     {

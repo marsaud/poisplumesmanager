@@ -9,7 +9,6 @@ class Admin_ArticleController extends Zend_Controller_Action
      */
     protected $_categoryModel;
 
-
     public function init()
     {
         require_once APPLICATION_PATH . '/models/Tax.php';
@@ -39,14 +38,12 @@ class Admin_ArticleController extends Zend_Controller_Action
 
         $categoryModel = new CategoryMapper($db);
         $this->view->categoryTree = $categoryModel->getCategoryTree();
-        ;
 
         $providerModel = new ProviderMapper($db);
         $this->view->providerList = $providerModel->getProviders();
 
         $articleModel = new ArticleMapper($db);
         $this->view->articleList = $articleModel->getArticles();
-        ;
     }
 
     public function createAction()
@@ -132,7 +129,7 @@ class Admin_ArticleController extends Zend_Controller_Action
                 if ($value == 'on')
                 {
                     /*
-                     * On supprime le préfixe 'mod'
+                     * On supprime le préfixe 'mod' avec un substr
                      */
                     $category = $this->_getCategoryModel($db)->find(substr($ref, 3));
                     $article->categories[] = $category;
@@ -189,10 +186,21 @@ class Admin_ArticleController extends Zend_Controller_Action
             $this->view->stock = $article->stock;
             $this->view->tax = $article->tax->id;
             $this->view->unit = $article->unit;
+
             $categories = array();
             foreach ($article->categories as $category)
             {
                 $categories[] = $category->reference;
+            }
+            $this->view->categories = $categories;
+            
+            if (NULL !== $article->provider)
+            {
+                $this->view->provider = $article->provider->id;
+            }
+            else
+            {
+                $this->view->provider = 0;
             }
         }
     }

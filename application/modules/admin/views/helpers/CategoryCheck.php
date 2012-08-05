@@ -20,10 +20,10 @@ class Admin_View_Helper_CategoryCheck
      *
      * @return string
      */
-    public function categoryCheck(array $categoryList, $legend, $prefix = '')
+    public function categoryCheck(array $categoryList, $id, $legend, $prefix = '')
     {
 
-        $categoryCheck = '<fieldset>' . PHP_EOL
+        $categoryCheck = '<fieldset id="' . $id . '">' . PHP_EOL
             . '<legend>' . $legend . '</legend>' . PHP_EOL;
 
         foreach ($categoryList as $category)
