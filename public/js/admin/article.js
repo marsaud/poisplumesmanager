@@ -41,6 +41,7 @@ function defaultUpdateArticleForm()
     $('modunit').setValue('');
     // cleanCheckBoxes('modcat');
     cleanMultiSelect('modcat');
+    cleanMultiSelect('modpromo');
 }
 
 function cleanCheckBoxes(id)
@@ -82,8 +83,8 @@ function updateUpdateArticleForm(response)
 
         cleanMultiSelect('modcat');
         var categories = $A(article.categories);
-        var options = $A($('modcat').options);
-        options.each(function(option){
+        var catOptions = $A($('modcat').options);
+        catOptions.each(function(option){
             categories.each(function (categorie){
                 if (option.value == categorie)
                 {
@@ -92,7 +93,17 @@ function updateUpdateArticleForm(response)
             });
         });
 
-
+        cleanMultiSelect('modpromo');
+        var promos = $A(article.promos);
+        var promoOptions = $A($('modpromo').options);
+        promoOptions.each(function(option){
+            promos.each(function (promo){
+                if (option.value == promo)
+                {
+                    option.selected = true;
+                }
+            });
+        });
 
         $('modprovider').setValue(article.provider);
     }

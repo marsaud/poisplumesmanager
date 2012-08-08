@@ -51,7 +51,7 @@ class CategoryMapper
             }
             else
             {
-                $categoryTree[$row->category_ref]->subCategories[] = $category;
+                $categoryTree[$row->category_ref][] = $category;
             }
         }
 
@@ -109,7 +109,7 @@ class CategoryMapper
             $subCategory->name = $row->name;
             $subCategory->description = $row->desc;
 
-            $category->subCategories[] = $category;
+            $category[] = $subCategory;
         }
     }
 

@@ -78,4 +78,9 @@ class Article
      */
     public $provider;
 
+    public function getSalePrice()
+    {
+        return $this->tax->apply($this->price);
+    }
+
 }

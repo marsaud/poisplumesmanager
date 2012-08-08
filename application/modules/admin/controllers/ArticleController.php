@@ -9,6 +9,12 @@ class Admin_ArticleController extends Zend_Controller_Action
      */
     protected $_categoryModel;
 
+    /**
+     *
+     * @var PromotionMapper
+     */
+    protected $_promotionModel;
+
     public function init()
     {
         require_once APPLICATION_PATH . '/models/Tax.php';
@@ -55,8 +61,6 @@ class Admin_ArticleController extends Zend_Controller_Action
     {
         if (isset($_POST))
         {
-            var_dump($_POST);
-
             $article = new Article();
 
             $article->reference = $_POST['ref'];
@@ -84,10 +88,22 @@ class Admin_ArticleController extends Zend_Controller_Action
                 $article->provider = $providerModel->find($_POST['provider']);
             }
 
-            foreach ($_POST['cat'] as $ref)
+            if (isset($_POST['cat']))
             {
-                $category = $this->_getCategoryModel($db)->find($ref);
-                $article->categories[] = $category;
+                foreach ($_POST['cat'] as $ref)
+                {
+                    $category = $this->_getCategoryModel($db)->find($ref);
+                    $article->categories[] = $category;
+                }
+            }
+
+            if (isset($_POST['promo']))
+            {
+                foreach ($_POST['promo'] as $id)
+                {
+                    $promo = $this->_getPromotionModel($db)->find($id);
+                    $article->promos[] = $promo;
+                }
             }
 
             $articleModel = new ArticleMapper($db);
@@ -128,10 +144,22 @@ class Admin_ArticleController extends Zend_Controller_Action
                 $article->provider = $providerModel->find($_POST['modprovider']);
             }
 
-            foreach ($_POST['modcat'] as $ref)
+            if (isset($_POST['modcat']))
             {
-                $category = $this->_getCategoryModel($db)->find($ref);
-                $article->categories[] = $category;
+                foreach ($_POST['modcat'] as $ref)
+                {
+                    $category = $this->_getCategoryModel($db)->find($ref);
+                    $article->categories[] = $category;
+                }
+            }
+
+            if (isset($_POST['modpromo']))
+            {
+                foreach ($_POST['modpromo'] as $id)
+                {
+                    $promo = $this->_getPromotionModel($db)->find($id);
+                    $article->promos[] = $promo;
+                }
             }
 
             $articleModel = new ArticleMapper($db);
@@ -155,6 +183,22 @@ class Admin_ArticleController extends Zend_Controller_Action
         }
 
         return $this->_categoryModel;
+    }
+
+    /**
+     *
+     * @param Zend_Db_Adapter_Pdo_Abstract $db
+     *
+     * @return PromotionMapper
+     */
+    protected function _getPromotionModel(Zend_Db_Adapter_Pdo_Abstract $db)
+    {
+        if (NULL === $this->_promotionModel)
+        {
+            $this->_promotionModel = new PromotionMapper($db);
+        }
+
+        return $this->_promotionModel;
     }
 
     public function getAction()

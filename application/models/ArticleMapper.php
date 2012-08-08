@@ -45,7 +45,7 @@ class ArticleMapper
      *
      * @return Article[]
      */
-    public function getArticles()
+    public function getArticles($categoryRef = NULL)
     {
         $select = $this->_db->select()
             ->from(array('a' => 'article'))
@@ -63,6 +63,11 @@ class ArticleMapper
                 , array('ap.provider_id')
             )
             ->order(array('ref ASC', 'category_ref ASC'));
+
+        if ($categoryRef !== NULL)
+        {
+            $select->where('ca.category_ref = ?', $categoryRef);
+        }
 
         $articles = array();
         $query = $select->query();

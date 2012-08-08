@@ -8,6 +8,8 @@
  * Description of Category
  *
  * @author fabrice
+ *
+ * @property-read Category[] $subCategories Description
  */
 class Category implements ArrayAccess, IteratorAggregate
 {
@@ -34,21 +36,21 @@ class Category implements ArrayAccess, IteratorAggregate
      *
      * @var Category[]
      */
-    public $subCategories;
+    protected $_subCategories;
 
     public function __construct()
     {
-        $this->subCategories = new ArrayObject(array());
+        $this->_subCategories = new ArrayObject(array());
     }
 
     public function offsetExists($offset)
     {
-        return array_key_exists($offset, $this->subCategories);
+        return array_key_exists($offset, $this->_subCategories);
     }
 
     public function offsetGet($offset)
     {
-        return $this->subCategories[$offset];
+        return $this->_subCategories[$offset];
     }
 
     public function offsetSet($offset, $value)
@@ -61,7 +63,7 @@ class Category implements ArrayAccess, IteratorAggregate
         {
             if ($value instanceof Category)
             {
-                $this->subCategories[$value->reference] = $value;
+                $this->_subCategories[$value->reference] = $value;
             }
             else
             {
@@ -72,9 +74,9 @@ class Category implements ArrayAccess, IteratorAggregate
 
     public function offsetUnset($offset)
     {
-        if (array_key_exists($offset, $this->subCategories))
+        if (array_key_exists($offset, $this->_subCategories))
         {
-            unset($this->subCategories[$offset]);
+            unset($this->_subCategories[$offset]);
         }
         else
         {
@@ -84,7 +86,25 @@ class Category implements ArrayAccess, IteratorAggregate
 
     public function getIterator()
     {
-        return $this->subCategories;
+        return $this->_subCategories->getIterator();
     }
+
+    public function __get($name)
+    {
+        if ($name == 'subCategories')
+        {
+            return $this->_subCategories->getArrayCopy();
+        }
+        else
+        {
+            throw new OutOfRangeException();
+        }
+    }
+
+    public function __set($name, $value)
+    {
+        throw new OutOfRangeException();
+    }
+
 
 }

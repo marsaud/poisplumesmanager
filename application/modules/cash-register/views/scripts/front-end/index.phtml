@@ -1,27 +1,12 @@
-<div id="touchpad">
-    <table>
-        <tr>
-            <th>Entrées</th><th>Plats</th><th>Desserts</th><th>Boissons</th>
-        </tr>
-        <tr>
-            <td><input type="button" name="ref_foo" value="foo" combo="a" index="1"/></td>
-            <td><input type="button" name="ref_bar" value="bar" combo="a" index="2"/></td>
-            <td><input type="button" name="ref_baz" value="baz" combo="a" index="3"/></td>
-            <td><input type="button" name="ref_qux" value="qux" /></td>
-        </tr>
-        <tr>
-            <td><input type="button" name="ref_foofoo" value="foofoo" combo="b" index="1"/></td>
-            <td><input type="button" name="ref_barbar" value="barbar" combo="b" index="2"/></td>
-            <td><input type="button" name="ref_bazbaz" value="bazbaz" combo="c" index="1"/></td>
-            <td><input type="button" name="ref_quxqux" value="quxqux" combo="c" index="2"/></td>
-        </tr>
-        <tr>
-            <td>*</td><td>*</td><td>*</td><td>*</td>
-        </tr>
-        <tr>
-            <td>*</td><td>*</td><td>*</td><td>*</td>
-        </tr>
-    </table>
+<?php
+$this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegister_View_Helper');
+?>
+<div id="choice">
+    <div id="categorypad" class="touchpad">
+        <?php echo $this->categoryPad($this->categoryTree); ?>
+    </div>
+    <div id="subcategorypad" class="touchpad"></div>
+    <div id="articlepad" class="touchpad"></div>
 </div>
 <form id="bill" method="post" action="<?php echo $this->baseUrl('cash-register/front-end/register'); ?>">
     <fieldset id="billList"></fieldset>
