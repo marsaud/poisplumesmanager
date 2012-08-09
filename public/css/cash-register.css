@@ -1,26 +1,46 @@
+#modificators {
+    width: 100%;
+}
+
+#qty {
+    width: 50%;
+    float: left;
+}
+
+#promo {
+    margin-left: 50%;
+    width: 50%;
+}
+
 #choice {
-    width: 49%;
-    /*background-color: #00f7ff;*/
+    width: 50%;
+    background-color: #00f7ff;
     float:left;
 }
 
 .touchpad {
-    width: 100%;
+    width: 99%;
     border: solid black 1px;
     padding: 2px 0px;
 }
-.touchpad input[type=button] {
+
+
+#bill {
+    margin-left: 50%;
+    width: 50%;
+    background-color: #00ff07;
+}
+input[type=button] {
     width: 24%;
     height: 100px;
 }
 
-#bill {
-    width: 50%;
-    /*background-color: #00ff07;*/
-    margin-left: 50%;
+h6 {
+    font-size: inherit;
+    margin: 0px;
+    padding: 0px;
 }
-#bill input[type=button] {
-    width: 20%;
-    height: 100px;
+
+#modificators {
 }
 

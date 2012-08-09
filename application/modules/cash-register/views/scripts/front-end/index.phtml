@@ -1,18 +1,30 @@
 <?php
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegister_View_Helper');
 ?>
+<div id="modificators">
+    <div id="qty">
+        <input type="button" value="x2"/>
+        <input type="button" value="x3"/>
+        <input type="button" value="x4"/>
+        <input type="button" value="x5"/>
+    </div>
+    <div id="promo"><input type="button" value="promotions"/></div>
+</div>
 <div id="choice">
+    <h6>Catégories</h6>
     <div id="categorypad" class="touchpad">
         <?php echo $this->categoryPad($this->categoryTree); ?>
     </div>
+    <h6>Sous-catégories</h6>
     <div id="subcategorypad" class="touchpad"></div>
+    <h6>Articles</h6>
     <div id="articlepad" class="touchpad"></div>
 </div>
 <form id="bill" method="post" action="<?php echo $this->baseUrl('cash-register/front-end/register'); ?>">
-    <fieldset id="billList"></fieldset>
     <fieldset>
         <input type="submit" value="Enregistrer"/>
     </fieldset>
+    <fieldset id="billList"></fieldset>
 </form>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/cash-register/front-end.js'); ?>"></script>
 <script type="text/javascript">
