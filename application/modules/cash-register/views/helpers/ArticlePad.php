@@ -11,6 +11,7 @@
  */
 class CashRegister_View_Helper_ArticlePad
 {
+
     /**
      *
      * @param Article[] $articles
@@ -24,10 +25,11 @@ class CashRegister_View_Helper_ArticlePad
         foreach ($articles as $article)
         {
             /* @var $article Article */
-            $articlePad .= '<input type="button" value="'
-                . $article->reference . '"/>' . PHP_EOL;
+            $articlePad .= '<div class="article button" ref="' . $article->reference . '" name="' . $article->name . '">'
+                . $article->name . '</div>' . PHP_EOL;
         }
 
         return $articlePad;
     }
+
 }

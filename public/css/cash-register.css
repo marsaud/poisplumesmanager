@@ -3,7 +3,7 @@
 }
 
 #qty {
-    width: 50%;
+    width: 49%;
     float: left;
 }
 
@@ -42,5 +42,20 @@ h6 {
 }
 
 #modificators {
+}
+
+.button {
+    display: inline-block;
+    width: 24%;
+    height: 100px;
+    background-color: buttonface;
+    border: outset black 1px;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+input[type=button].highlight {
+    background-color: buttonhighlight;
+    font-weight: bold;
 }
 
