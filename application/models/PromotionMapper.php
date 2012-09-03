@@ -17,9 +17,9 @@ class PromotionMapper
      */
     protected $_db;
 
-    public function __construct(Zend_Db_Adapter_Pdo_Abstract $_db)
+    public function __construct(Zend_Db_Adapter_Pdo_Abstract $db)
     {
-        $this->_db = $_db;
+        $this->_db = $db;
     }
 
     /**

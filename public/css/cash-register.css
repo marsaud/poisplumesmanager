@@ -2,7 +2,7 @@
     width: 100%;
 }
 
-#qty {
+#quantity {
     width: 49%;
     float: left;
 }
@@ -54,7 +54,7 @@ h6 {
     font-weight: inherit;
 }
 
-input[type=button].highlight {
+.highlight {
     background-color: buttonhighlight;
     font-weight: bold;
 }

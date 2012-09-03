@@ -2,13 +2,18 @@
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegister_View_Helper');
 ?>
 <div id="modificators">
-    <div id="qty">
+    <div id="quantity">
         <input type="button" qty="2" value="x2"/>
         <input type="button" qty="3" value="x3"/>
         <input type="button" qty="4" value="x4"/>
         <input type="button" qty="5" value="x5"/>
     </div>
-    <div id="promo"><input type="button" value="promotions"/></div>
+    <div id="promo">
+        <input id="promoToggle" type="button" value="promotions"/>
+        <div id="promoPad">
+            <?php echo $this->promoPad($this->promoList); ?>
+        </div>
+    </div>
 </div>
 <div id="choice">
     <h6>Catégories</h6>

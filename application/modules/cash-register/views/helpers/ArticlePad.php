@@ -26,7 +26,10 @@ class CashRegister_View_Helper_ArticlePad
         {
             /* @var $article Article */
             $articlePad .= '<div class="article button" ref="' . $article->reference . '" name="' . $article->name . '">'
-                . $article->name . '</div>' . PHP_EOL;
+                . PHP_EOL . $article->name
+                . PHP_EOL . '<input type="hidden" class="qty" name="' . $article->reference . '" value="0">'
+                . PHP_EOL . '<input type="hidden" class="promoid" name="promo_' . $article->reference . '" value="">'
+                . '</div>' . PHP_EOL;
         }
 
         return $articlePad;

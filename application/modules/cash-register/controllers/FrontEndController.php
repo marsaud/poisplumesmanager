@@ -32,6 +32,8 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
 
         $categoryModel = new CategoryMapper($db);
         $this->view->categoryTree = $categoryModel->getCategoryTree();
+        $promoModel = new PromotionMapper($db);
+        $this->view->promoList = $promoModel->getPromotions();
     }
 
     public function registerAction()
