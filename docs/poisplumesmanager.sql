@@ -26,7 +26,7 @@ ENGINE = InnoDB;
 
 CREATE UNIQUE INDEX `name_UNIQUE` ON `poisplumesmanager`.`category` (`name` ASC) ;
 
-CREATE INDEX `fk_category_category1` ON `poisplumesmanager`.`category` (`category_ref` ASC) ;
+-- CREATE INDEX `fk_category_category1` ON `poisplumesmanager`.`category` (`category_ref` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -69,7 +69,7 @@ ENGINE = InnoDB;
 
 CREATE UNIQUE INDEX `name_UNIQUE` ON `poisplumesmanager`.`article` (`name` ASC) ;
 
-CREATE INDEX `fk_article_tva1` ON `poisplumesmanager`.`article` (`tax_id` ASC) ;
+-- CREATE INDEX `fk_article_tva1` ON `poisplumesmanager`.`article` (`tax_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -109,9 +109,9 @@ CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`categoryarticle` (
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_categoryarticle_article1` ON `poisplumesmanager`.`categoryarticle` (`article_ref` ASC) ;
+-- CREATE INDEX `fk_categoryarticle_article1` ON `poisplumesmanager`.`categoryarticle` (`article_ref` ASC) ;
 
-CREATE INDEX `fk_categoryarticle_category1` ON `poisplumesmanager`.`categoryarticle` (`category_ref` ASC) ;
+-- CREATE INDEX `fk_categoryarticle_category1` ON `poisplumesmanager`.`categoryarticle` (`category_ref` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -155,7 +155,7 @@ CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`articleprovider` (
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_articleprovider_article1` ON `poisplumesmanager`.`articleprovider` (`article_ref` ASC) ;
+-- CREATE INDEX `fk_articleprovider_article1` ON `poisplumesmanager`.`articleprovider` (`article_ref` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -189,7 +189,7 @@ CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`operations` (
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_operations_payement1` ON `poisplumesmanager`.`operations` (`payment_ref` ASC) ;
+-- CREATE INDEX `fk_operations_payement1` ON `poisplumesmanager`.`operations` (`payment_ref` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -216,9 +216,9 @@ CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`operationstrail` (
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_operationstrail_operations1` ON `poisplumesmanager`.`operationstrail` (`operations_id` ASC) ;
+-- CREATE INDEX `fk_operationstrail_operations1` ON `poisplumesmanager`.`operationstrail` (`operations_id` ASC) ;
 
-CREATE INDEX `fk_operationstrail_article1` ON `poisplumesmanager`.`operationstrail` (`article_ref` ASC) ;
+-- CREATE INDEX `fk_operationstrail_article1` ON `poisplumesmanager`.`operationstrail` (`article_ref` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -255,7 +255,7 @@ CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`comboarticle` (
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_comboarticle_article1` ON `poisplumesmanager`.`comboarticle` (`article_ref` ASC) ;
+-- CREATE INDEX `fk_comboarticle_article1` ON `poisplumesmanager`.`comboarticle` (`article_ref` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -295,7 +295,7 @@ CREATE  TABLE IF NOT EXISTS `poisplumesmanager`.`promoarticle` (
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_promoarticle_promo1` ON `poisplumesmanager`.`promoarticle` (`promo_id` ASC) ;
+-- CREATE INDEX `fk_promoarticle_promo1` ON `poisplumesmanager`.`promoarticle` (`promo_id` ASC) ;
 
 
 
