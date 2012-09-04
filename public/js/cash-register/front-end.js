@@ -10,7 +10,9 @@ var promo = '';
  * Category tree cash
  */
 var categoryTreeCash = {};
-
+/**
+ * Article list cash
+ */
 var articlesCash = {};
 
 /**
@@ -53,7 +55,7 @@ function frontEndInit()
         $(item).observe('click', togglePromo);
     });
     promoPad.toggle();
-    $('promoToggle').observe('click', togglePromotions);
+    $('promoToggle').observe('click', togglePromoPad);
 }
 
 function toggleQuantity(event)
@@ -121,7 +123,7 @@ function cleanPromos()
 /**
  * Open/Close promotions touchpad
  */
-function togglePromotions()
+function togglePromoPad()
 {
     if (promo == '')
     {
