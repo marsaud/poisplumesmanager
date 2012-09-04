@@ -99,11 +99,8 @@ class Admin_ArticleController extends Zend_Controller_Action
 
             if (isset($_POST['promo']))
             {
-                foreach ($_POST['promo'] as $id)
-                {
-                    $promo = $this->_getPromotionModel($db)->find($id);
-                    $article->promos[] = $promo;
-                }
+                $promo = $this->_getPromotionModel($db)->find($_POST['promo']);
+                $article->promos[] = $promo;
             }
 
             $articleModel = new ArticleMapper($db);
@@ -153,13 +150,10 @@ class Admin_ArticleController extends Zend_Controller_Action
                 }
             }
 
-            if (isset($_POST['modpromo']))
+            if ($_POST['modpromo'] != '')
             {
-                foreach ($_POST['modpromo'] as $id)
-                {
-                    $promo = $this->_getPromotionModel($db)->find($id);
-                    $article->promos[] = $promo;
-                }
+                $promo = $this->_getPromotionModel($db)->find($_POST['modpromo']);
+                $article->promos[] = $promo;
             }
 
             $articleModel = new ArticleMapper($db);

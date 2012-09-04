@@ -5,7 +5,11 @@ var qty = 1;
 /**
  * Active promotion reference
  */
-var promo = '';
+var promo = null;
+/**
+ * Activate promotion inhibiter
+ */
+var removePromo = false;
 /**
  * Category tree cash
  */
@@ -56,8 +60,12 @@ function frontEndInit()
     });
     promoPad.toggle();
     $('promoToggle').observe('click', togglePromoPad);
+    $('promoRemove').observe('click', togglePromoRemove);
 }
 
+/**
+ * Event method
+ */
 function toggleQuantity(event)
 {
     var element = event.element();
@@ -75,19 +83,44 @@ function toggleQuantity(event)
     }
 }
 
+/**
+ * Event method
+ */
 function togglePromo(event)
 {
     var element = event.element();
 
     if (element.hasClassName('highlight'))
     {
-        promo = '';
+        promo = null;
         element.removeClassName('highlight');
     }
     else
     {
         cleanPromos();
-        promo = element.getAttribute('promoid');
+        promo = {};
+        promo['id'] = element.getAttribute('promoid');
+        promo['ratio'] = element.getAttribute('promoratio');
+        element.addClassName('highlight');
+    }
+}
+
+/**
+ * Event method
+ */
+function togglePromoRemove(event)
+{
+    var element = event.element();
+
+    if (element.hasClassName('highlight'))
+    {
+        removePromo = false;
+        element.removeClassName('highlight');
+    }
+    else
+    {
+        cleanPromos();
+        removePromo = true;
         element.addClassName('highlight');
     }
 }
@@ -111,27 +144,33 @@ function cleanQuantity()
  */
 function cleanPromos()
 {
-    promo = '';
+    promo = null;
     var promoPad = $('promoPad');
     var pButtons = $A(promoPad.getElementsByTagName('input'));
     pButtons.map(Element.extend);
     pButtons.each(function (item){
         $(item).removeClassName('highlight');
     });
+    removePromo = false;
+    $('promoRemove').removeClassName('highlight');
 }
 
 /**
+ * Event method
+ *
  * Open/Close promotions touchpad
  */
 function togglePromoPad()
 {
-    if (promo == '')
+    if (promo == null)
     {
         $('promoPad').toggle();
     }
 }
 
 /**
+ * Event method
+ *
  * Select a category to load its sub-subcategories and articles
  */
 function selectCategory(event)
@@ -156,6 +195,9 @@ function selectCategory(event)
     }
 }
 
+/**
+ * Event method
+ */
 function selectSubCategory(event)
 {
     var element = event.element();
@@ -178,6 +220,9 @@ function selectSubCategory(event)
     }
 }
 
+/**
+ * Ajax callback
+ */
 function updateSubCategoryPad(response, category)
 {
     var subCategories = response.responseText;
@@ -223,6 +268,9 @@ function _updateSubCategoryPad(category, subCategories)
 
 }
 
+/**
+ * Event method
+ */
 function updateArticlePad(response, category)
 {
     var articles = response.responseText;
@@ -250,6 +298,9 @@ function _updateArticlePad(articles)
     });
 }
 
+/**
+ * Event method
+ */
 function selectForBill(event)
 {
     var element = $(event.element());
@@ -278,7 +329,21 @@ function selectForBill(event)
         }
         if (itemClass == 'promoid' && promo != '')
         {
-            item.setValue(promo);
+            if (removePromo)
+            {
+                item.setValue('');
+                item.setAttribute('ratiobuffer', '0');
+            }
+            else if (promo != null)
+            {
+                item.setValue(promo['id']);
+                item.setAttribute('ratiobuffer', promo['ratio']);
+                inputText += '<br />' + promo['ratio'] + '%';
+            }
+            else if ($F(item) != '')
+            {
+                inputText += '<br />' + item.getAttribute('ratiobuffer') + '%';
+            }
         }
     });
 
@@ -291,6 +356,9 @@ function selectForBill(event)
     cleanPromos();
 }
 
+/**
+ * Event method
+ */
 function unselectForBill(event)
 {
     var element = $(event.element());

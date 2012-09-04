@@ -320,10 +320,9 @@ class ArticleMapper
             $whereUpdate['ref = ?'] = $article->reference;
             $this->_db->update('article', $bind, $whereUpdate);
 
-            $whereDeleteCat['article_ref = ?'] = $article->reference;
-            $this->_db->delete('categoryarticle', $whereDeleteCat);
-            $this->_db->delete('promoarticle', $whereDeleteCat);
+            $whereDelete['article_ref = ?'] = $article->reference;
 
+            $this->_db->delete('categoryarticle', $whereDelete);
             foreach ($article->categories as $category)
             {
                 $this->_db->insert('categoryarticle', array(
@@ -331,6 +330,7 @@ class ArticleMapper
                     'category_ref' => $category->reference
                 ));
             }
+            $this->_db->delete('promoarticle', $whereDelete);
             foreach ($article->promos as $promo)
             {
                 $this->_db->insert('promoarticle', array(
@@ -338,8 +338,8 @@ class ArticleMapper
                     'promo_id' => $promo->id
                 ));
             }
-            $whereDeleteProv['article_ref = ?'] = $article->reference;
-            $this->_db->delete('articleprovider', $whereDeleteProv);
+
+            $this->_db->delete('articleprovider', $whereDelete);
             if ($article->provider != NULL)
             {
                 $this->_db->insert('articleprovider', array(

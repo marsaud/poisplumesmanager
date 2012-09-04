@@ -52,6 +52,7 @@ h6 {
     border: outset black 1px;
     font-size: inherit;
     font-weight: inherit;
+    text-align: center;
 }
 
 .highlight {

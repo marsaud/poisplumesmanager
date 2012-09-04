@@ -43,7 +43,9 @@ class Admin_View_Helper_PromoSelect
 
         $promoSelect = '<label for="' . $name . '">' . $label . '</label>'
             . PHP_EOL
-            . '<select multiple="multiple" size="10" id="' . $name . '" name="' . $name . '[]">'
+            . '<select id="' . $name . '" name="' . $name . '">'
+            . PHP_EOL
+            . '<option value="">- -</option>'
             . PHP_EOL
             . $promoSelect
             . PHP_EOL

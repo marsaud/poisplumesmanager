@@ -32,8 +32,11 @@ class CashRegister_View_Helper_PromoPad
 
         foreach ($promoList as $promo)
         {
+            /* @var $promo Promotion */
             $promoPad .= '<input type="button" promoid="' . $promo->id
-                . '" value="' . $promo->name . '"/>' . PHP_EOL;
+                . '" promoratio="' . $promo->ratio
+                . '" value="' . $promo->name . PHP_EOL . $promo->ratio
+                . '%"/>' . PHP_EOL;
         }
         return $promoPad;
     }
