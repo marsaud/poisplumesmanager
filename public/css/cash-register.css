@@ -53,6 +53,7 @@ h6 {
     font-size: inherit;
     font-weight: inherit;
     text-align: center;
+    vertical-align: text-top;
 }
 
 .highlight {

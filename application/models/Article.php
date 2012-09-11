@@ -83,4 +83,17 @@ class Article
         return $this->tax->apply($this->price);
     }
 
+    public function getRawPrice()
+    {
+        return $this->price;
+    }
+
+    public function getPromotionPrice()
+    {
+        $price = $this->getSalePrice();
+        /* @var $promo Promotion */
+        $promo = array_pop($this->promos);
+        return $promo ? $promo->apply($price) : $price;
+    }
+
 }

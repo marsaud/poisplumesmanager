@@ -9,7 +9,7 @@
  *
  * @author fabrice
  */
-class CashRegister_View_Helper_ArticlePad
+class CashRegister_View_Helper_ArticlePad extends Zend_View_Helper_Abstract
 {
 
     /**
@@ -24,21 +24,22 @@ class CashRegister_View_Helper_ArticlePad
 
         foreach ($articles as $article)
         {
-            $promo = NULL;
-            if (!empty($article->promos))
-            {
-                $promos = $article->promos;
-                $promo = array_pop($promos);
-            }
+            /* @var $promo Promotion */
+            $promo = array_pop($article->promos);
 
             /* @var $article Article */
-            $articlePad .= '<div class="article button" ref="' . $article->reference . '" name="' . $article->name . '">'
-                . PHP_EOL . $article->name
-                . PHP_EOL . '<input type="hidden" class="qty" name="' . $article->reference . '" value="0">'
-                . PHP_EOL . '<input type="hidden" class="promoid" name="promo_' . $article->reference
+            $articlePad .= '<div class="article button" ref="' . $article->reference . '" name="' . $article->name
+                . '" ratiobuffer="' . ($promo ? $promo->ratio : '') . '" pricebuffer="' . $article->getSalePrice() . '">'
+                . PHP_EOL
+                . $article->name . '<br />' . ($promo ? $promo->ratio . '%' : '')
+                . '<br />' . $this->view->currency($article->getSalePrice())
+                . '<input type="hidden" class="qty" name="' . $article->reference . '" value="0">'
+                . PHP_EOL
+                . '<input type="hidden" class="promoid" name="promo_' . $article->reference
                 . '" value="' . ($promo ? $promo->id : '')
                 . '" ratiobuffer="' . ($promo ? $promo->ratio : '') . '">'
-                    . '</div>' . PHP_EOL;
+                . '</div>'
+                . PHP_EOL;
         }
 
         return $articlePad;

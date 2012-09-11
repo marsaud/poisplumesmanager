@@ -332,12 +332,12 @@ function selectForBill(event)
             if (removePromo)
             {
                 item.setValue('');
-                item.setAttribute('ratiobuffer', '0');
+                target.setAttribute('ratiobuffer', '0');
             }
             else if (promo != null)
             {
                 item.setValue(promo['id']);
-                item.setAttribute('ratiobuffer', promo['ratio']);
+                target.setAttribute('ratiobuffer', promo['ratio']);
                 inputText += '<br />' + promo['ratio'] + '%';
             }
             else if ($F(item) != '')
