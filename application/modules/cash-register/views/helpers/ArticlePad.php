@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  */
@@ -24,25 +23,39 @@ class CashRegister_View_Helper_ArticlePad extends Zend_View_Helper_Abstract
 
         foreach ($articles as $article)
         {
-            /* @var $promo Promotion */
-            $promo = array_pop($article->promos);
-
-            /* @var $article Article */
-            $articlePad .= '<div class="article button" ref="' . $article->reference . '" name="' . $article->name
-                . '" ratiobuffer="' . ($promo ? $promo->ratio : '') . '" pricebuffer="' . $article->getSalePrice() . '">'
-                . PHP_EOL
-                . $article->name . '<br />' . ($promo ? $promo->ratio . '%' : '')
-                . '<br />' . $this->view->currency($article->getSalePrice())
-                . '<input type="hidden" class="qty" name="' . $article->reference . '" value="0">'
-                . PHP_EOL
-                . '<input type="hidden" class="promoid" name="promo_' . $article->reference
-                . '" value="' . ($promo ? $promo->id : '')
-                . '" ratiobuffer="' . ($promo ? $promo->ratio : '') . '">'
-                . '</div>'
-                . PHP_EOL;
+            $articlePad .= $this->_renderArticleForPad($article);
         }
 
         return $articlePad;
+    }
+
+    protected function _renderArticleForPad(Article $article)
+    {
+        /* @var $promo Promotion */
+        $promo = array_pop($article->promos);
+        ob_start();
+        ?>
+        <div class="article button"
+             ref="<?php echo $article->reference; ?>"
+             name="<?php echo $article->name; ?>"
+             promoratio="<?php echo $promo ? $promo->ratio : ''; ?>"
+             saleprice="<?php echo $article->getSalePrice(); ?>">
+            <div class="facevalue">
+                <?php echo $article->name; ?><br/>
+                <?php echo $promo ? $promo->ratio . '%' : ''; ?><br />
+                <?php echo $this->view->currency($article->getPromotionPrice()); ?>
+            </div>
+            <div class="inputdata">
+                <input type="hidden" class="qty"
+                       name="<?php echo $article->reference; ?>" value="0"/>
+                <input type="hidden" class="promoid"
+                       name="promo_<?php echo $article->reference; ?>"
+                       value="<?php echo $promo ? $promo->id : ''; ?>"/>
+            </div>
+        </div>
+        <?php
+        $output = ob_get_clean();
+        return $output;
     }
 
 }

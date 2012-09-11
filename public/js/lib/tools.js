@@ -5,7 +5,7 @@
 
 function currency(price)
 {
-    var sPrice = price.split('.');
+    var sPrice = price.toString().split('.');
     return sPrice[0] + '.' + _processDecimals(sPrice[1]);
 }
 
@@ -29,7 +29,7 @@ function _processDecimals(decimals)
     return decimals;
 }
 
-//function test()
+//function testCurrency()
 //{
 //    alert(currency('0'));
 //    alert(currency('1'));
@@ -38,4 +38,31 @@ function _processDecimals(decimals)
 //    alert(currency('1234.1'));
 //    alert(currency('1234.12'));
 //    alert(currency('1234.123'));
+//}
+
+function promotedPrice(price, ratio)
+{
+    price = parseFloat(price);
+    ratio = parseFloat(ratio);
+    if (isNaN(ratio))
+    {
+        ratio = 0;
+    }
+
+    var result = (price * (1 + ratio / 100));
+
+    return result;
+}
+
+//function testPromotedPrice()
+//{
+//    alert(promotedPrice(0, -50));
+//    alert(promotedPrice(0, 50));
+//    alert(promotedPrice(0, 0));
+//    alert(promotedPrice(10, -50));
+//    alert(promotedPrice(10, 50));
+//    alert(promotedPrice(10, 0));
+//    alert(promotedPrice(100, -30));
+//    alert(promotedPrice(100, 30));
+//    alert(promotedPrice(100, 0));
 //}

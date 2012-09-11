@@ -303,7 +303,11 @@ function _updateArticlePad(articles)
  */
 function selectForBill(event)
 {
-    var element = $(event.element());
+    var element = $(event.findElement('div[class="article button"]'));
+    if (element.hasClassName('facevalue'))
+    {
+        alert('problem');
+    }
     var target = $$('#billList div[ref=' + element.getAttribute('ref') + ']');
 
     if (target.size() == 0)
@@ -318,13 +322,20 @@ function selectForBill(event)
         target = $(target[0]);
     }
 
-    var inputText = target.textContent;
-    var input = $A(target.getElementsByTagName('input'));
+    var inputData = $A(target.getElementsByClassName('inputdata'))[0];
+    var faceValue = $A(target.getElementsByClassName('facevalue'))[0];
+
+    var inputText = faceValue.textContent;
+    var qtyBuffer = 0;
+    var input = $A(inputData.getElementsByTagName('input'));
+
+
     input.each(function (item) {
         var itemClass = item.className;
         if (itemClass == 'qty')
         {
-            item.setValue(parseInt($F(item)) + parseInt(qty));
+            qtyBuffer = parseInt($F(item)) + parseInt(qty);
+            item.setValue(qtyBuffer);
             inputText = target.getAttribute('name') + ' x' + $F(item); // @todo Ça me fait grave chier
         }
         if (itemClass == 'promoid' && promo != '')
@@ -332,25 +343,35 @@ function selectForBill(event)
             if (removePromo)
             {
                 item.setValue('');
-                target.setAttribute('ratiobuffer', '0');
+                target.setAttribute('promoratio', '0');
+                inputText += '<br />';
             }
             else if (promo != null)
             {
                 item.setValue(promo['id']);
-                target.setAttribute('ratiobuffer', promo['ratio']);
+                target.setAttribute('promoratio', promo['ratio']);
                 inputText += '<br />' + promo['ratio'] + '%';
             }
             else if ($F(item) != '')
             {
-                inputText += '<br />' + item.getAttribute('ratiobuffer') + '%';
+                inputText += '<br />' + target.getAttribute('promoratio') + '%';
+            }
+            else
+            {
+                inputText += '<br />';
             }
         }
+
+
     });
 
-    target.update(inputText);
-    input.each(function (item){
-        target.appendChild(item);
-    });
+    inputText += '<br />' + currency(
+        promotedPrice(
+            target.getAttribute('saleprice'), target.getAttribute('promoratio')
+            ) * qtyBuffer
+        ) + ' €'; // todo On a un débordement par arrondi
+
+    faceValue.update(inputText);
 
     cleanQuantity();
     cleanPromos();
