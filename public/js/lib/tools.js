@@ -51,7 +51,7 @@ function promotedPrice(price, ratio)
 
     var result = (price * (1 + ratio / 100));
 
-    return result;
+    return _priceValue(result);
 }
 
 //function testPromotedPrice()
@@ -66,3 +66,11 @@ function promotedPrice(price, ratio)
 //    alert(promotedPrice(100, 30));
 //    alert(promotedPrice(100, 0));
 //}
+
+function _priceValue(price)
+{
+    price = parseFloat(price) * 100;
+    price = price.round() / 100;
+
+    return price;
+}

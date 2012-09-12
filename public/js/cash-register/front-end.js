@@ -18,6 +18,10 @@ var categoryTreeCash = {};
  * Article list cash
  */
 var articlesCash = {};
+/**
+ * A global timer for total price refereshing
+ */
+var totalUpdateTimer = null;
 
 /**
  * Init the cash-register pad at load or reload
@@ -61,6 +65,8 @@ function frontEndInit()
     promoPad.toggle();
     $('promoToggle').observe('click', togglePromoPad);
     $('promoRemove').observe('click', togglePromoRemove);
+
+    $('total').setValue(currency(0) + ' €');
 }
 
 /**
@@ -303,11 +309,10 @@ function _updateArticlePad(articles)
  */
 function selectForBill(event)
 {
+    hideTotalPrice();
+    triggerTotalUpdate();
+
     var element = $(event.findElement('div[class="article button"]'));
-    if (element.hasClassName('facevalue'))
-    {
-        alert('problem');
-    }
     var target = $$('#billList div[ref=' + element.getAttribute('ref') + ']');
 
     if (target.size() == 0)
@@ -327,49 +332,37 @@ function selectForBill(event)
 
     var inputText = faceValue.textContent;
     var qtyBuffer = 0;
-    var input = $A(inputData.getElementsByTagName('input'));
+    // var input = $A(inputData.getElementsByTagName('input'));
 
+    var quantityInput = $A(inputData.getElementsByClassName('qty'))[0];
+    var promoidInput = $A(inputData.getElementsByClassName('promoid'))[0];
 
-    input.each(function (item) {
-        var itemClass = item.className;
-        if (itemClass == 'qty')
-        {
-            qtyBuffer = parseInt($F(item)) + parseInt(qty);
-            item.setValue(qtyBuffer);
-            inputText = target.getAttribute('name') + ' x' + $F(item); // @todo Ça me fait grave chier
-        }
-        if (itemClass == 'promoid' && promo != '')
-        {
-            if (removePromo)
-            {
-                item.setValue('');
-                target.setAttribute('promoratio', '0');
-                inputText += '<br />';
-            }
-            else if (promo != null)
-            {
-                item.setValue(promo['id']);
-                target.setAttribute('promoratio', promo['ratio']);
-                inputText += '<br />' + promo['ratio'] + '%';
-            }
-            else if ($F(item) != '')
-            {
-                inputText += '<br />' + target.getAttribute('promoratio') + '%';
-            }
-            else
-            {
-                inputText += '<br />';
-            }
-        }
+    qtyBuffer = parseInt($F(quantityInput)) + parseInt(qty);
+    quantityInput.setValue(qtyBuffer);
+    inputText = target.getAttribute('name') + ' x' + $F(quantityInput);
 
+    if (removePromo)
+    {
+        promoidInput.setValue('');
+        target.setAttribute('promoratio', '0');
+        inputText += '<br />';
+    }
+    else if (promo != null)
+    {
+        promoidInput.setValue(promo['id']);
+        target.setAttribute('promoratio', promo['ratio']);
+        inputText += '<br />' + promo['ratio'] + '%';
+    }
+    else if ($F(promoidInput) != '')
+    {
+        inputText += '<br />' + target.getAttribute('promoratio') + '%';
+    }
+    else
+    {
+        inputText += '<br />';
+    }
 
-    });
-
-    inputText += '<br />' + currency(
-        promotedPrice(
-            target.getAttribute('saleprice'), target.getAttribute('promoratio')
-            ) * qtyBuffer
-        ) + ' €'; // todo On a un débordement par arrondi
+    inputText += '<br />' + currency(promotedPrice(target.getAttribute('saleprice'), target.getAttribute('promoratio')) * qtyBuffer) + ' €'; // todo On a un débordement par arrondi
 
     faceValue.update(inputText);
 
@@ -382,7 +375,45 @@ function selectForBill(event)
  */
 function unselectForBill(event)
 {
-    var element = $(event.element());
+    hideTotalPrice();
+    triggerTotalUpdate();
+
+    var element = $(event.findElement('div[class="article button"]'));
     element.stopObserving();
     element.remove();
+}
+
+function updateTotalPrice()
+{
+    var totalPrice = 0;
+    var articles = $A($('billList').getElementsByClassName('article'));
+    articles.each(function (item){
+        var saleprice = parseFloat(item.getAttribute('saleprice'));
+        var promoratio = parseFloat(item.getAttribute('promoratio'));
+        if (isNaN(promoratio))
+        {
+            promoratio = 0;
+        }
+        var inputData = $A(item.getElementsByClassName('inputdata'))[0];
+        var quantity = $F($A(inputData.getElementsByClassName('qty'))[0]);
+
+        totalPrice += promotedPrice(saleprice, promoratio) * quantity;
+    });
+
+    $('total').setValue(currency(totalPrice) + ' €');
+}
+
+function hideTotalPrice()
+{
+    $('total').setValue('...');
+}
+
+function triggerTotalUpdate()
+{
+    if (totalUpdateTimer != null)
+    {
+        clearTimeout(totalUpdateTimer);
+    }
+
+    totalUpdateTimer = setTimeout(updateTotalPrice, 200);
 }
