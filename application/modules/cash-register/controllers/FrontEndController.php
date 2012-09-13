@@ -27,8 +27,8 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
     {
         /* @var $db Zend_Db_Adapter_Pdo_Abstract */
         $db = $this->getInvokeArg('bootstrap')
-            ->getResource('multidb')
-            ->getDb('ppmdb');
+                ->getResource('multidb')
+                ->getDb('ppmdb');
 
         $categoryModel = new CategoryMapper($db);
         $this->view->categoryTree = $categoryModel->getCategoryTree();
@@ -38,7 +38,44 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
 
     public function registerAction()
     {
+        if (empty($_POST))
+        {
+            throw new Exception('EMPTY FORM');
+        } else
+        {
+            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
+            $db = $this->getInvokeArg('bootstrap')
+                    ->getResource('multidb')
+                    ->getDb('ppmdb');
 
+            $articleModel = new ArticleMapper($db);
+            $promoModel = new PromotionMapper($db);
+            $articles = array();
+
+            foreach ($_POST as $key => $value)
+            {
+                if ($key == 'submit' || substr($key, 0, 6) == 'promo_')
+                {
+                    continue;
+                }
+
+                $articles[$key] = $articleModel->find($key);
+            }
+
+            foreach ($_POST as $key => $value)
+            {
+                if (substr($key, 0, 6) == 'promo_')
+                {
+                    $articleRef = substr($key, 6);
+                    if (!array_key_exists($articleRef, $articles))
+                    {
+                        throw new Exception('ORPHAN PROMO');
+                    }
+
+                    $articles[$articleRef]->promos = array($promoModel->find($value));
+                }
+            }
+        }
     }
 
     public function getArticlesAction()
@@ -58,8 +95,8 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
         {
             /* @var $db Zend_Db_Adapter_Pdo_Abstract */
             $db = $this->getInvokeArg('bootstrap')
-                ->getResource('multidb')
-                ->getDb('ppmdb');
+                    ->getResource('multidb')
+                    ->getDb('ppmdb');
 
             $model = new ArticleMapper($db);
             $articles = $model->getArticles($categoryRef);
@@ -83,8 +120,8 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
 
         /* @var $db Zend_Db_Adapter_Pdo_Abstract */
         $db = $this->getInvokeArg('bootstrap')
-            ->getResource('multidb')
-            ->getDb('ppmdb');
+                ->getResource('multidb')
+                ->getDb('ppmdb');
 
         $model = new CategoryMapper($db);
         $tree = $model->getCategoryTree();
