@@ -5,7 +5,7 @@ echo $this->action('menu', 'index', 'admin');
 ?>
 <h1>Gestion des promotions</h1>
 <div class="leftpart">
-    <form method="post" action="<?php echo $this->baseUrl('admin/promotion/create'); ?>" id="createpromoform" class="createform">
+    <form method="post" action="<?php echo $this->baseUrl('admin/promotion/create'); ?>" id="createpromoform" class="createform adminform">
         <fieldset>
             <legend>Créer une promotion</legend>
             <label for="name">Nom de la promotion</label>
@@ -20,7 +20,7 @@ echo $this->action('menu', 'index', 'admin');
             <input type="Submit" value="Créer"/>
         </fieldset>
     </form>
-    <form method="post" action="<?php echo $this->baseUrl('admin/promotion/update'); ?>" id="updatepromoform" class="updateform">
+    <form method="post" action="<?php echo $this->baseUrl('admin/promotion/update'); ?>" id="updatepromoform" class="updateform adminform">
         <fieldset>
             <legend>Modifier une promotion</legend>
             <?php

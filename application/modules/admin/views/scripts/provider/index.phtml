@@ -5,7 +5,7 @@ echo $this->action('menu', 'index', 'admin');
 ?>
 <h1>Gestion des fournisseurs</h1>
 <div class="leftpart">
-    <form method="post" action="<?php echo $this->baseUrl('admin/provider/create'); ?>" id="createproviderform" class="createform">
+    <form method="post" action="<?php echo $this->baseUrl('admin/provider/create'); ?>" id="createproviderform" class="createform adminform">
         <fieldset>
             <legend>Créer un founisseur</legend>
             <label for="name">Nom</label>
@@ -20,7 +20,7 @@ echo $this->action('menu', 'index', 'admin');
             <input type="submit" value="Créer"/>
         </fieldset>
     </form>
-    <form method="post" action="<?php echo $this->baseUrl('admin/provider/update'); ?>" id="updateproviderform" class="updateform">
+    <form method="post" action="<?php echo $this->baseUrl('admin/provider/update'); ?>" id="updateproviderform" class="updateform adminform">
         <fieldset>
             <legend>Modifier un fournisseur</legend>
             <?php

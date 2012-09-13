@@ -4,7 +4,7 @@ echo $this->action('menu', 'index', 'admin');
 ?>
 <h1>Gestion des articles</h1>
 <div class="leftpart">
-    <form method="post" action="<?php echo $this->baseUrl('admin/article/create'); ?>" id="createarticleform" class="createform">
+    <form method="post" action="<?php echo $this->baseUrl('admin/article/create'); ?>" id="createarticleform" class="createform adminform">
         <fieldset>
             <legend>Créer un article</legend>
             <label for="ref">Référence de l'article</label>
@@ -43,7 +43,7 @@ echo $this->action('menu', 'index', 'admin');
             <input type="submit" value="Créer"/>
         </fieldset>
     </form>
-    <form method="post" action="<?php echo $this->baseUrl('admin/article/update'); ?>" id="updatearticleform" class="updateform">
+    <form method="post" action="<?php echo $this->baseUrl('admin/article/update'); ?>" id="updatearticleform" class="updateform adminform">
         <fieldset>
             <legend>Modifier un article</legend>
             <?php

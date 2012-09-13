@@ -14,7 +14,9 @@ h1 {
     background-color: lightblue;
 }
 
-input:focus, textarea:focus, select:focus {
+.adminform input:focus, 
+.adminform textarea:focus, 
+.adminform select:focus {
     background-color: lightblue;
 }
 
@@ -36,11 +38,20 @@ textarea {
     width: 100%;
 }
 
-a {
+.menu a {
     color: black;
     font-weight: bold;
     text-decoration: none;
     border-style: outset;
+}
+
+.menu a:hover,
+.menu a:focus {
+    background-color: lightgrey
+}
+
+.menu a:active {
+    border-style: inset;
 }
 
 .menu ul li {
