@@ -80,7 +80,7 @@ class Article
 
     public function getSalePrice()
     {
-        return $this->tax->apply($this->price);
+        return $this->tax->apply($this->getRawPrice());
     }
 
     public function getRawPrice()
@@ -94,6 +94,11 @@ class Article
         /* @var $promo Promotion */
         $promo = array_pop($this->promos);
         return $promo ? $promo->apply($price) : $price;
+    }
+    
+    public function getTax()
+    {
+        return $this->tax->evaluate($this->getRawPrice());
     }
 
 }

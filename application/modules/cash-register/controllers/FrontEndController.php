@@ -41,40 +41,52 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
         if (empty($_POST))
         {
             throw new Exception('EMPTY FORM');
-        } else
+        }
+        /* @var $db Zend_Db_Adapter_Pdo_Abstract */
+        $db = $this->getInvokeArg('bootstrap')
+                ->getResource('multidb')
+                ->getDb('ppmdb');
+
+        $articleModel = new ArticleMapper($db);
+        $promoModel = new PromotionMapper($db);
+        $articles = array();
+
+        foreach (array_keys($_POST) as $key)
         {
-            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-            $db = $this->getInvokeArg('bootstrap')
-                    ->getResource('multidb')
-                    ->getDb('ppmdb');
-
-            $articleModel = new ArticleMapper($db);
-            $promoModel = new PromotionMapper($db);
-            $articles = array();
-
-            foreach ($_POST as $key => $value)
+            if ($key == 'submit' || substr($key, 0, 6) == 'promo_')
             {
-                if ($key == 'submit' || substr($key, 0, 6) == 'promo_')
-                {
-                    continue;
-                }
-
-                $articles[$key] = $articleModel->find($key);
+                continue;
             }
 
-            foreach ($_POST as $key => $value)
-            {
-                if (substr($key, 0, 6) == 'promo_')
-                {
-                    $articleRef = substr($key, 6);
-                    if (!array_key_exists($articleRef, $articles))
-                    {
-                        throw new Exception('ORPHAN PROMO');
-                    }
+            $articles[$key] = $articleModel->find($key);
+        }
 
-                    $articles[$articleRef]->promos = array($promoModel->find($value));
+        foreach ($_POST as $key => $value)
+        {
+            if (substr($key, 0, 6) == 'promo_')
+            {
+                $articleRef = substr($key, 6);
+                if (!array_key_exists($articleRef, $articles))
+                {
+                    throw new Exception('ORPHAN PROMO');
                 }
+
+                $articles[$articleRef]->promos = array($promoModel->find($value));
             }
+        }
+
+        $totalRawPrice = 0;
+        $totalSalePrice = 0;
+        $totalTax = 0;
+
+        foreach ($articles as $article)
+        {
+            $quantity = $_POST[$article->reference];
+
+            /* @var $article Article */
+            $totalRawPrice += $quantity * $article->getRawPrice();
+            $totalSalePrice += $quantity * $article->getPromotionPrice();
+            $totalTax += $quantity * $article->getTax();
         }
     }
 

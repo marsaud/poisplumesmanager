@@ -36,6 +36,11 @@ class Tax
      */
     public $description;
 
+    public function evaluate($price)
+    {
+        return $price * $this->ratio / 100;
+    }
+    
     /**
      *
      * @param float $price
@@ -44,7 +49,7 @@ class Tax
      */
     public function apply($price)
     {
-        return $price * (1 + ($this->ratio / 100));
+        return $price * (1 + $this->ratio / 100);
     }
 
     /**
@@ -55,7 +60,7 @@ class Tax
      */
     public function remove($price)
     {
-        return $price / (1 + ($this->ratio / 100));
+        return $price / (1 + $this->ratio / 100);
     }
 
 }
