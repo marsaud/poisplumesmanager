@@ -16,6 +16,8 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
         require_once APPLICATION_PATH . '/models/Promotion.php';
         require_once APPLICATION_PATH . '/models/PromotionMapper.php';
 
+        require_once APPLICATION_PATH . '/modules/cash-register/models/SoldArticle.php';
+
 //        $contentSwitch = $this->_helper->getHelper('contextSwitch');
 //        /* @var $contentSwitch Zend_Controller_Action_Helper_AjaxContext */
 //        $contentSwitch->addActionContext('get-articles', 'xml')
@@ -49,7 +51,7 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
 
         $articleModel = new ArticleMapper($db);
         $promoModel = new PromotionMapper($db);
-        $articles = array();
+        $soldArticles = array();
 
         foreach (array_keys($_POST) as $key)
         {
@@ -58,7 +60,8 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
                 continue;
             }
 
-            $articles[$key] = $articleModel->find($key);
+            $soldArticles[$key] = new SoldArticle();
+            $soldArticles[$key]->article = $articleModel->find($key);
         }
 
         foreach ($_POST as $key => $value)
@@ -66,28 +69,44 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
             if (substr($key, 0, 6) == 'promo_')
             {
                 $articleRef = substr($key, 6);
-                if (!array_key_exists($articleRef, $articles))
+                if (!array_key_exists($articleRef, $soldArticles))
                 {
                     throw new Exception('ORPHAN PROMO');
                 }
 
-                $articles[$articleRef]->promos = array($promoModel->find($value));
+                $soldArticles[$articleRef]->article->promos = array(
+                    $promoModel->find($value)
+                );
             }
         }
 
-        $totalRawPrice = 0;
+        $totalRawPrice = array();
         $totalSalePrice = 0;
-        $totalTax = 0;
+        $totalTax = array();
 
-        foreach ($articles as $article)
+        foreach ($soldArticles as $soldArticle)
         {
-            $quantity = $_POST[$article->reference];
+            $quantity = $_POST[$soldArticle->article->reference];
 
-            /* @var $article Article */
-            $totalRawPrice += $quantity * $article->getRawPrice();
-            $totalSalePrice += $quantity * $article->getPromotionPrice();
-            $totalTax += $quantity * $article->getTax();
+            isset($totalRawPrice[$soldArticle->article->tax->ratio])
+                    || $totalRawPrice[$soldArticle->article->tax->ratio] = 0;
+            isset($totalTax[$soldArticle->article->tax->ratio])
+                    || $totalTax[$soldArticle->article->tax->ratio] = 0;
+
+            $totalRawPrice[$soldArticle->article->tax->ratio] +=
+                    $quantity * $soldArticle->article->getRawPrice();
+            $totalSalePrice +=
+                    $quantity * $soldArticle->article->getPromotionPrice();
+            $totalTax[$soldArticle->article->tax->ratio] +=
+                    $quantity * $soldArticle->article->getTax();
+
+            $soldArticle->quantity = $quantity;
         }
+
+        $this->view->soldArticles = $soldArticles;
+        $this->view->totalRawPrice = $totalRawPrice;
+        $this->view->totalSalePrice = $totalSalePrice;
+        $this->view->totalTax = $totalTax;
     }
 
     public function getArticlesAction()

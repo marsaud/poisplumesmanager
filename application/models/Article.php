@@ -92,7 +92,8 @@ class Article
     {
         $price = $this->getSalePrice();
         /* @var $promo Promotion */
-        $promo = array_pop($this->promos);
+        reset($this->promos);
+        $promo = current($this->promos);
         return $promo ? $promo->apply($price) : $price;
     }
     

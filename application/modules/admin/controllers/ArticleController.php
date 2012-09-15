@@ -97,7 +97,7 @@ class Admin_ArticleController extends Zend_Controller_Action
                 }
             }
 
-            if (isset($_POST['promo']))
+            if ($_POST['promo'] != '')
             {
                 $promo = $this->_getPromotionModel($db)->find($_POST['promo']);
                 $article->promos[] = $promo;
