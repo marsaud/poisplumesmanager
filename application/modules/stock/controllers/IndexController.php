@@ -12,53 +12,22 @@ class Stock_IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $categoryTree = array();
 
-        $c = new Category();
-        $c->reference = 'resto';
-        $c->name = 'Restaurant';
-        $categoryTree[] = $c;
+        $selectedCategory = (!empty($_POST['categoryfilter']) ?
+                $_POST['categoryfilter'] : NULL);
 
-        $sc = new Category();
-        $sc->reference = 'entree';
-        $sc->name = 'Entrée / Salades';
-        $c[] = $sc;
-        $sc = new Category();
-        $sc->reference = 'plat';
-        $sc->name = 'Plats cuisinés';
-        $c[] = $sc;
+        /* @var $db Zend_Db_Adapter_Pdo_Abstract */
+        $db = $this->getInvokeArg('bootstrap')
+                ->getResource('multidb')
+                ->getDb('ppmdb');
 
-        $c = new Category();
-        $c->reference = 'boutique';
-        $c->name = 'Boutique';
-        $categoryTree[] = $c;
+        $categoryModel = new CategoryMapper($db);
+        $this->view->categoryTree = $categoryModel->getCategoryTree();
 
-        $this->view->categoryTree = $categoryTree;
-
-        $tva = new Tax();
-        $tva->id = 2;
-        $tva->name = 'Généraliste';
-        $tva->ratio = 19.6;
-
-        $articleList = array();
-        $a = new Article();
-        $a->reference = 'abc';
-        $a->name = 'ABC';
-        $a->description = 'L\'alphabet en 3 lettres';
-        $a->price = 100;
-        $a->tax = $tva;
-        $a->categories = array($c);
-        $articleList[] = $a;
-        $a = new Article();
-        $a->reference = 'def';
-        $a->name = 'DEF';
-        $a->description = 'La suite de l\'alphabet';
-        $a->price = 60;
-        $a->tax = $tva;
-        $a->categories = array($c);
-        $articleList[] = $a;
-
-        $this->view->articleList = $articleList;
+        $articleModel = new ArticleMapper($db);
+        $this->view->articleList = $articleModel->getArticles($selectedCategory, true);
+        
+        $this->view->selectedCategory = $selectedCategory;
     }
 
 }

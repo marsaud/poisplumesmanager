@@ -1,13 +1,14 @@
 <?php
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Stock_View_Helper');
 ?>
-<div id="categoryfilterdiv">
+<form id="categoryfilterform" method="post" action="<?php echo $this->baseUrl('stock'); ?>">
     <?php
     echo $this->categoryBox(
-        'categoryfilter', $this->categoryTree, 'Filtrer par catégorie'
+            'categoryfilter', $this->categoryTree, 'Filtrer par catégorie', false, $this->selectedCategory
     );
     ?>
-</div>
+    <input type="submit" value="Réafficher" />
+</form>
 <div id="articelgrid">
     <?php
     echo $this->articleGrid($this->articleList);

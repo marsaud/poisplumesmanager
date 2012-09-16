@@ -42,40 +42,48 @@ class ArticleMapper
     }
 
     /**
-     *
+     * @param string $categoryRef
+     * @param boolean $stockManagementOnly
+     * 
      * @return Article[]
      */
-    public function getArticles($categoryRef = NULL)
+    public function getArticles($categoryRef = NULL, $stockManagmentOnly = false)
     {
         $select = $this->_db->select()
-            ->from(array('a' => 'article'))
-            ->joinLeft(
-                array('ca' => 'categoryarticle')
-                , 'ca.article_ref = a.ref'
-                , array('ca.category_ref')
-            )
-            ->joinLeft(array('pa' => 'promoarticle')
-                , 'pa.article_ref = a.ref'
-                , array('pa.promo_id'))
-            ->joinLeft(
-                array('ap' => 'articleprovider')
-                , 'ap.article_ref = a.ref'
-                , array('ap.provider_id')
-            )
-            ->order(array('ref ASC', 'category_ref ASC'));
+                ->from(array('a' => 'article'))
+                ->joinLeft(
+                        array('ca' => 'categoryarticle')
+                        , 'ca.article_ref = a.ref'
+                        , array('ca.category_ref')
+                )
+                ->joinLeft(array('pa' => 'promoarticle')
+                        , 'pa.article_ref = a.ref'
+                        , array('pa.promo_id'))
+                ->joinLeft(
+                        array('ap' => 'articleprovider')
+                        , 'ap.article_ref = a.ref'
+                        , array('ap.provider_id')
+                )
+                ->order(array('ref ASC', 'category_ref ASC'));
 
         if ($categoryRef !== NULL)
         {
             $select->where('ca.category_ref = ?', $categoryRef);
         }
 
+        if ($stockManagmentOnly)
+        {
+            $select->where('stocked = ?', true, Zend_Db::PARAM_BOOL);
+        }
+
         $articles = array();
         $query = $select->query();
         if ($query->rowCount() > 0)
         {
+            $article = NULL;
             while ($row = $query->fetch(Zend_Db::FETCH_OBJ))
             {
-                if (!isset($article) || ($row->ref != $article->reference))
+                if (empty($article) || ($row->ref != $article->reference))
                 {
                     $article = new Article();
                     $article->reference = $row->ref;
@@ -98,7 +106,7 @@ class ArticleMapper
                 if ($row->provider_id != NULL)
                 {
                     $provider = $this->_getProviderModel()->find(
-                        $row->provider_id
+                            $row->provider_id
                     );
                     $article->provider = $provider;
                 }
@@ -112,7 +120,7 @@ class ArticleMapper
                 if ($row->category_ref != NULL)
                 {
                     $category = $this->_getCategoryModel()->find(
-                        $row->category_ref
+                            $row->category_ref
                     );
                     $article->categories[] = $category;
                 }
@@ -130,22 +138,22 @@ class ArticleMapper
     public function find($reference)
     {
         $select = $this->_db->select()
-            ->from(array('a' => 'article'))
-            ->joinLeft(
-                array('ca' => 'categoryarticle')
-                , 'ca.article_ref = a.ref'
-                , array('ca.category_ref')
-            )
-            ->joinLeft(array('pa' => 'promoarticle')
-                , 'pa.article_ref = a.ref'
-                , array('pa.promo_id'))
-            ->joinLeft(
-                array('ap' => 'articleprovider')
-                , 'ap.article_ref = a.ref'
-                , array('ap.provider_id')
-            )
-            ->where('a.ref = ?', $reference)
-            ->order(array('category_ref ASC'));
+                ->from(array('a' => 'article'))
+                ->joinLeft(
+                        array('ca' => 'categoryarticle')
+                        , 'ca.article_ref = a.ref'
+                        , array('ca.category_ref')
+                )
+                ->joinLeft(array('pa' => 'promoarticle')
+                        , 'pa.article_ref = a.ref'
+                        , array('pa.promo_id'))
+                ->joinLeft(
+                        array('ap' => 'articleprovider')
+                        , 'ap.article_ref = a.ref'
+                        , array('ap.provider_id')
+                )
+                ->where('a.ref = ?', $reference)
+                ->order(array('category_ref ASC'));
 
         $query = $select->query();
         if ($query->rowCount() > 0)
@@ -173,7 +181,7 @@ class ArticleMapper
                 if ($row->category_ref != NULL)
                 {
                     $category = $this->_getCategoryModel()->find(
-                        $row->category_ref
+                            $row->category_ref
                     );
                     $article->categories[] = $category;
                 }
@@ -187,15 +195,14 @@ class ArticleMapper
                 if ($row->provider_id != NULL)
                 {
                     $provider = $this->_getProviderModel()->find(
-                        $row->provider_id
+                            $row->provider_id
                     );
                     $article->provider = $provider;
                 }
             }
 
             return $article;
-        }
-        else
+        } else
         {
             return NULL;
         }
@@ -286,8 +293,7 @@ class ArticleMapper
                 ));
             }
             $this->_db->commit();
-        }
-        catch (Exception $exc)
+        } catch (Exception $exc)
         {
             $this->_db->rollBack();
             throw $exc;
@@ -307,8 +313,7 @@ class ArticleMapper
         if ($article->stock)
         {
             $bind['unit'] = $article->unit;
-        }
-        else
+        } else
         {
             $bind['qty'] = NULL;
             $bind['unit'] = NULL;
@@ -349,8 +354,7 @@ class ArticleMapper
             }
 
             $this->_db->commit();
-        }
-        catch (Exception $exc)
+        } catch (Exception $exc)
         {
             $this->_db->rollBack();
             throw $exc;

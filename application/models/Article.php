@@ -56,9 +56,9 @@ class Article
 
     /**
      *
-     * @var Promotion[]
+     * @var ArticlePromotionContainer
      */
-    public $promos = array();
+    protected $_promos;
 
     /**
      *
@@ -78,6 +78,11 @@ class Article
      */
     public $provider;
 
+    public function __construct()
+    {
+        $this->_promos = new ArticlePromotionContainer();
+    }
+    
     public function getSalePrice()
     {
         return $this->tax->apply($this->getRawPrice());
@@ -91,15 +96,44 @@ class Article
     public function getPromotionPrice()
     {
         $price = $this->getSalePrice();
-        /* @var $promo Promotion */
-        reset($this->promos);
-        $promo = current($this->promos);
+        $this->_promos->rewind();
+        $promo = $this->_promos->current();
         return $promo ? $promo->apply($price) : $price;
     }
-    
-    public function getTax()
+
+    public function getTaxAmount()
     {
         return $this->tax->evaluate($this->getRawPrice());
+    }
+
+    public function __set($name, $value)
+    {
+        switch ($name)
+        {
+            case 'promos':
+
+                throw new LogicException('PromotionContainer cannot be set.');
+                break;
+
+            default:
+                throw new OutOfRangeException('No ' . $name . ' write property');
+                break;
+        }
+    }
+
+    public function __get($name)
+    {
+        switch ($name)
+        {
+            case 'promos':
+
+                return $this->_promos;
+                break;
+
+            default:
+                throw new OutOfRangeException('No ' . $name . ' read property');
+                break;
+        };
     }
 
 }

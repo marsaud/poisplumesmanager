@@ -98,7 +98,7 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
             $totalSalePrice +=
                     $quantity * $soldArticle->article->getPromotionPrice();
             $totalTax[$soldArticle->article->tax->ratio] +=
-                    $quantity * $soldArticle->article->getTax();
+                    $quantity * $soldArticle->article->getTaxAmount();
 
             $soldArticle->quantity = $quantity;
         }

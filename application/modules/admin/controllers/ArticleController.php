@@ -17,16 +17,16 @@ class Admin_ArticleController extends Zend_Controller_Action
 
     public function init()
     {
-        require_once APPLICATION_PATH . '/models/Tax.php';
-        require_once APPLICATION_PATH . '/models/TaxMapper.php';
-        require_once APPLICATION_PATH . '/models/Article.php';
-        require_once APPLICATION_PATH . '/models/ArticleMapper.php';
-        require_once APPLICATION_PATH . '/models/Category.php';
-        require_once APPLICATION_PATH . '/models/CategoryMapper.php';
-        require_once APPLICATION_PATH . '/models/Provider.php';
-        require_once APPLICATION_PATH . '/models/ProviderMapper.php';
-        require_once APPLICATION_PATH . '/models/Promotion.php';
-        require_once APPLICATION_PATH . '/models/PromotionMapper.php';
+//        require_once APPLICATION_PATH . '/models/Tax.php';
+//        require_once APPLICATION_PATH . '/models/TaxMapper.php';
+//        require_once APPLICATION_PATH . '/models/Article.php';
+//        require_once APPLICATION_PATH . '/models/ArticleMapper.php';
+//        require_once APPLICATION_PATH . '/models/Category.php';
+//        require_once APPLICATION_PATH . '/models/CategoryMapper.php';
+//        require_once APPLICATION_PATH . '/models/Provider.php';
+//        require_once APPLICATION_PATH . '/models/ProviderMapper.php';
+//        require_once APPLICATION_PATH . '/models/Promotion.php';
+//        require_once APPLICATION_PATH . '/models/PromotionMapper.php';
 
         $ajaxContext = $this->_helper->getHelper('AjaxContext');
         /* @var $ajaxContext Zend_Controller_Action_Helper_AjaxContext */

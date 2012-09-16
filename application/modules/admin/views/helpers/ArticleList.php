@@ -22,10 +22,10 @@ class Admin_View_Helper_ArticleList extends Zend_View_Helper_Abstract
     public function articleList(array $articles, $caption)
     {
         $articleList = '<table>' . PHP_EOL
-            . '<captio>' . $caption . '</caption>' . PHP_EOL
+            . '<caption>' . $caption . '</caption>' . PHP_EOL
             . '<tr><th>Référence</th><th>Nom</th><th>Description</th>'
             . '<th>Catégories</th><th>Prix HT</th><th>TVA</th><th>Promos</th>'
-            . '<th>Prix TTC</th>' . PHP_EOL . '<th>Fournisseur</th></tr>';
+            . '<th>Prix TTC</th><th>Fournisseur</th></tr>';
         foreach ($articles as $article)
         {
             /* @var $article Article */
@@ -41,7 +41,7 @@ class Admin_View_Helper_ArticleList extends Zend_View_Helper_Abstract
             }
 
             $promoList = '';
-            if (!empty($article->promos))
+            if (count($article->promos) > 0)
             {
                 foreach ($article->promos as $promo)
                 {
