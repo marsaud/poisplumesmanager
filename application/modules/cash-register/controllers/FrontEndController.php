@@ -74,9 +74,8 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
                     throw new Exception('ORPHAN PROMO');
                 }
 
-                $soldArticles[$articleRef]->article->promos = array(
-                    $promoModel->find($value)
-                );
+                $soldArticles[$articleRef]->article->promos[] =
+                        $promoModel->find($value);
             }
         }
 

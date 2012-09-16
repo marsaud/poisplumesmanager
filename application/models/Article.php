@@ -8,6 +8,9 @@
  * Description of Article
  *
  * @author fabrice
+ * 
+ * @property-read ArticlePromotionContainer $promos
+ * @property-read Promotion $onePromo
  */
 class Article
 {
@@ -130,6 +133,11 @@ class Article
                 return $this->_promos;
                 break;
 
+            case 'onePromo':
+                $this->_promos->rewind();
+                return $this->_promos->current();
+                break;
+            
             default:
                 throw new OutOfRangeException('No ' . $name . ' read property');
                 break;

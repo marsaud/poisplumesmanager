@@ -11,5 +11,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         return $currency;
     }
 
+    protected function _initPlugins()
+    {
+        /* @var $frontController Zend_Controller_Front */
+        $frontController = $this->bootstrap('frontcontroller')
+                ->getResource('frontcontroller');
+        
+        $frontController->registerPlugin(new LayoutManagerPlugin());
+    }
 }
 

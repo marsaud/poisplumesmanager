@@ -32,7 +32,7 @@ class CashRegister_View_Helper_ArticlePad extends Zend_View_Helper_Abstract
     protected function _renderArticleForPad(Article $article)
     {
         /* @var $promo Promotion */
-        $promo = array_pop($article->promos);
+        $promo = $article->onePromo;
         ob_start();
         ?>
         <div class="article button"
