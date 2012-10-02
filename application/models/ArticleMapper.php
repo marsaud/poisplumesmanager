@@ -70,6 +70,10 @@ class ArticleMapper
         {
             $select->where('ca.category_ref = ?', $categoryRef);
         }
+        else
+        {
+            $select->where(new Zend_Db_Expr('ca.category_ref IS NULL'));
+        }
 
         if ($stockManagmentOnly)
         {
@@ -91,11 +95,11 @@ class ArticleMapper
                     $article->description = $row->description;
                     $article->price = $row->priceht;
                     $article->stock = $row->stocked;
-                    if ($article->stock)
-                    {
+//                    if ($article->stock)
+//                    {
                         $article->unit = $row->unit;
                         $article->quantity = $row->qty;
-                    }
+//                    }
 
                     $taxModel = new TaxMapper($this->_db);
                     $article->tax = $taxModel->find($row->tax_id);
@@ -168,11 +172,11 @@ class ArticleMapper
                     $article->description = $row->description;
                     $article->price = $row->priceht;
                     $article->stock = $row->stocked;
-                    if ($article->stock)
-                    {
+//                    if ($article->stock)
+//                    {
                         $article->unit = $row->unit;
                         $article->quantity = $row->qty;
-                    }
+//                    }
 
                     $taxModel = new TaxMapper($this->_db);
                     $article->tax = $taxModel->find($row->tax_id);
@@ -261,11 +265,11 @@ class ArticleMapper
             'stocked' => $article->stock,
         );
 
-        if ($article->stock)
-        {
+//        if ($article->stock)
+//        {
             $bind['qty'] = 0;
             $bind['unit'] = $article->unit;
-        }
+//        }
 
         $this->_db->beginTransaction();
         try
@@ -310,14 +314,14 @@ class ArticleMapper
             'stocked' => $article->stock,
         );
 
-        if ($article->stock)
-        {
+//        if ($article->stock)
+//        {
             $bind['unit'] = $article->unit;
-        } else
-        {
-            $bind['qty'] = NULL;
-            $bind['unit'] = NULL;
-        }
+//        } else
+//        {
+//            $bind['qty'] = NULL;
+//            $bind['unit'] = NULL;
+//        }
 
         $this->_db->beginTransaction();
         try

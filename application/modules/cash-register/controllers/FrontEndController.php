@@ -5,16 +5,16 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
 
     public function init()
     {
-        require_once APPLICATION_PATH . '/models/Tax.php';
-        require_once APPLICATION_PATH . '/models/TaxMapper.php';
-        require_once APPLICATION_PATH . '/models/Article.php';
-        require_once APPLICATION_PATH . '/models/ArticleMapper.php';
-        require_once APPLICATION_PATH . '/models/Category.php';
-        require_once APPLICATION_PATH . '/models/CategoryMapper.php';
-        require_once APPLICATION_PATH . '/models/Provider.php';
-        require_once APPLICATION_PATH . '/models/ProviderMapper.php';
-        require_once APPLICATION_PATH . '/models/Promotion.php';
-        require_once APPLICATION_PATH . '/models/PromotionMapper.php';
+//        require_once APPLICATION_PATH . '/models/Tax.php';
+//        require_once APPLICATION_PATH . '/models/TaxMapper.php';
+//        require_once APPLICATION_PATH . '/models/Article.php';
+//        require_once APPLICATION_PATH . '/models/ArticleMapper.php';
+//        require_once APPLICATION_PATH . '/models/Category.php';
+//        require_once APPLICATION_PATH . '/models/CategoryMapper.php';
+//        require_once APPLICATION_PATH . '/models/Provider.php';
+//        require_once APPLICATION_PATH . '/models/ProviderMapper.php';
+//        require_once APPLICATION_PATH . '/models/Promotion.php';
+//        require_once APPLICATION_PATH . '/models/PromotionMapper.php';
 
         require_once APPLICATION_PATH . '/modules/cash-register/models/SoldArticle.php';
 
@@ -74,8 +74,20 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
                     throw new Exception('ORPHAN PROMO');
                 }
 
-                $soldArticles[$articleRef]->article->promos[] =
-                        $promoModel->find($value);
+                if ($value == '')
+                {
+                    if ($soldArticles[$articleRef]->article->promos->count() > 0)
+                    {
+                        $promo = $soldArticles[$articleRef]->article->onePromo;
+                        $soldArticles[$articleRef]->article->promos
+                                ->offsetUnset($promo);
+                    }
+                }
+                else
+                {
+                    $soldArticles[$articleRef]->article->promos[] =
+                            $promoModel->find($value);
+                }
             }
         }
 
