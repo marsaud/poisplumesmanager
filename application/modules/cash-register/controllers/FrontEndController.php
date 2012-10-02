@@ -38,7 +38,7 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
         $this->view->promoList = $promoModel->getPromotions();
     }
 
-    public function registerAction()
+    public function payAction()
     {
         if (empty($_POST))
         {
@@ -51,8 +51,9 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
 
         $articleModel = new ArticleMapper($db);
         $promoModel = new PromotionMapper($db);
-        $soldArticles = array();
+        $paymentModel = new PaymentMapper($db);
 
+        $soldArticles = array();
         foreach (array_keys($_POST) as $key)
         {
             if ($key == 'submit' || substr($key, 0, 6) == 'promo_')
@@ -118,6 +119,19 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
         $this->view->totalRawPrice = $totalRawPrice;
         $this->view->totalSalePrice = $totalSalePrice;
         $this->view->totalTax = $totalTax;
+        $this->view->paymentList = $paymentModel->getPayments();
+        
+        /**
+         * 
+         * @todo
+         * 
+         * On crée le numéro de ticket maintenant et on enregistre tout en base
+         * de données. On peut le payer plus tard.
+         * 
+         * Du coup un "ticket" ets pyé ou non.
+         * Quand on le paie, on a juste à lier le paiement avec le ticket.
+         * Les détails du ticket me permettent de ventiler la TVA des ventes.
+         */
     }
 
     public function getArticlesAction()
@@ -178,6 +192,11 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
         }
 
         $this->view->content = $this->view->categoryPad($tree);
+    }
+
+    public function registerAction()
+    {
+        // action body
     }
 
 }

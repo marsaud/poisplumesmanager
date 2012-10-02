@@ -26,7 +26,7 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegist
     <h6>Articles</h6>
     <div id="articlepad" class="touchpad"></div>
 </div>
-<form id="bill" method="post" action="<?php echo $this->baseUrl('cash-register/front-end/register'); ?>">
+<form id="bill" method="post" action="<?php echo $this->baseUrl('cash-register/front-end/pay'); ?>">
     <fieldset>
         <input type="submit" value="Enregistrer"/>
         <input id="total" type="text" disabled="disabled" value="<?php $this->currency(0);?>"/>

@@ -27,6 +27,7 @@
           <controllersDirectory>
             <controllerFile controllerName="FrontEnd">
               <actionMethod actionName="index"/>
+              <actionMethod actionName="register"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
@@ -36,6 +37,9 @@
             <viewScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="FrontEnd">
                 <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="FrontEnd">
+                <viewScriptFile forActionName="register"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
