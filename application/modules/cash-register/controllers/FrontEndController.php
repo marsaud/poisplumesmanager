@@ -19,6 +19,7 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
         require_once APPLICATION_PATH . '/modules/cash-register/models/SoldArticle.php';
         require_once APPLICATION_PATH . '/modules/cash-register/models/Payment.php';
         require_once APPLICATION_PATH . '/modules/cash-register/models/PaymentMapper.php';
+        require_once APPLICATION_PATH . '/modules/cash-register/models/CartTrailer.php';
 
 //        $contentSwitch = $this->_helper->getHelper('contextSwitch');
 //        /* @var $contentSwitch Zend_Controller_Action_Helper_AjaxContext */
@@ -56,6 +57,10 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
         $paymentModel = new PaymentMapper($db);
 
         $soldArticles = array();
+        
+        /*
+         * We gather articles with their quantities
+         */
         foreach (array_keys($_POST) as $key)
         {
             if (substr($key, 0, 6) == 'promo_')
@@ -63,9 +68,14 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
                 continue;
             }
 
-            $soldArticles[$key] = $articleModel->find($key);
+            $soldArticle = $articleModel->find($key);
+            $soldArticle->quantity = $_POST[$soldArticle->reference];
+            $soldArticles[$soldArticle->reference] = $soldArticle;
         }
 
+        /*
+         * We override article's promotions if necessary
+         */
         foreach ($_POST as $key => $value)
         {
             if (substr($key, 0, 6) == 'promo_')
@@ -92,30 +102,17 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
                 }
             }
         }
+        
+        $cartTrailer = new CartTrailer($db);
+        $hash = $cartTrailer->save($soldArticles);
 
         $totalRawPrice = array();
         $totalSalePrice = 0;
         $totalTax = array();
 
-        foreach ($soldArticles as $soldArticle)
-        {
-            $quantity = $_POST[$soldArticle->reference];
+        $this->_calculateTicket($soldArticles, $totalRawPrice, $totalTax, $totalSalePrice);
 
-            isset($totalRawPrice[$soldArticle->tax->ratio])
-                    || $totalRawPrice[$soldArticle->tax->ratio] = 0;
-            isset($totalTax[$soldArticle->tax->ratio])
-                    || $totalTax[$soldArticle->tax->ratio] = 0;
-
-            $totalRawPrice[$soldArticle->tax->ratio] +=
-                    $quantity * $soldArticle->getRawPrice();
-            $totalSalePrice +=
-                    $quantity * $soldArticle->getPromotionPrice();
-            $totalTax[$soldArticle->tax->ratio] +=
-                    $quantity * $soldArticle->getTaxAmount();
-
-            $soldArticle->quantity = $quantity;
-        }
-
+        $this->view->hash = $hash;
         $this->view->soldArticles = $soldArticles;
         $this->view->totalRawPrice = $totalRawPrice;
         $this->view->totalSalePrice = $totalSalePrice;
@@ -135,6 +132,26 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
          */
     }
 
+    protected function _calculateTicket(array $soldArticles, &$totalRawPrice, &$totalTax, &$totalSalePrice)
+    {
+        foreach ($soldArticles as $soldArticle)
+        {
+            $quantity = $soldArticle->quantity;
+
+            isset($totalRawPrice[$soldArticle->tax->ratio])
+                    || $totalRawPrice[$soldArticle->tax->ratio] = 0;
+            isset($totalTax[$soldArticle->tax->ratio])
+                    || $totalTax[$soldArticle->tax->ratio] = 0;
+
+            $totalRawPrice[$soldArticle->tax->ratio] +=
+                    $quantity * $soldArticle->getRawPrice();
+            $totalSalePrice +=
+                    $quantity * $soldArticle->getPromotionPrice();
+            $totalTax[$soldArticle->tax->ratio] +=
+                    $quantity * $soldArticle->getTaxAmount();
+        }
+    }
+    
     public function getArticlesAction()
     {
         $this->_helper->getHelper('layout')->disableLayout();

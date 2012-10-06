@@ -28,13 +28,44 @@ class CartTrailer
      * 
      * @param Article[] $soldArticles
      * 
-     * @return integer AUTO_INCREMENT PK
+     * @return string hash
      */
     public function save(array $soldArticles)
     {
-        /**
-         * @todo On va stocker cela en serialisé, ça va le faire à mort
-         */
+        $cart = serialize($soldArticles);
+        $hash = md5($cart);
+        $bind = array(
+            'hash' => $hash,
+            'cart' => $cart
+        );
+        $this->_db->insert('carttrailer', $bind);
+        
+        return $hash;
+    }
+    
+    /**
+     * 
+     * @param string $hash
+     * 
+     * @return Article[]
+     */
+    public function get($hash)
+    {
+        $select = $this->_db->select()
+                ->from('carttrail', array('cart'))
+                ->where('hash = ?', $hash)
+                ;
+        
+        $query = $select->query();
+        if ($query->rowCount() == 0)
+        {
+            return null;
+        }
+        else
+        {
+            $cart = $query->fetchColumn();
+            return unserialize($cart);
+        }
     }
 
 }
