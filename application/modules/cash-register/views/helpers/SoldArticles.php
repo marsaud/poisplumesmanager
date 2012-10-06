@@ -23,14 +23,13 @@ class CashRegister_View_Helper_SoldArticles extends Zend_View_Helper_Abstract
 
         foreach ($soldArticles as $soldArticle)
         {
-            /* @var $soldArticle SoldArticle */
-            $a = $soldArticle->article;
-            $output .= $a->name . "\n"
-                    . $a->reference . "\t"
+            /* @var $soldArticle Article */
+            $output .= $soldArticle->name . "\n"
+                    . $soldArticle->reference . "\t"
                     . $soldArticle->quantity . " x \t"
-                    . $this->view->currency($a->getPromotionPrice()) . "\t"
+                    . $this->view->currency($soldArticle->getPromotionPrice()) . "\t"
                     . $this->view->currency(
-                            $soldArticle->quantity * $a->getPromotionPrice()
+                            $soldArticle->quantity * $soldArticle->getPromotionPrice()
                     ) . "\n";
         }
 

@@ -17,6 +17,8 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
 //        require_once APPLICATION_PATH . '/models/PromotionMapper.php';
 
         require_once APPLICATION_PATH . '/modules/cash-register/models/SoldArticle.php';
+        require_once APPLICATION_PATH . '/modules/cash-register/models/Payment.php';
+        require_once APPLICATION_PATH . '/modules/cash-register/models/PaymentMapper.php';
 
 //        $contentSwitch = $this->_helper->getHelper('contextSwitch');
 //        /* @var $contentSwitch Zend_Controller_Action_Helper_AjaxContext */
@@ -56,13 +58,12 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
         $soldArticles = array();
         foreach (array_keys($_POST) as $key)
         {
-            if ($key == 'submit' || substr($key, 0, 6) == 'promo_')
+            if (substr($key, 0, 6) == 'promo_')
             {
                 continue;
             }
 
-            $soldArticles[$key] = new SoldArticle();
-            $soldArticles[$key]->article = $articleModel->find($key);
+            $soldArticles[$key] = $articleModel->find($key);
         }
 
         foreach ($_POST as $key => $value)
@@ -77,16 +78,16 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
 
                 if ($value == '')
                 {
-                    if ($soldArticles[$articleRef]->article->promos->count() > 0)
+                    if ($soldArticles[$articleRef]->promos->count() > 0)
                     {
-                        $promo = $soldArticles[$articleRef]->article->onePromo;
-                        $soldArticles[$articleRef]->article->promos
+                        $promo = $soldArticles[$articleRef]->onePromo;
+                        $soldArticles[$articleRef]->promos
                                 ->offsetUnset($promo);
                     }
                 }
                 else
                 {
-                    $soldArticles[$articleRef]->article->promos[] =
+                    $soldArticles[$articleRef]->promos[] =
                             $promoModel->find($value);
                 }
             }
@@ -98,19 +99,19 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
 
         foreach ($soldArticles as $soldArticle)
         {
-            $quantity = $_POST[$soldArticle->article->reference];
+            $quantity = $_POST[$soldArticle->reference];
 
-            isset($totalRawPrice[$soldArticle->article->tax->ratio])
-                    || $totalRawPrice[$soldArticle->article->tax->ratio] = 0;
-            isset($totalTax[$soldArticle->article->tax->ratio])
-                    || $totalTax[$soldArticle->article->tax->ratio] = 0;
+            isset($totalRawPrice[$soldArticle->tax->ratio])
+                    || $totalRawPrice[$soldArticle->tax->ratio] = 0;
+            isset($totalTax[$soldArticle->tax->ratio])
+                    || $totalTax[$soldArticle->tax->ratio] = 0;
 
-            $totalRawPrice[$soldArticle->article->tax->ratio] +=
-                    $quantity * $soldArticle->article->getRawPrice();
+            $totalRawPrice[$soldArticle->tax->ratio] +=
+                    $quantity * $soldArticle->getRawPrice();
             $totalSalePrice +=
-                    $quantity * $soldArticle->article->getPromotionPrice();
-            $totalTax[$soldArticle->article->tax->ratio] +=
-                    $quantity * $soldArticle->article->getTaxAmount();
+                    $quantity * $soldArticle->getPromotionPrice();
+            $totalTax[$soldArticle->tax->ratio] +=
+                    $quantity * $soldArticle->getTaxAmount();
 
             $soldArticle->quantity = $quantity;
         }

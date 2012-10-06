@@ -1,10 +1,8 @@
-<pre>
-    <?php echo $this->soldArticles($this->soldArticles); ?>
+<pre><?php echo $this->soldArticles($this->soldArticles); ?>
 
 TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
 
-
-    <?php echo $this->taxBreakDown($this->totalTax, $this->totalRawPrice); ?>
+<?php echo $this->taxBreakDown($this->totalTax, $this->totalRawPrice); ?>
 </pre>
 <form method="post" action="<?php echo $this->baseUrl('cash-register/front-end/register'); ?>">
     <fieldset>
