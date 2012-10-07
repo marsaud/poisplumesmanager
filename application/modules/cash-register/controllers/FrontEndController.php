@@ -214,7 +214,11 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
 
     public function registerAction()
     {
-        // action body
+        if (empty($_POST))
+        {
+            throw new Exception('EMPTY FORM');
+        }
+        
     }
 
 }

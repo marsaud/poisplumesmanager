@@ -33,10 +33,17 @@ class CartTrailer
     public function save(array $soldArticles)
     {
         $cart = serialize($soldArticles);
-        $hash = md5($cart);
+        
+        $date = new DateTime();
+        $dateString = $date->format('Y-m-d H:i:s');
+        
+        $hash = md5($cart . $dateString);
+        
         $bind = array(
             'hash' => $hash,
-            'cart' => $cart
+            'cart' => $cart,
+            'date' => $dateString,
+            'payed' => false
         );
         $this->_db->insert('carttrailer', $bind);
         

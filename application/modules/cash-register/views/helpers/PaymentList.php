@@ -29,10 +29,10 @@ class CashRegister_View_Helper_PaymentList
                     . '</option>' . PHP_EOL;
         }
 
-        $paymentList = '<select name="' . $name . '">'
+        $paymentList = '<select id="' . $name . '" name="' . $name . '">'
                 . $paymentList
                 . '</select>';
-        
+
         return $paymentList;
     }
 
