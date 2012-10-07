@@ -10,52 +10,33 @@ var updateReturnedTimer = null;
 
 function payInit()
 {
-    var paymentList = $('payment');
-    paymentList.observe('change', selectPaymentMode);
-    
-    selectPaymentMode();
-    
-    var given = $('given');
-    given.observe('keypress', triggerUpdateReturned);
+    var checkboxes = $A(['cb', 'chq', 'chr', 'mon']);
+    checkboxes.each(function (item){
+        var checkbox = $(item);
+        _selectPaymentMode(checkbox);
+        checkbox.observe('change', selectPaymentMode);
+        var given = $(item + 'given');
+        given.observe('keypress', triggerUpdateReturned)
+    });
 }
 
-function selectPaymentMode()
-{
-    _resetFields();
-    
-    var source = $('payment');
-    var mode = $F(source);
-    
-    switch (mode)
-    {
-        case 'MON':
-            _activateMoneyFields();
-            break;
-        case 'CB':
-        case 'CHQ':
-            break;
-        case 'CHR':
-            _activateChrFields();
-            break;
-        default :
-            alert('Unknown payment mode');
-            break;
-    }
+function selectPaymentMode(event)
+{   
+    var source = event.findElement();
+    _selectPaymentMode(source);
 }
 
-function _resetFields()
+function _selectPaymentMode(checkbox)
 {
-    _desactivateChrFields();
-    _desactivateMoneyFields();
+    var mode = checkbox.getAttribute('id');
+    var activated = ($F(checkbox) == 'on');
     
-    $('given').setValue(0);
-    $('returned').setValue(0);
-    $('chrgiven').setValue(0);
+    activated ? _activateFields(mode) : _desactivateFields(mode);
 }
 
-function _activateMoneyFields()
+function _activateFields(type)
 {
-    var fields = $A($('paymentForm').getElementsByClassName('moneyfields'));
+    var fields = $A($('paymentForm').getElementsByClassName(type + 'fields'));
     fields.each(function (item){
         if ($(item).hasClassName('invisible'))
         {
@@ -64,49 +45,39 @@ function _activateMoneyFields()
     });
 }
 
-function _desactivateMoneyFields()
+function _desactivateFields(type)
 {
-    var fields = $A($('paymentForm').getElementsByClassName('moneyfields'));
+    var fields = $A($('paymentForm').getElementsByClassName(type + 'fields'));
     fields.each(function (item){
         if (!$(item).hasClassName('invisible'))
         {
             $(item).addClassName('invisible');
         }
-    });
-}
-
-function _activateChrFields()
-{
-    var fields = $A($('paymentForm').getElementsByClassName('chrfields'));
-    fields.each(function (item){
-        if ($(item).hasClassName('invisible'))
-        {
-            $(item).removeClassName('invisible');
-        }
-    });
-}
-
-function _desactivateChrFields()
-{
-    var fields = $A($('paymentForm').getElementsByClassName('chrfields'));
-    fields.each(function (item){
-        if (!$(item).hasClassName('invisible'))
-        {
-            $(item).addClassName('invisible');
-        }
+        var inputs = $A(item.getElementsByTagName('input'));
+        inputs.each(function (input){
+            input.setValue(0);
+        })
     });
 }
 
 function updateReturned()
 {
-    var given = $F($('given'));
-    if (isNaN(given) || given == '')
-    {
-        given = 0;
-    }
+    var totalGiven = 0;
     
-    given = currency(given);
-    $('given').setValue(given);
+    var paymentModes = $A(['mon', 'cb', 'chq', 'chr']);
+    paymentModes.each(function (item){
+        var amount = $F($(item + 'given'));
+        if (isNaN(amount) || amount == '')
+        {
+            amount = 0;
+        }
+            
+        amount = currency(amount);
+        $(item + 'given').setValue(amount);
+            
+        totalGiven += parseFloat(amount);
+    }
+    );
     
     var total = currency($F($('total')));
     if (isNaN(total))
@@ -114,13 +85,13 @@ function updateReturned()
         alert('Total sale price is corrupted. Please retip article list.');
     }
     
-    var returned = parseFloat(given) - parseFloat(total);
+    var returned = parseFloat(totalGiven) - parseFloat(total);
     if (returned < 0)
     {
         returned = 0;
     }
      
-    $('returned').setValue(currency(returned));
+    $('monreturned').setValue(currency(returned));
 }
 
 function triggerUpdateReturned()
