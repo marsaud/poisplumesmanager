@@ -8,55 +8,36 @@ TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
 <form id="paymentForm" method="post" action="<?php echo $this->baseUrl('cash-register/front-end/register'); ?>">
     <input id="total" type="hidden" name="total" value="<?php echo $this->totalSalePrice; ?>"/>
     <input id="hash" type="hidden" name="hash" value="<?php echo $this->hash; ?>"/>
-    <!--fieldset>
-        <?php echo $this->paymentList($this->paymentList, 'payment'); ?>
-        <br />
-        <br />
-        <fieldset class="moneyfields invisible">
-            <label for="given">Perçu</label><br />
-            <input id="given" type="text" name="given" value="0"/>
-            <br />
-            <label for="returned">A rendre</label><br />
-            <input id="returned" type="text" name="returned" readonly="readonly" value="0"/>
-        </fieldset>
-        <fieldset class="chrfields invisible">
-            <label for="chrgiven">Perçu</label><br />
-            <input id="chrgiven" type="text" name="chrgiven" value="0"/>
-        </fieldset>
-        <br />
-    </fieldset-->
-    <fieldset>
+    <fieldset id="paymentZone">
         <input type="checkbox" name="cb" id="cb"/>
         <label for="cb">Carte bancaire</label>
-        <br />
-        <fieldset class="cbfields invisible">
-            <label for="cbgiven">Perçu</label><br />
+        <span class="cbfields invisible">
+            <label for="cbgiven"> -- Perçu</label>
             <input id="cbgiven" type="text" name="cbgiven" value="0"/>
-        </fieldset>
+        </span>
+        <br />
         <input type="checkbox" name="chq" id="chq"/>
         <label for="chq">Chèque bancaire</label>
-        <br />
-        <fieldset class="chqfields invisible">
-            <label for="chqgiven">Perçu</label><br />
+        <span class="chqfields invisible">
+            <label for="chqgiven"> -- Perçu</label>
             <input id="chqgiven" type="text" name="chqgiven" value="0"/>
-        </fieldset>
+        </span>
+        <br />
         <input type="checkbox" name="chr" id="chr"/>
         <label for="cb">Chèque restaurant</label>
-        <br />
-        <fieldset class="chrfields invisible">
-            <label for="chrgiven">Perçu</label><br />
+        <span class="chrfields invisible">
+            <label for="chrgiven"> -- Perçu</label>
             <input id="chrgiven" type="text" name="chrgiven" value="0"/>
-        </fieldset>
+        </span>
+        <br />
         <input type="checkbox" name="mon" id="mon"/>
         <label for="cb">Espèces</label>
-        <br />
-        <fieldset class="monfields invisible">
-            <label for="given">Perçu</label><br />
+        <span class="monfields invisible">
+            <label for="given"> -- Perçu</label>
             <input id="mongiven" type="text" name="mongiven" value="0"/>
-            <br />
-            <label for="returned">A rendre</label><br />
+            <label for="returned">A rendre</label>
             <input id="monreturned" type="text" name="monreturned" readonly="readonly" value="0"/>
-        </fieldset>
+        </span>
     </fieldset>
     <input type="submit" value="OK"/>
 </form>

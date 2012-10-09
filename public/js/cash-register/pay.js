@@ -7,6 +7,7 @@
  * A global timer for total price refereshing
  */
 var updateReturnedTimer = null;
+var countCheckBoxes = 0;
 
 function payInit()
 {
@@ -28,30 +29,34 @@ function selectPaymentMode(event)
 
 function _selectPaymentMode(checkbox)
 {
-    var mode = checkbox.getAttribute('id');
+    var paymentMode = checkbox.getAttribute('id');
     var activated = ($F(checkbox) == 'on');
     
-    activated ? _activateFields(mode) : _desactivateFields(mode);
+    activated ? _activateFields(paymentMode) : _desactivateFields(paymentMode);
+    
+    _helpTotal();
 }
 
-function _activateFields(type)
+function _activateFields(mode)
 {
-    var fields = $A($('paymentForm').getElementsByClassName(type + 'fields'));
+    var fields = $A($('paymentForm').getElementsByClassName(mode + 'fields'));
     fields.each(function (item){
         if ($(item).hasClassName('invisible'))
         {
             $(item).removeClassName('invisible');
+            countCheckBoxes++;
         }
     });
 }
 
-function _desactivateFields(type)
+function _desactivateFields(mode)
 {
-    var fields = $A($('paymentForm').getElementsByClassName(type + 'fields'));
+    var fields = $A($('paymentForm').getElementsByClassName(mode + 'fields'));
     fields.each(function (item){
         if (!$(item).hasClassName('invisible'))
         {
             $(item).addClassName('invisible');
+            countCheckBoxes--;
         }
         var inputs = $A(item.getElementsByTagName('input'));
         inputs.each(function (input){
@@ -102,4 +107,19 @@ function triggerUpdateReturned()
     }
 
     updateReturnedTimer = setTimeout(updateReturned, 1000);
+}
+
+function _helpTotal()
+{
+    if (countCheckBoxes == 1)
+    {
+        var modes = $A(['cb', 'chq', 'chr']);
+        modes.each(function (item){
+            if ($F($(item)) == 'on')
+            {
+                $(item + 'given').setValue(currency($F($('total'))));
+            }
+        }
+        );
+    }
 }
