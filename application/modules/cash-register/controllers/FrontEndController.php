@@ -16,10 +16,11 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
 //        require_once APPLICATION_PATH . '/models/Promotion.php';
 //        require_once APPLICATION_PATH . '/models/PromotionMapper.php';
 
-        require_once APPLICATION_PATH . '/modules/cash-register/models/SoldArticle.php';
+//        require_once APPLICATION_PATH . '/modules/cash-register/models/SoldArticle.php';
         require_once APPLICATION_PATH . '/modules/cash-register/models/Payment.php';
         require_once APPLICATION_PATH . '/modules/cash-register/models/PaymentMapper.php';
         require_once APPLICATION_PATH . '/modules/cash-register/models/CartTrailer.php';
+        require_once APPLICATION_PATH . '/modules/cash-register/models/OperationManager.php';
 
 //        $contentSwitch = $this->_helper->getHelper('contextSwitch');
 //        /* @var $contentSwitch Zend_Controller_Action_Helper_AjaxContext */
@@ -110,7 +111,8 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
         $totalSalePrice = 0;
         $totalTax = array();
 
-        $this->_calculateTicket($soldArticles, $totalRawPrice, $totalTax, $totalSalePrice);
+        $operationManager = new OperationManager();
+        $operationManager->compute($soldArticles, $totalRawPrice, $totalTax, $totalSalePrice);
 
         $this->view->hash = $hash;
         $this->view->soldArticles = $soldArticles;
@@ -218,6 +220,17 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
         {
             throw new Exception('EMPTY FORM');
         }
+        
+        /* @var $db Zend_Db_Adapter_Pdo_Abstract */
+        $db = $this->getInvokeArg('bootstrap')
+                ->getResource('multidb')
+                ->getDb('ppmdb');
+        
+        $cartTrailer = new CartTrailer($db);
+        $articles = $cartTrailer->get($_POST['hash']);
+        
+        $this->view->post = $_POST;
+        $this->view->articles = $articles;
         
     }
 

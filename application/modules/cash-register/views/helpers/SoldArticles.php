@@ -15,7 +15,7 @@ class CashRegister_View_Helper_SoldArticles extends Zend_View_Helper_Abstract
 
     /**
      * 
-     * @param SoldArticle[] $soldArticles
+     * @param Article[] $soldArticles
      */
     public function soldArticles(array $soldArticles)
     {

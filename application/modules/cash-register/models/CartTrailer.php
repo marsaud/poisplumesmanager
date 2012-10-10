@@ -59,7 +59,7 @@ class CartTrailer
     public function get($hash)
     {
         $select = $this->_db->select()
-                ->from('carttrail', array('cart'))
+                ->from('carttrailer', array('cart'))
                 ->where('hash = ?', $hash)
                 ;
         
@@ -74,5 +74,23 @@ class CartTrailer
             return unserialize($cart);
         }
     }
-
+    
+    /**
+     * @todo
+     * 
+     * @param type $hash
+     */
+    public function pay($hash)
+    {
+        
+    }
+    
+    /**
+     * 
+     * @param type $hash
+     */
+    public function cancel($hash)
+    {
+        
+    }
 }

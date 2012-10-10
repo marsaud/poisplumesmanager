@@ -9,35 +9,43 @@ TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
     <input id="total" type="hidden" name="total" value="<?php echo $this->totalSalePrice; ?>"/>
     <input id="hash" type="hidden" name="hash" value="<?php echo $this->hash; ?>"/>
     <fieldset id="paymentZone">
+        <div>
         <input type="checkbox" name="cb" id="cb"/>
-        <label for="cb">Carte bancaire</label>
+        <label for="cb" class="touchable">Carte bancaire</label>
         <span class="cbfields invisible">
-            <label for="cbgiven"> -- Perçu</label>
+            <label for="cbgiven">Perçu</label>
             <input id="cbgiven" type="text" name="cbgiven" value="0"/>
         </span>
+        </div>
         <br />
+        <div>
         <input type="checkbox" name="chq" id="chq"/>
-        <label for="chq">Chèque bancaire</label>
+        <label for="chq" class="touchable">Chèque bancaire</label>
         <span class="chqfields invisible">
-            <label for="chqgiven"> -- Perçu</label>
+            <label for="chqgiven">Perçu</label>
             <input id="chqgiven" type="text" name="chqgiven" value="0"/>
         </span>
+        </div>
         <br />
+        <div>
         <input type="checkbox" name="chr" id="chr"/>
-        <label for="cb">Chèque restaurant</label>
+        <label for="chr" class="touchable">Chèque restaurant</label>
         <span class="chrfields invisible">
-            <label for="chrgiven"> -- Perçu</label>
+            <label for="chrgiven">Perçu</label>
             <input id="chrgiven" type="text" name="chrgiven" value="0"/>
         </span>
+        </div>
         <br />
+        <div>
         <input type="checkbox" name="mon" id="mon"/>
-        <label for="cb">Espèces</label>
+        <label for="mon" class="touchable">Espèces</label>
         <span class="monfields invisible">
-            <label for="given"> -- Perçu</label>
+            <label for="given">Perçu</label>
             <input id="mongiven" type="text" name="mongiven" value="0"/>
             <label for="returned">A rendre</label>
             <input id="monreturned" type="text" name="monreturned" readonly="readonly" value="0"/>
         </span>
+        </div>
     </fieldset>
     <input type="submit" value="OK"/>
 </form>
