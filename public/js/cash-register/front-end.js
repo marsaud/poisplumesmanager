@@ -189,7 +189,7 @@ function selectCategory(event)
     }
     else
     {
-        new Ajax.Request('/cash-register/front-end/get-categories/category/' + category,
+        new Ajax.Request('/cash-register/index/get-categories/category/' + category,
         {
             onSuccess: function (response){
                 updateSubCategoryPad(response, category);
@@ -214,7 +214,7 @@ function selectSubCategory(event)
     }
     else
     {
-        new Ajax.Request('/cash-register/front-end/get-articles/category/' + category,
+        new Ajax.Request('/cash-register/index/get-articles/category/' + category,
         {
             onSuccess: function (response){
                 updateArticlePad(response);
@@ -261,7 +261,7 @@ function _updateSubCategoryPad(category, subCategories)
     }
     else
     {
-        new Ajax.Request('/cash-register/front-end/get-articles/category/' + category,
+        new Ajax.Request('/cash-register/index/get-articles/category/' + category,
         {
             onSuccess: function (response){
                 updateArticlePad(response, category);

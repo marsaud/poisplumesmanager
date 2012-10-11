@@ -17,13 +17,16 @@ function payInit()
         _selectPaymentMode(checkbox);
         checkbox.observe('change', selectPaymentMode);
         var given = $(item + 'given');
-        given.observe('keypress', triggerUpdateReturned)
+        given.observe('keypress', disableValidation())
     });
+    $('ok').observe('click', updatePaymentForm);
+    disableValidation();
 }
 
 function selectPaymentMode(event)
 {   
     var source = event.findElement();
+    disableValidation();
     _selectPaymentMode(source);
 }
 
@@ -65,7 +68,7 @@ function _desactivateFields(mode)
     });
 }
 
-function updateReturned()
+function updatePaymentForm()
 {
     var totalGiven = 0;
     
@@ -97,16 +100,18 @@ function updateReturned()
     }
      
     $('monreturned').setValue(currency(returned));
+    
+    enableValidation();
 }
 
-function triggerUpdateReturned()
+function disableValidation()
 {
-    if (updateReturnedTimer != null)
-    {
-        clearTimeout(updateReturnedTimer);
-    }
+    $('validate').setAttribute('disabled', 'disabled');
+}
 
-    updateReturnedTimer = setTimeout(updateReturned, 1000);
+function enableValidation()
+{
+    $('validate').removeAttribute('disabled');
 }
 
 function _helpTotal()

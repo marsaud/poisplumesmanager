@@ -5,7 +5,7 @@ TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
 
     <?php echo $this->taxBreakDown($this->totalTax, $this->totalRawPrice); ?>
 </pre>
-<form id="paymentForm" method="post" action="<?php echo $this->baseUrl('cash-register/front-end/register'); ?>">
+<form id="paymentForm" method="post" action="<?php echo $this->baseUrl('cash-register/index/register'); ?>" autocomplete="off">
     <input id="total" type="hidden" name="total" value="<?php echo $this->totalSalePrice; ?>"/>
     <input id="hash" type="hidden" name="hash" value="<?php echo $this->hash; ?>"/>
     <fieldset id="paymentZone">
@@ -14,7 +14,7 @@ TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
         <label for="cb" class="touchable">Carte bancaire</label>
         <span class="cbfields invisible">
             <label for="cbgiven">Perçu</label>
-            <input id="cbgiven" type="text" name="cbgiven" value="0"/>
+            <input id="cbgiven" type="text" name="cbgiven" value="0" />
         </span>
         </div>
         <br />
@@ -47,7 +47,8 @@ TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
         </span>
         </div>
     </fieldset>
-    <input type="submit" value="OK"/>
+    <input type="button" value="Ok" id="ok" />
+    <input type="submit" value="Valider" id="validate" />
 </form>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/cash-register/pay.js'); ?>"></script>
 <script type="text/javascript">

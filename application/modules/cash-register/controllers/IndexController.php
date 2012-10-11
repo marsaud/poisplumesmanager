@@ -1,6 +1,6 @@
 <?php
 
-class CashRegister_FrontEndController extends Zend_Controller_Action
+class CashRegister_IndexController extends Zend_Controller_Action
 {
 
     public function init()
@@ -231,6 +231,7 @@ class CashRegister_FrontEndController extends Zend_Controller_Action
         
         $this->view->post = $_POST;
         $this->view->articles = $articles;
+        
         
     }
 
