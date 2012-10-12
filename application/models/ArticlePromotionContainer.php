@@ -23,7 +23,7 @@ final class ArticlePromotionContainer implements ArrayAccess, Iterator, Countabl
     {
         $this->_promos = array();
     }
-    
+
     /**
      * 
      * @param mixed $offset
@@ -32,6 +32,7 @@ final class ArticlePromotionContainer implements ArrayAccess, Iterator, Countabl
      */
     public function offsetExists($offset)
     {
+        $offset = (integer) $offset;
         return array_key_exists($offset, $this->_promos);
     }
 
@@ -43,6 +44,7 @@ final class ArticlePromotionContainer implements ArrayAccess, Iterator, Countabl
      */
     public function offsetGet($offset)
     {
+        $offset = (integer) $offset;
         return $this->_promos[$offset];
     }
 
@@ -76,7 +78,8 @@ final class ArticlePromotionContainer implements ArrayAccess, Iterator, Countabl
      */
     private function _addItem(Promotion $promo)
     {
-        $this->_promos[$promo->id] = $promo;
+        $id = (integer) $promo->id;
+        $this->_promos[$id] = $promo;
     }
 
     /**
@@ -92,14 +95,16 @@ final class ArticlePromotionContainer implements ArrayAccess, Iterator, Countabl
         if ($offset instanceof Promotion)
         {
             if ($this->offsetExists($offset->id)
-                    && $this->offsetGet($offset->id === $offset))
+                    && $this->offsetGet($offset->id) === $offset)
             {
-                unset($this->_promos[$offset->id]);
+                $id = (integer) $offset->id;
+                unset($this->_promos[$id]);
                 return;
             }
         }
         else
         {
+            $offset = (integer) $offset;
             if ($this->offsetExists($offset))
             {
                 unset($this->_promos[$offset]);

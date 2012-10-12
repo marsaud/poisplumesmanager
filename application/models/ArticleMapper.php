@@ -70,10 +70,6 @@ class ArticleMapper
         {
             $select->where('ca.category_ref = ?', $categoryRef);
         }
-        else
-        {
-            $select->where(new Zend_Db_Expr('ca.category_ref IS NULL'));
-        }
 
         if ($stockManagmentOnly)
         {

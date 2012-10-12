@@ -51,7 +51,7 @@ class Payment
             $percieved -= $payment->returned;
         }
         
-        return $percieved;
+        return (float)$percieved;
     }
 
 }

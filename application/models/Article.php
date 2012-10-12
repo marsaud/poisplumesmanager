@@ -99,8 +99,7 @@ class Article
     public function getPromotionPrice()
     {
         $price = $this->getSalePrice();
-        $this->_promos->rewind();
-        $promo = $this->_promos->current();
+        $promo = $this->onePromo;
         return $promo ? $promo->apply($price) : $price;
     }
 

@@ -12,6 +12,7 @@
  */
 class OperationMapper
 {
+
     /**
      *
      * @var Zend_Db_Adapter_Pdo_Abstract
@@ -37,62 +38,83 @@ class OperationMapper
 
         $operationManager = new OperationManager();
         $operationManager->compute($soldArticles, $totalRawPrice, $totalTax, $totalSalePrice);
-        
+
         $totalPaid = Payment::consolidate($payments);
-        if ($totalPaid !== $totalSalePrice)
+        $diff = abs(round($totalPaid - $totalSalePrice, 3));
+        if ($diff != 0)
         {
-            throw new Exception('WRONG TOTAL CONSOLIDATION');
+            ob_start();
+            var_dump($totalPaid, $totalSalePrice, $diff, $payments);
+            throw new Exception('WRONG TOTAL CONSOLIDATION' . ob_get_clean());
         }
-        
-        /**
-         * @todo Créer une ligne qui "résume" l'opération
-         */
-        $tableTrail = 'operationtrail';
-        $bindTrail = array(
-            'hash' => $hash,
-            'total_raw_price' => $totalRawPrice,
-            'total_tax' => $totalTax,
-            'total_sale_price' => $totalSalePrice,
-        );
-        
-        foreach ($payments as $payement)
+
+        $this->_db->beginTransaction();
+
+        try
         {
-            /* @var $payement Payment */
-            $bindTrail[$payement->name] = $payement->percieved - $payement->returned;
-        }
-        
-        /**
-         * @todo Créer les lignes d'articles qui détaillent l'opération
-         */
-        $bindsArticle = array();
-        foreach ($soldArticles as $article)
-        {
-            /* @var $article Article */
-            $bind = array(
+            /**
+             * @todo Créer une ligne qui "résume" l'opération
+             */
+            $tableTrail = 'operationstrail';
+            $bindTrail = array(
                 'hash' => $hash,
-                'reference' => $article->reference,
-                'quantity' => $article->quantity,
-                'raw_price' => $article->getRawPrice(),
-                'tax_amount' => $article->getTaxAmount(),
-                'sale_price' => $article->getSalePrice(),
-                'final_price' => $article->getPromotionPrice(),
-                'tax_id' => $article->tax->id,
-                'tax_ratio' => $article->tax->ratio,
-                'promo_id' => $article->onePromo->id,
-                'promo_ratio' => $article->onePromo->ratio
+                'total_raw_price' => $totalRawPrice,
+                'total_tax' => $totalTax,
+                'total_sale_price' => $totalSalePrice,
             );
-            
-            $bindsArticle[] = $bind;
+            foreach ($payments as $payement)
+            {
+                /* @var $payement Payment */
+                $bindTrail[$payement->reference] = $payement->percieved - $payement->returned;
+            }
+            $this->_db->insert($tableTrail, $bindTrail);
+
+            /**
+             * @todo Créer les lignes d'articles qui détaillent l'opération
+             */
+            $bindsArticle = array();
+            foreach ($soldArticles as $article)
+            {
+                /* @var $article Article */
+                $bind = array(
+                    'hash' => $hash,
+                    'reference' => $article->reference,
+                    'quantity' => $article->quantity,
+                    'raw_price' => $article->getRawPrice(),
+                    'tax_amount' => $article->getTaxAmount(),
+                    'sale_price' => $article->getSalePrice(),
+                    'final_price' => $article->getPromotionPrice(),
+                    'tax_id' => $article->tax->id,
+                    'tax_ratio' => $article->tax->ratio,
+                    'promo_id' => $article->onePromo ? $article->onePromo->id : null,
+                    'promo_ratio' => $article->onePromo ? $article->onePromo->ratio : null
+                );
+
+                $bindsArticle[] = $bind;
+            }
+            $tableLines = 'operationlines';
+            foreach ($bindsArticle as $bindLine)
+            {
+                $this->_db->insert($tableLines, $bindLine);
+            }
+
+            /**
+             * @todo Passer le panier en "payé"
+             */
+            $date = new DateTime();
+            $dateString = $date->format('Y-m-d H:i:s');
+            $this->_db->update('carttrailer', array(
+                'payed' => true,
+                'payment_date' => $dateString
+                    ), "hash = '$hash'");
+
+            $this->_db->commit();
         }
-        
-        /**
-         * @todo Passer le panier en "payé"
-         */
-        $date = new DateTime();
-        $dateString = $date->format('Y-m-d H:i:s');
-        $this->_db->update('carttrail', array(
-            'payed' => true,
-            'payement_date' => $dateString
-        ), "hash = '$hash'");
+        catch (Exception $exc)
+        {
+            $this->_db->rollBack();
+            throw $exc;
+        }
     }
+
 }

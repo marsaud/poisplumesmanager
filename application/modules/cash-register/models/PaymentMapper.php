@@ -31,7 +31,7 @@ class PaymentMapper
      * 
      * @return Payment[]
      */
-    public function getPayments()
+    public function get()
     {
         $select = $this->_db->select()
                 ->from('payment', array('ref', 'name'));
