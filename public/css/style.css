@@ -1,0 +1,29 @@
+/* 
+    Document   : style
+    Created on : 13 oct. 2012, 23:53:11
+    Author     : fabrice
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.menu a {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    border-style: outset;
+}
+
+.menu a:hover,
+.menu a:focus {
+    background-color: lightgrey
+}
+
+.menu a:active {
+    border-style: inset;
+}
+
+.menu ul li {
+    display: inline;
+    margin-left: 20px;
+}
+

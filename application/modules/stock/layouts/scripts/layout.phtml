@@ -3,14 +3,16 @@
     <head>
         <meta charset="utf-8"/>
         <?php
-//        $this->headLink()->appendStylesheet($this->baseUrl('/css/cash-register.css'));
-//        echo $this->headLink()->appendStylesheet($this->baseUrl('/css/admin.css'));
+        echo $this->headLink()->appendStylesheet($this->baseUrl('/css/style.css'));
         $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->baseUrl('/js/prototype.js'));
         echo $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->baseUrl('/js/lib/tools.js'));
         ?>
         <title>todo</title>
     </head>
     <body>
-        <?php echo $this->layout()->content; ?>
+        <?php
+        echo $this->action('main-menu', 'index', 'default');
+        echo $this->layout()->content;
+        ?>
     </body>
 </html>

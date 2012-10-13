@@ -19,5 +19,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         $frontController->registerPlugin(new LayoutManagerPlugin());
     }
+
+    protected function _initView()
+    {
+        $view = new Zend_View();
+        $view->headLink()->appendStylesheet($view->baseUrl('/css/style.css'));
+
+        return $view;
+    }
+
 }
 

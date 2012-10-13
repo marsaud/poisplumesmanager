@@ -38,27 +38,6 @@ textarea {
     width: 100%;
 }
 
-.menu a {
-    color: black;
-    font-weight: bold;
-    text-decoration: none;
-    border-style: outset;
-}
-
-.menu a:hover,
-.menu a:focus {
-    background-color: lightgrey
-}
-
-.menu a:active {
-    border-style: inset;
-}
-
-.menu ul li {
-    display: inline;
-    margin-left: 20px;
-}
-
 select[multiple='multiple'] {
     width: 100%;
 }

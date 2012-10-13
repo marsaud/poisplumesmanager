@@ -33,6 +33,32 @@ class PaymentMapper
      */
     public function get()
     {
+        $paymentCb = new Payment();
+        $paymentCb->reference = 'cb';
+        $paymentCb->name = 'Carte bancaire';
+        
+        $paymentChq = new Payment();
+        $paymentChq->reference = 'chq';
+        $paymentChq->name = 'Chèque bancaire';
+        
+        $paymentChr = new Payment();
+        $paymentChr->reference = 'chr';
+        $paymentChr->name = 'Chèque restaurant';
+        
+        $paymentMon = new Payment();
+        $paymentMon->reference = 'mon';
+        $paymentMon->name = 'Espèces';
+        
+        $payments = array(
+            $paymentCb,
+            $paymentChq,
+            $paymentChr,
+            $paymentMon
+        );
+        
+        return $payments;
+        
+        /**
         $select = $this->_db->select()
                 ->from('payment', array('ref', 'name'));
         $query = $select->query();
@@ -48,5 +74,7 @@ class PaymentMapper
         }
         
         return $payments;
+         * 
+         */
     }
 }
