@@ -30,7 +30,7 @@ class Stock_View_Helper_ArticleGrid
             $articleGrid .= '<tr>' . PHP_EOL
                 . '<td>' . $article->reference . '</td><td>' . $article->name
                 . '</td><td>' . $article->description . '</td><td>'
-                . $article->quantity . (!empty($article->unit) ? : '')
+                . $article->quantity . (!empty($article->unit) ? $article->unit : '')
                 . '</td><td><input type="text" id="'
                 . $article->reference . '" name="'
                 . $article->reference . '"/><input type="button" id="v_'
