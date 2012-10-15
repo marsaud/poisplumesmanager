@@ -88,12 +88,12 @@ class Article
     
     public function getSalePrice()
     {
-        return $this->tax->apply($this->getRawPrice());
+        return $this->price;
     }
 
     public function getRawPrice()
     {
-        return $this->price;
+        return $this->tax->remove($this->getSalePrice());
     }
 
     public function getPromotionPrice()
@@ -105,7 +105,7 @@ class Article
 
     public function getTaxAmount()
     {
-        return $this->tax->evaluate($this->getRawPrice());
+        return $this->getSalePrice() - $this->getRawPrice();
     }
 
     public function __set($name, $value)

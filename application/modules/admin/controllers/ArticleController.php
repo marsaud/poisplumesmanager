@@ -218,7 +218,7 @@ class Admin_ArticleController extends Zend_Controller_Action
 
             $this->view->name = $article->name;
             $this->view->description = $article->description;
-            $this->view->priceht = $article->price;
+            $this->view->priceht = $article->getRawPrice();
             $this->view->stock = $article->stock;
             $this->view->tax = $article->tax->id;
             $this->view->unit = $article->unit;

@@ -55,7 +55,7 @@ class Admin_View_Helper_ArticleList extends Zend_View_Helper_Abstract
                 . $article->name . '</td><td>'
                 . $article->description . '</td><td>'
                 . $categoryList . '</td><td>'
-                . $this->view->currency($article->price) . '</td><td>'
+                . $this->view->currency($article->getRawPrice()) . '</td><td>'
                 . $article->tax->ratio . '%</td><td>'
                 . $promoList . '</td><td>'
                 . $this->view->currency($article->getSalePrice())

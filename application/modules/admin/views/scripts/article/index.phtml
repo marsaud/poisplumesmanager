@@ -15,7 +15,7 @@ $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
             <label for="desc">Description de l'article (optionel)</label>
             <textarea id="desc" name="desc">(r.a.s.)</textarea>
             <br/>
-            <label for="priceht">Prix HT</label>
+            <label for="priceht">Prix TTC</label>
             <input id="priceht" type="text" name="priceht"/>
             <?php
             echo $this->taxBox('tva', $this->taxList, 'T.V.A.');
@@ -57,7 +57,7 @@ $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
             <label for="moddesc">Description de l'article (optionel)</label>
             <textarea id="moddesc" name="moddesc">(r.a.s.)</textarea>
             <br/>
-            <label for="modpriceht">Prix HT</label>
+            <label for="modpriceht">Prix TTC</label>
             <input id="modpriceht" type="text" name="modpriceht"/>
             <?php
             echo $this->taxBox('modtva', $this->taxList, 'T.V.A.');
