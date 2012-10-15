@@ -93,7 +93,8 @@ function updatePaymentForm()
         alert('Total sale price is corrupted. Please retip article list.');
     }
     
-    var returned = parseFloat(totalGiven) - parseFloat(total);
+    var returned = totalGiven - parseFloat(total);
+    returned = Math.round(100 * returned) / 100;
     if (returned < 0)
     {
         returned = 0;
