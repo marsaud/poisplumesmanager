@@ -132,6 +132,7 @@
           <controllersDirectory>
             <controllerFile controllerName="Index">
               <actionMethod actionName="index"/>
+              <actionMethod actionName="csv"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
@@ -143,6 +144,9 @@
             <viewScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="csv"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>

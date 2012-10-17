@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8"/>
+        <?php
+        echo $this->headLink()->appendStylesheet($this->baseUrl('/css/style.css'));
+        ?>
+        <title>todo</title>
+    </head>
+    <body>
+        <?php
+        echo $this->action('main-menu', 'index', 'default');
+        echo $this->layout()->content; 
+        ?>
+    </body>
+</html>
