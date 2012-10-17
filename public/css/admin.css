@@ -41,3 +41,11 @@ textarea {
 select[multiple='multiple'] {
     width: 100%;
 }
+
+fieldset {
+    background-color: lightgray;
+}
+
+legend {
+    font-weight: bold;
+}

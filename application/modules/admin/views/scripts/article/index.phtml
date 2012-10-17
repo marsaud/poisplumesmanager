@@ -19,17 +19,21 @@ $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
             <input id="priceht" type="text" name="priceht"/>
             <?php
             echo $this->taxBox('tva', $this->taxList, 'T.V.A.');
+            ?>
+            <br />
+            <?php
             echo $this->promoSelect(
-                'promo', $this->promoList, 'Promotions appliquées à l\'article'
+                    'promo', $this->promoList, 'Promotions appliquées à l\'article'
             );
-            ?><br /><?php
-
+            ?>
+            <br />
+            <?php
             echo $this->categorySelect(
-                'cat', $this->categoryTree, 'Catégories auxquelles appartient l\'article'
+                    'cat', $this->categoryTree, 'Catégories auxquelles appartient l\'article'
             );
 
             echo $this->providerBox(
-                'provider', $this->providerList, 'Fournisseur (optionel)'
+                    'provider', $this->providerList, 'Fournisseur (optionel)'
             );
             ?>
             <fieldset>
@@ -47,7 +51,7 @@ $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
             <legend>Modifier un article</legend>
             <?php
             echo $this->articleBox(
-                'modref', $this->articleList, 'Référence de l\'article à modifier'
+                    'modref', $this->articleList, 'Référence de l\'article à modifier'
             );
             ?>
             <br/>
@@ -61,17 +65,21 @@ $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
             <input id="modpriceht" type="text" name="modpriceht"/>
             <?php
             echo $this->taxBox('modtva', $this->taxList, 'T.V.A.');
+            ?>
+            <br />
+            <?php
             echo $this->promoSelect(
-                'modpromo', $this->promoList, 'Promotions appliquées à l\'article'
+                    'modpromo', $this->promoList, 'Promotions appliquées à l\'article'
             );
-            ?><br /><?php
-
+            ?>
+            <br />
+            <?php
             echo $this->categorySelect(
-                'modcat', $this->categoryTree, 'Catégories auxquelles appartient l\'article'
+                    'modcat', $this->categoryTree, 'Catégories auxquelles appartient l\'article'
             );
 
             echo $this->providerBox(
-                'modprovider', $this->providerList, 'Fournisseur (optionel)'
+                    'modprovider', $this->providerList, 'Fournisseur (optionel)'
             );
             ?>
             <fieldset>
@@ -86,9 +94,9 @@ $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
     </form>
 </div>
 <div id="articlelist" class="listdisplay rightpart">
-    <?php
-    echo $this->articleList($this->articleList, 'Liste des articles');
-    ?>
+<?php
+echo $this->articleList($this->articleList, 'Liste des articles');
+?>
 </div>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/article.js'); ?>"></script>
 <script type="text/javascript">

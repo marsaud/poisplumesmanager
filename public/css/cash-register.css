@@ -14,7 +14,7 @@
 
 #choice {
     width: 50%;
-    background-color: #00f7ff;
+    background-color: gainsboro;
     float:left;
 }
 
@@ -28,7 +28,7 @@
 #bill {
     margin-left: 50%;
     width: 50%;
-    background-color: #00ff07;
+    background-color: pink;
 }
 input[type=button] {
     width: 24%;
@@ -66,7 +66,7 @@ h6 {
 }
 
 .highlight {
-    background-color: buttonhighlight;
+    background-color: skyblue;
     font-weight: bold;
 }
 
