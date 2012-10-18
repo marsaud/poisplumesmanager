@@ -7,10 +7,10 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View
         <fieldset>
             <legend>Créer une promotion</legend>
             <label for="name">Nom de la promotion</label>
-            <input type="text" name="name" id="name"/>
+            <input type="text" name="name" id="name" autocomplete="off"/>
             <br/>
             <label for="ratio">Ratio</label>
-            <input type="text" name="ratio" id="ratio"/><span>%</span>
+            <input type="text" name="ratio" id="ratio" autocomplete="off"/><span>%</span>
             <br/>
             <label for="desc">Description</label>
             <textarea id="desc" name="desc">(r.a.s.)</textarea>
@@ -26,7 +26,7 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View
             ?>
             <br/>
             <label for="modratio">Ratio</label>
-            <input type="text" name="modratio" id="modratio"/><span>%</span>
+            <input type="text" name="modratio" id="modratio" autocomplete="off"/><span>%</span>
             <br/>
             <label for="moddesc">Description</label>
             <textarea id="moddesc" name="moddesc">(r.a.s.)</textarea>

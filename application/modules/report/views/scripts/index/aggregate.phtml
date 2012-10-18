@@ -1,0 +1,19 @@
+<form method="post" action="<?php echo $this->baseUrl('report/index/aggregate'); ?>">
+    <label for="year">Année</label>
+    <input type="number" name="year" value="<?php echo $this->year; ?>" autocomplete="off"/>
+    <label for="month">Mois</label>
+    <input type="number" name="month" value="<?php echo $this->month; ?>" autocomplete="off"/>
+    <label for="day">Jour</label>
+    <input type="number" name="day" value="<?php echo $this->day; ?>" autocomplete="off"/>
+    <input type="submit" value="OK" />
+</form>
+<?php if (isset($this->report)) : ?>
+<table>
+    <?php
+    foreach ($this->report as $key => $value)
+    {
+        echo '<tr><td>' . $key . '</td><td>' . $value . '</td></tr>';
+    }
+    ?>
+</table>
+<?php endif; ?>

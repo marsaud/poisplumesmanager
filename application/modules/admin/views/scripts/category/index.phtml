@@ -7,10 +7,10 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View
         <fieldset>
             <legend>Créer une catégorie</legend>
             <label for="categoryref">Référence de la catégorie</label>
-            <input id="categoryref" type="text" name="categoryref"/>
+            <input id="categoryref" type="text" name="categoryref" autocomplete="off"/>
             <br/>
             <label for="categoryname">Nom de la catégorie</label>
-            <input id="categoryname" type="text" name="categoryname"/>
+            <input id="categoryname" type="text" name="categoryname" autocomplete="off"/>
             <br/>
             <label for="categorydesc">Description de la catégorie (optionel)</label>
             <textarea id="categorydesc" name="categorydesc">(r.a.s.)</textarea>
@@ -34,7 +34,7 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View
             ?>
             <br/>
             <label for="modcategoryname">Nom de la catégorie</label>
-            <input id="modcategoryname" type="text" name="modcategoryname"/>
+            <input id="modcategoryname" type="text" name="modcategoryname" autocomplete="off"/>
             <br/>
             <label for="modcategorydesc">Description de la catégorie (optionel)</label>
             <textarea id="modcategorydesc" name="modcategorydesc">(r.a.s.)</textarea>

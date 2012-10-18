@@ -5,7 +5,7 @@ class Report_IndexController extends Zend_Controller_Action
 
     public function init()
     {
-        /* Initialize action controller here */
+        require_once APPLICATION_PATH . '/modules/report/models/Report.php';
     }
 
     public function indexAction()
@@ -156,6 +156,50 @@ class Report_IndexController extends Zend_Controller_Action
         }
 
         $this->view->content = $csv;
+    }
+
+    public function aggregateAction()
+    {
+        $this->view->year = date('Y');
+        $this->view->month = date('m');
+        $this->view->day = date('d');
+
+        if (!empty($_POST))
+        {
+            $this->view->year = $_POST['year'];
+            $this->view->month = $_POST['month'];
+            $this->view->day = $_POST['day'];
+            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
+            $db = $this->getInvokeArg('bootstrap')
+                    ->getResource('multidb')
+                    ->getDb('ppmdb');
+
+            $date = new Zend_Date(implode('-', array(
+                                $_POST['year'],
+                                $_POST['month'],
+                                $_POST['day']
+                            )));
+
+            $report = new Report($db);
+
+            $weeklyReport = array();
+            for ($weekDay = 1; $weekDay <= 7; $weekDay++)
+            {
+                $date->setWeekday($weekDay);
+                $dateForString = new DateTime($date->getIso());
+                $weeklyReport[$dateForString->format('l')] =
+                        $this->view->currency(
+                        $report->aggregate($date, Report::DAY)
+                );
+            }
+
+            $this->view->report = $weeklyReport;
+        }
+    }
+
+    public function menuAction()
+    {
+        
     }
 
 }

@@ -7,10 +7,10 @@ $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
         <fieldset>
             <legend>Créer un article</legend>
             <label for="ref">Référence de l'article</label>
-            <input id="ref" type="text" name="ref"/>
+            <input id="ref" type="text" name="ref" autocomplete="off"/>
             <br/>
             <label for="name">Nom de l'article</label>
-            <input id="name" type="text" name="name"/>
+            <input id="name" type="text" name="name" autocomplete="off"/>
             <br/>
             <label for="desc">Description de l'article (optionel)</label>
             <textarea id="desc" name="desc">(r.a.s.)</textarea>
@@ -41,7 +41,7 @@ $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
                 <label for="stock">Géré en stock</label>
                 <input id="stock" type="checkbox" name="stock" value="off" /><br/>
                 <label for="unit">Unité de quantité (optionel)</label>
-                <input type="text" name="unit" id="unit"/>
+                <input type="text" name="unit" id="unit" autocomplete="off"/>
             </fieldset>
             <input type="submit" value="Créer"/>
         </fieldset>
@@ -56,7 +56,7 @@ $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
             ?>
             <br/>
             <label for="modname">Nom de l'article</label>
-            <input id="modname" type="text" name="modname"/>
+            <input id="modname" type="text" name="modname" autocomplete="off"/>
             <br/>
             <label for="moddesc">Description de l'article (optionel)</label>
             <textarea id="moddesc" name="moddesc">(r.a.s.)</textarea>
@@ -87,7 +87,7 @@ $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
                 <label for="modstock">Géré en stock</label>
                 <input id="modstock" type="checkbox" name="modstock" value="off" /><br/>
                 <label for="modunit">Unité de quantité (optionel)</label>
-                <input type="text" name="modunit" id="modunit"/>
+                <input type="text" name="modunit" id="modunit" autocomplete="off"/>
             </fieldset>
             <input type="submit" value="Modifier"/>
         </fieldset>
