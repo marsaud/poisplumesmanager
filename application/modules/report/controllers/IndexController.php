@@ -76,7 +76,7 @@ class Report_IndexController extends Zend_Controller_Action
                         . PHP_EOL;
             }
 
-            $csv .= $csvLines . $csvBuffer . PHP_EOL;
+            $csv .= $csvLines . $csvBuffer;
         }
 
         $this->view->content = $csv;

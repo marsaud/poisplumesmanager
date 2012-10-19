@@ -9,6 +9,7 @@
 .menu a {
     color: black;
     font-weight: bold;
+    padding: 15px;
     text-decoration: none;
     border-style: outset;
 }
@@ -25,5 +26,13 @@
 .menu ul li {
     display: inline;
     margin-left: 20px;
+}
+
+td, th {
+    border: solid black 1px;
+}
+
+h1 {
+    background-color: lightblue;
 }
 

@@ -1,30 +1,33 @@
-<a href="<?php echo $this->baseUrl('report/index/csv')?>">Télécharger</a>
+<a href="<?php echo $this->baseUrl('report/index/csv') ?>">Télécharger</a>
 <table>
-<?php
-$lines = explode(PHP_EOL, $this->content);
-$line1 = array_shift($lines);
+    <?php
+    $lines = explode(PHP_EOL, $this->content);
+    $line1 = array_shift($lines);
 
-echo '<tr>';
-    
+    echo '<tr>';
+
     $cells = explode(';', $line1);
     foreach ($cells as $cell)
     {
         echo '<th>' . $cell . '</th>';
     }
-    
+
     echo '</tr>';
-    
-foreach ($lines as $csvLine)
-{
-    echo '<tr>';
-    
-    $cells = explode(';', $csvLine);
-    foreach ($cells as $cell)
+
+    foreach ($lines as $csvLine)
     {
-        echo '<td>' . $cell . '</td>';
+        if (!empty($csvLine))
+        {
+            echo '<tr>';
+
+            $cells = explode(';', $csvLine);
+            foreach ($cells as $cell)
+            {
+                echo '<td>' . $cell . '</td>';
+            }
+
+            echo '</tr>';
+        }
     }
-    
-    echo '</tr>';
-}
-?>
+    ?>
 </table>

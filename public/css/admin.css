@@ -6,14 +6,6 @@
         Purpose of the stylesheet follows.
 */
 
-td, th {
-    border: solid black 1px;
-}
-
-h1 {
-    background-color: lightblue;
-}
-
 .adminform input:focus, 
 .adminform textarea:focus, 
 .adminform select:focus {

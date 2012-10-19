@@ -1,4 +1,6 @@
 <form method="post" action="<?php echo $this->baseUrl('report/index/aggregate'); ?>">
+    <fieldset>
+        <legend>Date de synthèse</legend>
     <label for="year">Année</label>
     <input type="number" name="year" value="<?php echo $this->year; ?>" autocomplete="off"/>
     <label for="month">Mois</label>
@@ -6,6 +8,7 @@
     <label for="day">Jour</label>
     <input type="number" name="day" value="<?php echo $this->day; ?>" autocomplete="off"/>
     <input type="submit" value="OK" />
+    </fieldset>
 </form>
 <?php if (isset($this->report)) : ?>
 <table>

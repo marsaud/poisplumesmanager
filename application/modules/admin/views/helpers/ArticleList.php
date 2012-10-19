@@ -35,9 +35,8 @@ class Admin_View_Helper_ArticleList extends Zend_View_Helper_Abstract
                 foreach ($article->categories as $category)
                 {
                     /* @var $category Category */
-                    $categoryList .= '<li>' . $category->name . '</li>';
+                    $categoryList .= '* ' . $category->name . '<br/>';
                 }
-                $categoryList = '<ul>' . $categoryList . '</ul>';
             }
 
             $promoList = '';
