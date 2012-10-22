@@ -39,16 +39,14 @@ class StockManager
          */
         $oldQuantity = $article->quantity;
         $article->quantity = (float) $quantity;
-        $this->_db->beginTransaction();
+        
         try
         {
             $articleMapper->update($article);
             $this->trail($this->_db, $article, $oldQuantity, $comment);
-            $this->_db->commit();
         }
         catch (Exception $exc)
         {
-            $this->_db->rollBack();
             throw $exc;
         }
     }
@@ -66,7 +64,7 @@ class StockManager
             'new' => $article->quantity,
             'unit' => $article->unit,
             'date' => $dateString,
-            'user' => $_SERVER['PHP_AUTH_USER'],
+            'user' => (isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '_guest_'),
             'comment' => $comment
         );
         

@@ -268,7 +268,6 @@ class ArticleMapper
         $bind['unit'] = $article->unit;
 //        }
 
-        $this->_db->beginTransaction();
         try
         {
             $this->_db->insert('article', $bind);
@@ -293,15 +292,9 @@ class ArticleMapper
                     'article_ref' => $article->reference
                 ));
             }
-            $this->_db->commit();
         }
         catch (Exception $exc)
         {
-            $this->_db->rollBack();
-            /* @var $log Zend_Log */
-            $log = $this->getInvokeArg('bootstrap')
-                    ->getResource('log');
-            $log->err($exc->getMessage());
             throw $exc;
         }
     }
@@ -321,11 +314,10 @@ class ArticleMapper
         $bind['unit'] = $article->unit;
 //        } else
 //        {
-//            $bind['qty'] = NULL;
-//            $bind['unit'] = NULL;
+            $bind['qty'] = $article->quantity;
+            $bind['unit'] = $article->unit;
 //        }
 
-        $this->_db->beginTransaction();
         try
         {
             $whereUpdate['ref = ?'] = $article->reference;
@@ -359,15 +351,9 @@ class ArticleMapper
                 ));
             }
 
-            $this->_db->commit();
         }
         catch (Exception $exc)
         {
-            $this->_db->rollBack();
-            /* @var $log Zend_Log */
-            $log = $this->getInvokeArg('bootstrap')
-                    ->getResource('log');
-            $log->err($exc->getMessage());
             throw $exc;
         }
     }

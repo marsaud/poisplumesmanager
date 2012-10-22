@@ -113,10 +113,6 @@ class OperationMapper
         catch (Exception $exc)
         {
             $this->_db->rollBack();
-            /* @var $log Zend_Log */
-            $log = $this->getInvokeArg('bootstrap')
-            ->getResource('log');
-            $log->err($exc->getMessage());
             throw $exc;
         }
     }

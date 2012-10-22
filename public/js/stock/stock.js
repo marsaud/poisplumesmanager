@@ -14,8 +14,6 @@ function updateStock(event)
     var quantity = $F($('q_' + reference));
     var comment = $F($('c_' + reference));
     
-    alert (reference + quantity + comment);
-    
     new Ajax.Request('/stock/index/update/format/json/ref/' + reference + '/qty/' + quantity + '/cmnt/' + comment,
         {
             onSuccess: function (response){
@@ -30,11 +28,9 @@ function updateStock(event)
 
 function updateStockDisplay(response)
 {
-    alert('BOO');
-    
     var infos = eval(response.responseJSON);
     
     $('d_' + infos.reference).update(infos.quantity + ' ' + infos.unit);
     $('q_' + infos.reference).setValue('');
-    $('c_' + infos.reference).update('(r.a.s.)');
+    $('c_' + infos.reference).setValue('(r.a.s.)');
 }

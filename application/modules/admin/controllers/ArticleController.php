@@ -8,7 +8,7 @@ class Admin_ArticleController extends AdminControllerAbstract
         $ajaxContext = $this->_helper->getHelper('AjaxContext');
         /* @var $ajaxContext Zend_Controller_Action_Helper_AjaxContext */
         $ajaxContext->addActionContext('get', 'json')
-            ->initContext();
+                ->initContext();
     }
 
     public function indexAction()
@@ -59,7 +59,17 @@ class Admin_ArticleController extends AdminControllerAbstract
                 $article->promos[] = $promo;
             }
 
-            $this->articleMapper->create($article);
+            $this->db->beginTransaction();
+            try
+            {
+                $this->articleMapper->create($article);
+                $this->db->commit();
+            }
+            catch (Exception $exc)
+            {
+                $this->db->rollBack();
+                throw $exc;
+            }
         }
 
         $this->_forward('index');
@@ -104,12 +114,22 @@ class Admin_ArticleController extends AdminControllerAbstract
                 $article->promos[] = $promo;
             }
 
-            $this->articleMapper->update($article);
+            $this->db->beginTransaction();
+            try
+            {
+                $this->articleMapper->update($article);
+                $this->db->commit();
+            }
+            catch (Exception $exc)
+            {
+                $this->db->rollBack();
+                throw $exc;
+            }
         }
 
         $this->_forward('index');
     }
-    
+
     public function getAction()
     {
         $request = $this->getRequest();
@@ -156,5 +176,6 @@ class Admin_ArticleController extends AdminControllerAbstract
             }
         }
     }
+
 }
 

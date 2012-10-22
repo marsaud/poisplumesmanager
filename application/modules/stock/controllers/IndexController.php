@@ -41,17 +41,15 @@ class Stock_IndexController extends AbstractControllerAbstract
         $quantity = $request->getParam('qty');
 
         $stockManager = new StockManager($this->db);
+        $this->db->beginTransaction();
         try
         {
-
             $stockManager->update($reference, $quantity, $comment);
+            $this->db->commit();
         }
         catch (Exception $exc)
         {
-            /* @var $log Zend_Log */
-            $log = $this->getInvokeArg('bootstrap')
-                    ->getResource('log');
-            $log->err($exc->getMessage());
+            $this->db->rollBack();
             throw $exc;
         }
 
