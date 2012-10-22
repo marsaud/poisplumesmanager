@@ -93,8 +93,8 @@ class ArticleMapper
                     $article->stock = $row->stocked;
 //                    if ($article->stock)
 //                    {
-                        $article->unit = $row->unit;
-                        $article->quantity = $row->qty;
+                    $article->unit = $row->unit;
+                    $article->quantity = $row->qty;
 //                    }
 
                     $taxModel = new TaxMapper($this->_db);
@@ -170,8 +170,8 @@ class ArticleMapper
                     $article->stock = $row->stocked;
 //                    if ($article->stock)
 //                    {
-                        $article->unit = $row->unit;
-                        $article->quantity = $row->qty;
+                    $article->unit = $row->unit;
+                    $article->quantity = $row->qty;
 //                    }
 
                     $taxModel = new TaxMapper($this->_db);
@@ -202,7 +202,8 @@ class ArticleMapper
             }
 
             return $article;
-        } else
+        }
+        else
         {
             return NULL;
         }
@@ -263,8 +264,8 @@ class ArticleMapper
 
 //        if ($article->stock)
 //        {
-            $bind['qty'] = 0;
-            $bind['unit'] = $article->unit;
+        $bind['qty'] = 0;
+        $bind['unit'] = $article->unit;
 //        }
 
         $this->_db->beginTransaction();
@@ -293,9 +294,14 @@ class ArticleMapper
                 ));
             }
             $this->_db->commit();
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->_db->rollBack();
+            /* @var $log Zend_Log */
+            $log = $this->getInvokeArg('bootstrap')
+                    ->getResource('log');
+            $log->err($exc->getMessage());
             throw $exc;
         }
     }
@@ -312,7 +318,7 @@ class ArticleMapper
 
 //        if ($article->stock)
 //        {
-            $bind['unit'] = $article->unit;
+        $bind['unit'] = $article->unit;
 //        } else
 //        {
 //            $bind['qty'] = NULL;
@@ -354,9 +360,14 @@ class ArticleMapper
             }
 
             $this->_db->commit();
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->_db->rollBack();
+            /* @var $log Zend_Log */
+            $log = $this->getInvokeArg('bootstrap')
+                    ->getResource('log');
+            $log->err($exc->getMessage());
             throw $exc;
         }
     }

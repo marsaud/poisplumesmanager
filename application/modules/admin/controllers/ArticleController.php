@@ -1,33 +1,10 @@
 <?php
 
-class Admin_ArticleController extends Zend_Controller_Action
+class Admin_ArticleController extends AdminControllerAbstract
 {
-
-    /**
-     *
-     * @var CategoryMapper
-     */
-    protected $_categoryModel;
-
-    /**
-     *
-     * @var PromotionMapper
-     */
-    protected $_promotionModel;
 
     public function init()
     {
-//        require_once APPLICATION_PATH . '/models/Tax.php';
-//        require_once APPLICATION_PATH . '/models/TaxMapper.php';
-//        require_once APPLICATION_PATH . '/models/Article.php';
-//        require_once APPLICATION_PATH . '/models/ArticleMapper.php';
-//        require_once APPLICATION_PATH . '/models/Category.php';
-//        require_once APPLICATION_PATH . '/models/CategoryMapper.php';
-//        require_once APPLICATION_PATH . '/models/Provider.php';
-//        require_once APPLICATION_PATH . '/models/ProviderMapper.php';
-//        require_once APPLICATION_PATH . '/models/Promotion.php';
-//        require_once APPLICATION_PATH . '/models/PromotionMapper.php';
-
         $ajaxContext = $this->_helper->getHelper('AjaxContext');
         /* @var $ajaxContext Zend_Controller_Action_Helper_AjaxContext */
         $ajaxContext->addActionContext('get', 'json')
@@ -36,25 +13,11 @@ class Admin_ArticleController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-        $db = $this->getInvokeArg('bootstrap')
-            ->getResource('multidb')
-            ->getDb('ppmdb');
-
-        $taxModel = new TaxMapper($db);
-        $this->view->taxList = $taxModel->getTaxes();
-
-        $categoryModel = new CategoryMapper($db);
-        $this->view->categoryTree = $categoryModel->getCategoryTree();
-
-        $providerModel = new ProviderMapper($db);
-        $this->view->providerList = $providerModel->getProviders();
-
-        $promoModel = new PromotionMapper($db);
-        $this->view->promoList = $promoModel->getPromotions();
-
-        $articleModel = new ArticleMapper($db);
-        $this->view->articleList = $articleModel->getArticles();
+        $this->view->taxList = $this->taxMapper->getTaxes();
+        $this->view->categoryTree = $this->categoryMapper->getCategoryTree();
+        $this->view->providerList = $this->providerMapper->getProviders();
+        $this->view->promoList = $this->promotionMapper->getPromotions();
+        $this->view->articleList = $this->articleMapper->getArticles();
     }
 
     public function createAction()
@@ -74,37 +37,29 @@ class Admin_ArticleController extends Zend_Controller_Action
                 $article->unit = $_POST['unit'];
             }
 
-            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-            $db = $this->getInvokeArg('bootstrap')
-                ->getResource('multidb')
-                ->getDb('ppmdb');
-
-            $taxModel = new TaxMapper($db);
-            $article->tax = $taxModel->find($_POST['tva']);
+            $article->tax = $this->taxMapper->find($_POST['tva']);
 
             if ($_POST['provider'] != 0)
             {
-                $providerModel = new ProviderMapper($db);
-                $article->provider = $providerModel->find($_POST['provider']);
+                $article->provider = $this->providerMapper->find($_POST['provider']);
             }
 
             if (isset($_POST['cat']))
             {
                 foreach ($_POST['cat'] as $ref)
                 {
-                    $category = $this->_getCategoryModel($db)->find($ref);
+                    $category = $this->categoryMapper->find($ref);
                     $article->categories[] = $category;
                 }
             }
 
             if ($_POST['promo'] != '')
             {
-                $promo = $this->_getPromotionModel($db)->find($_POST['promo']);
+                $promo = $this->promotionMapper->find($_POST['promo']);
                 $article->promos[] = $promo;
             }
 
-            $articleModel = new ArticleMapper($db);
-            $articleModel->create($article);
+            $this->articleMapper->create($article);
         }
 
         $this->_forward('index');
@@ -127,94 +82,48 @@ class Admin_ArticleController extends Zend_Controller_Action
                 $article->unit = $_POST['modunit'];
             }
 
-            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-            $db = $this->getInvokeArg('bootstrap')
-                ->getResource('multidb')
-                ->getDb('ppmdb');
-
-            $taxModel = new TaxMapper($db);
-            $article->tax = $taxModel->find($_POST['modtva']);
+            $article->tax = $this->taxMapper->find($_POST['modtva']);
 
             if ($_POST['modprovider'] != 0)
             {
-                $providerModel = new ProviderMapper($db);
-                $article->provider = $providerModel->find($_POST['modprovider']);
+                $article->provider = $this->providerMapper->find($_POST['modprovider']);
             }
 
             if (isset($_POST['modcat']))
             {
                 foreach ($_POST['modcat'] as $ref)
                 {
-                    $category = $this->_getCategoryModel($db)->find($ref);
+                    $category = $this->categoryMapper->find($ref);
                     $article->categories[] = $category;
                 }
             }
 
             if ($_POST['modpromo'] != '')
             {
-                $promo = $this->_getPromotionModel($db)->find($_POST['modpromo']);
+                $promo = $this->promotionMapper->find($_POST['modpromo']);
                 $article->promos[] = $promo;
             }
 
-            $articleModel = new ArticleMapper($db);
-            $articleModel->update($article);
+            $this->articleMapper->update($article);
         }
 
         $this->_forward('index');
     }
-
-    /**
-     *
-     * @param Zend_Db_Adapter_Pdo_Abstract $db
-     *
-     * @return CategoryMapper
-     */
-    protected function _getCategoryModel(Zend_Db_Adapter_Pdo_Abstract $db)
-    {
-        if (NULL === $this->_categoryModel)
-        {
-            $this->_categoryModel = new CategoryMapper($db);
-        }
-
-        return $this->_categoryModel;
-    }
-
-    /**
-     *
-     * @param Zend_Db_Adapter_Pdo_Abstract $db
-     *
-     * @return PromotionMapper
-     */
-    protected function _getPromotionModel(Zend_Db_Adapter_Pdo_Abstract $db)
-    {
-        if (NULL === $this->_promotionModel)
-        {
-            $this->_promotionModel = new PromotionMapper($db);
-        }
-
-        return $this->_promotionModel;
-    }
-
+    
     public function getAction()
     {
         $request = $this->getRequest();
         /* @var $request Zend_Controller_Request_Http */
         if (!$request->isXmlHttpRequest())
         {
-            throw new RuntimeException();
+            throw new RuntimeException('Wrong Request Context');
         }
 
         $ref = $request->getParam('ref');
 
         if (NULL != $ref)
         {
-            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-            $db = $this->getInvokeArg('bootstrap')
-                ->getResource('multidb')
-                ->getDb('ppmdb');
-
-            $model = new ArticleMapper($db);
-            $article = $model->find($ref);
+            $article = $this->articleMapper->find($ref);
 
             $this->view->name = $article->name;
             $this->view->description = $article->description;
@@ -247,6 +156,5 @@ class Admin_ArticleController extends Zend_Controller_Action
             }
         }
     }
-
 }
 

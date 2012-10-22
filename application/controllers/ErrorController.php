@@ -24,13 +24,13 @@ class ErrorController extends Zend_Controller_Action
             default:
                 // application error
                 $this->getResponse()->setHttpResponseCode(500);
-                $priority = Zend_Log::CRIT;
+                $priority = Zend_Log::ERR;
                 $this->view->message = 'Application error';
                 break;
         }
         
         // Log exception, if logger available
-        if ($log = $this->getLog()) {
+        if (false && $log = $this->getLog()) { // I'l not sure for logging here...
             $log->log($this->view->message, $priority, $errors->exception);
             $log->log('Request Parameters', $priority, $errors->request->getParams());
         }
@@ -52,7 +52,6 @@ class ErrorController extends Zend_Controller_Action
         $log = $bootstrap->getResource('Log');
         return $log;
     }
-
 
 }
 

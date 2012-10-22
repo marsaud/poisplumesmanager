@@ -1,29 +1,22 @@
 <?php
 
-class Admin_CategoryController extends Zend_Controller_Action
+class Admin_CategoryController extends AdminControllerAbstract
 {
 
     public function init()
     {
-        require_once APPLICATION_PATH . '/models/Category.php';
-        require_once APPLICATION_PATH . '/models/CategoryMapper.php';
+//        require_once APPLICATION_PATH . '/models/Category.php';
+//        require_once APPLICATION_PATH . '/models/CategoryMapper.php';
 
         $ajaxContext = $this->_helper->getHelper('AjaxContext');
         /* @var $ajaxContext Zend_Controller_Action_Helper_AjaxContext */
         $ajaxContext->addActionContext('get', 'json')
-            ->initContext();
+                ->initContext();
     }
 
     public function indexAction()
     {
-        /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-        $db = $this->getInvokeArg('bootstrap')
-            ->getResource('multidb')
-            ->getDb('ppmdb');
-
-        $model = new CategoryMapper($db);
-        $categoryTree = $model->getCategoryTree();
-
+        $categoryTree = $this->categoryMapper->getCategoryTree();
         $this->view->categoryTree = $categoryTree;
     }
 
@@ -36,16 +29,12 @@ class Admin_CategoryController extends Zend_Controller_Action
             $category->name = $_POST['categoryname'];
             $category->description = $_POST['categorydesc'];
 
-            $parentReference = $_POST['parentcategory'] != '' ? $_POST['parentcategory'] : NULL;
+            $parentReference = ($_POST['parentcategory'] != '') ?
+                    $_POST['parentcategory'] : NULL;
 
-            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-            $db = $this->getInvokeArg('bootstrap')
-                ->getResource('multidb')
-                ->getDb('ppmdb');
-
-            $model = new CategoryMapper($db);
-            $model->insert($category, $parentReference);
+            $this->categoryMapper->insert($category, $parentReference);
         }
+
         $this->_forward('index');
     }
 
@@ -58,15 +47,10 @@ class Admin_CategoryController extends Zend_Controller_Action
             $category->name = $_POST['modcategoryname'];
             $category->description = $_POST['modcategorydesc'];
 
-            $parentReference = $_POST['modparentcategory'] != '' ? $_POST['modparentcategory'] : NULL;
+            $parentReference = ($_POST['modparentcategory'] != '') ?
+                    $_POST['modparentcategory'] : NULL;
 
-            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-            $db = $this->getInvokeArg('bootstrap')
-                ->getResource('multidb')
-                ->getDb('ppmdb');
-
-            $model = new CategoryMapper($db);
-            $model->update($category, $parentReference);
+            $this->categoryMapper->update($category, $parentReference);
         }
         $this->_forward('index');
     }
@@ -77,28 +61,22 @@ class Admin_CategoryController extends Zend_Controller_Action
         /* @var $request Zend_Controller_Request_Http */
         if (!$request->isXmlHttpRequest())
         {
-            throw new RuntimeException();
+            throw new RuntimeException('Wrong Request Context');
         }
 
         $ref = $request->getParam('ref');
 
         if (NULL != $ref)
         {
-            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-            $db = $this->getInvokeArg('bootstrap')
-                ->getResource('multidb')
-                ->getDb('ppmdb');
-
-            $model = new CategoryMapper($db);
-            $category = $model->find($ref);
-            $parent = $model->findParent($category);
+            $category = $this->categoryMapper->find($ref);
+            $parent = $this->categoryMapper->findParent($category);
 
             $this->view->reference = $category->reference;
             $this->view->name = $category->name;
             $this->view->description = $category->description;
 
-            $this->view->parentReference = $parent !== NULL ?
-                $parent->reference : '';
+            $this->view->parentReference = ($parent !== NULL) ?
+                    $parent->reference : '';
         }
     }
 

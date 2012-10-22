@@ -45,9 +45,8 @@ class Admin_View_Helper_ArticleList extends Zend_View_Helper_Abstract
                 foreach ($article->promos as $promo)
                 {
                     /* @var $promo Promotion */
-                    $promoList .= '<li>' . $promo->name . ' : ' . $promo->ratio . '%</li>';
+                    $promoList .= '* ' . $promo->name . ' : ' . $promo->ratio . '%<br />';
                 }
-                $promoList = '<ul>' . $promoList . '</ul>';
             }
 
             $articleList .= '<tr><td>' . $article->reference . '</td><td>'
