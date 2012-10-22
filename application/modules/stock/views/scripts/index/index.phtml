@@ -14,3 +14,7 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Stock_View
     echo $this->articleGrid($this->articleList);
     ?>
 </div>
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/stock/stock.js');?>"></script>
+<script type="text/javascript">
+    stockInit();
+</script>

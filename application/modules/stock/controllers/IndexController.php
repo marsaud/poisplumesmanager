@@ -1,34 +1,66 @@
 <?php
 
-class Stock_IndexController extends Zend_Controller_Action
+class Stock_IndexController extends AbstractControllerAbstract
 {
 
     public function init()
     {
-//        require_once APPLICATION_PATH . '/models/Category.php';
-//        require_once APPLICATION_PATH . '/models/Article.php';
-//        require_once APPLICATION_PATH . '/models/Tax.php';
+        require_once APPLICATION_PATH . '/modules/stock/models/StockManager.php';
+
+        $ajaxContext = $this->_helper->getHelper('AjaxContext');
+        /* @var $ajaxContext Zend_Controller_Action_Helper_AjaxContext */
+        $ajaxContext->addActionContext('update', 'json')
+                ->initContext();
     }
 
     public function indexAction()
     {
-
         $selectedCategory = (!empty($_POST['categoryfilter']) ?
                         $_POST['categoryfilter'] : NULL);
 
-        /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-        $db = $this->getInvokeArg('bootstrap')
-                ->getResource('multidb')
-                ->getDb('ppmdb');
+        $this->view->categoryTree = $this->categoryMapper->getCategoryTree();
 
-        $categoryModel = new CategoryMapper($db);
-        $this->view->categoryTree = $categoryModel->getCategoryTree();
-
-        $articleModel = new ArticleMapper($db);
-        $this->view->articleList = $articleModel->getArticles($selectedCategory, true);
+        $this->view->articleList = $this->articleMapper->getArticles(
+                $selectedCategory, true
+        );
 
         $this->view->selectedCategory = $selectedCategory;
     }
 
-}
+    public function updateAction()
+    {
+        $request = $this->getRequest();
+        /* @var $request Zend_Controller_Request_Http */
+        if (!$request->isXmlHttpRequest())
+        {
+            throw new RuntimeException('Wrong Request Context');
+        }
 
+        $reference = $request->getParam('ref');
+        $comment = $request->getParam('cmnt');
+        $quantity = $request->getParam('qty');
+
+        $stockManager = new StockManager($this->db);
+        try
+        {
+
+            $stockManager->update($reference, $quantity, $comment);
+        }
+        catch (Exception $exc)
+        {
+            /* @var $log Zend_Log */
+            $log = $this->getInvokeArg('bootstrap')
+                    ->getResource('log');
+            $log->err($exc->getMessage());
+            throw $exc;
+        }
+
+
+        $article = $this->articleMapper->find($reference);
+
+        $this->view->reference = $article->reference;
+        $this->view->quantity = $article->quantity;
+        $this->view->unit = $article->unit;
+    }
+
+}
