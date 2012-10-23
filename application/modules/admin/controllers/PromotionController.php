@@ -5,9 +5,6 @@ class Admin_PromotionController extends AdminControllerAbstract
 
     public function init()
     {
-//        require_once APPLICATION_PATH . '/models/Promotion.php';
-//        require_once APPLICATION_PATH . '/models/PromotionMapper.php';
-
         $ajaxContext = $this->_helper->getHelper('AjaxContext');
         /* @var $ajaxContext Zend_Controller_Action_Helper_AjaxContext */
         $ajaxContext->addActionContext('get', 'json')

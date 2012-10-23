@@ -11,6 +11,7 @@
  * 
  * @property-read ArticlePromotionContainer $promos
  * @property-read Promotion $onePromo
+ * @property float $quantity Description
  */
 class Article
 {
@@ -67,7 +68,13 @@ class Article
      *
      * @var float
      */
-    public $quantity;
+    public $stockedQuantity;
+
+    /**
+     *
+     * @var float
+     */
+    public $soldQuantity;
 
     /**
      *
@@ -85,7 +92,7 @@ class Article
     {
         $this->_promos = new ArticlePromotionContainer();
     }
-    
+
     public function getSalePrice()
     {
         return $this->price;
@@ -117,6 +124,14 @@ class Article
                 throw new LogicException('PromotionContainer cannot be set.');
                 break;
 
+            case 'quantity':
+                /**
+                 * Retro-compatibility with a previous version of this class that has been
+                 * serialized in production data.
+                 */
+                $this->soldQuantity = $value;
+                break;
+
             default:
                 throw new OutOfRangeException('No ' . $name . ' write property');
                 break;
@@ -136,7 +151,11 @@ class Article
                 $this->_promos->rewind();
                 return $this->_promos->current();
                 break;
-            
+
+            case 'quantity':
+                return $this->soldQuantity;
+                break;
+
             default:
                 throw new OutOfRangeException('No ' . $name . ' read property');
                 break;

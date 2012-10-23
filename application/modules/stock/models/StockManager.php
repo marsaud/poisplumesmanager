@@ -37,9 +37,9 @@ class StockManager
         /**
          * @todo SECURISER LES ACCES CONCURRENTS
          */
-        $oldQuantity = $article->quantity;
-        $article->quantity = (float) $quantity;
-        
+        $oldQuantity = $article->stockedQuantity;
+        $article->stockedQuantity = (float) $quantity;
+
         try
         {
             $articleMapper->update($article);
@@ -55,20 +55,29 @@ class StockManager
     {
         $date = new DateTime();
         $dateString = $date->format('Y-m-d H:i:s');
-        
+
         $bind = array(
             'articleref' => $article->reference,
             'articlename' => $article->name,
             'previous' => $oldQuantity,
-            'modif' => ($article->quantity - $oldQuantity),
-            'new' => $article->quantity,
+            'modif' => ($article->stockedQuantity - $oldQuantity),
+            'new' => $article->stockedQuantity,
             'unit' => $article->unit,
             'date' => $dateString,
             'user' => (isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '_guest_'),
             'comment' => $comment
         );
-        
+
         $db->insert('stocktrail', $bind);
+    }
+
+    public function modify($reference, $change, $hash = '')
+    {
+        $articleMapper = new ArticleMapper($this->_db);
+        $article = $articleMapper->find($reference);
+
+        $newQuantity = $article->stockedQuantity + $change;
+        $this->update($reference, $newQuantity, 'CAISSE_' . $hash);
     }
 
 }

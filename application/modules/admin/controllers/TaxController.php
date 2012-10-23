@@ -5,9 +5,6 @@ class Admin_TaxController extends Zend_Controller_Action
 
     public function init()
     {
-        require_once APPLICATION_PATH . '/models/Tax.php';
-        require_once APPLICATION_PATH . '/models/TaxMapper.php';
-
         $ajaxContext = $this->_helper->getHelper('AjaxContext');
         /* @var $ajaxContext Zend_Controller_Action_Helper_AjaxContext */
         $ajaxContext->addActionContext('get', 'json')

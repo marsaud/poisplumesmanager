@@ -31,6 +31,7 @@ class Admin_ArticleController extends AdminControllerAbstract
             $article->description = $_POST['desc'];
             $article->price = $_POST['priceht'];
             $article->stock = isset($_POST['stock']);
+            $article->stockedQuantity = 0;
 
             if ($article->stock)
             {
@@ -79,9 +80,8 @@ class Admin_ArticleController extends AdminControllerAbstract
     {
         if (isset($_POST))
         {
-            $article = new Article();
+            $article = $this->articleMapper->find($_POST['modref']);
 
-            $article->reference = $_POST['modref'];
             $article->name = $_POST['modname'];
             $article->description = $_POST['moddesc'];
             $article->price = $_POST['modpriceht'];

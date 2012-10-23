@@ -1,45 +1,22 @@
 <?php
 
-class CashRegister_IndexController extends Zend_Controller_Action
+class CashRegister_IndexController extends AbstractControllerAbstract
 {
 
     public function init()
     {
-//        require_once APPLICATION_PATH . '/models/Tax.php';
-//        require_once APPLICATION_PATH . '/models/TaxMapper.php';
-//        require_once APPLICATION_PATH . '/models/Article.php';
-//        require_once APPLICATION_PATH . '/models/ArticleMapper.php';
-//        require_once APPLICATION_PATH . '/models/Category.php';
-//        require_once APPLICATION_PATH . '/models/CategoryMapper.php';
-//        require_once APPLICATION_PATH . '/models/Provider.php';
-//        require_once APPLICATION_PATH . '/models/ProviderMapper.php';
-//        require_once APPLICATION_PATH . '/models/Promotion.php';
-//        require_once APPLICATION_PATH . '/models/PromotionMapper.php';
-//        require_once APPLICATION_PATH . '/modules/cash-register/models/SoldArticle.php';
         require_once APPLICATION_PATH . '/modules/cash-register/models/Payment.php';
         require_once APPLICATION_PATH . '/modules/cash-register/models/PaymentMapper.php';
         require_once APPLICATION_PATH . '/modules/cash-register/models/CartTrailer.php';
         require_once APPLICATION_PATH . '/modules/cash-register/models/OperationManager.php';
         require_once APPLICATION_PATH . '/modules/cash-register/models/OperationMapper.php';
-
-//        $contentSwitch = $this->_helper->getHelper('contextSwitch');
-//        /* @var $contentSwitch Zend_Controller_Action_Helper_AjaxContext */
-//        $contentSwitch->addActionContext('get-articles', 'xml')
-//            ->addActionContext('get-categories', 'xml')
-//            ->initContext();
+        require_once APPLICATION_PATH . '/modules/stock/models/StockManager.php';
     }
 
     public function indexAction()
     {
-        /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-        $db = $this->getInvokeArg('bootstrap')
-                ->getResource('multidb')
-                ->getDb('ppmdb');
-
-        $categoryModel = new CategoryMapper($db);
-        $this->view->categoryTree = $categoryModel->getCategoryTree();
-        $promoModel = new PromotionMapper($db);
-        $this->view->promoList = $promoModel->getPromotions();
+        $this->view->categoryTree = $this->categoryMapper->getCategoryTree();
+        $this->view->promoList = $this->promotionMapper->getPromotions();
     }
 
     public function payAction()
@@ -48,14 +25,6 @@ class CashRegister_IndexController extends Zend_Controller_Action
         {
             throw new Exception('EMPTY FORM');
         }
-        /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-        $db = $this->getInvokeArg('bootstrap')
-                ->getResource('multidb')
-                ->getDb('ppmdb');
-
-        $articleModel = new ArticleMapper($db);
-        $promoModel = new PromotionMapper($db);
-        $paymentModel = new PaymentMapper($db);
 
         $soldArticles = array();
 
@@ -69,8 +38,8 @@ class CashRegister_IndexController extends Zend_Controller_Action
                 continue;
             }
 
-            $soldArticle = $articleModel->find($key);
-            $soldArticle->quantity = $_POST[$soldArticle->reference];
+            $soldArticle = $this->articleMapper->find($key);
+            $soldArticle->soldQuantity = $_POST[$soldArticle->reference];
             $soldArticles[$soldArticle->reference] = $soldArticle;
         }
 
@@ -99,13 +68,12 @@ class CashRegister_IndexController extends Zend_Controller_Action
                 else
                 {
                     $soldArticles[$articleRef]->promos[] =
-                            $promoModel->find($value);
+                            $this->promotionMapper->find($value);
                 }
             }
         }
 
-        $cartTrailer = new CartTrailer($db);
-        $hash = $cartTrailer->save($soldArticles);
+        $hash = $this->cartTrailer->save($soldArticles);
 
         $totalRawPrice = array();
         $totalSalePrice = 0;
@@ -119,7 +87,7 @@ class CashRegister_IndexController extends Zend_Controller_Action
         $this->view->totalRawPrice = $totalRawPrice;
         $this->view->totalSalePrice = $totalSalePrice;
         $this->view->totalTax = $totalTax;
-        $this->view->paymentList = $paymentModel->get();
+        $this->view->paymentList = $this->paymentMapper->get();
 
         /**
          * 
@@ -134,11 +102,19 @@ class CashRegister_IndexController extends Zend_Controller_Action
          */
     }
 
+    /**
+     * 
+     * @param Article[] $soldArticles
+     * @param float $totalRawPrice
+     * @param float $totalTax
+     * @param float $totalSalePrice
+     */
     protected function _calculateTicket(array $soldArticles, &$totalRawPrice, &$totalTax, &$totalSalePrice)
     {
+        /* @var $soldArticle Article */
         foreach ($soldArticles as $soldArticle)
         {
-            $quantity = $soldArticle->quantity;
+            $quantity = $soldArticle->soldQuantity;
 
             isset($totalRawPrice[$soldArticle->tax->ratio])
                     || $totalRawPrice[$soldArticle->tax->ratio] = 0;
@@ -169,14 +145,7 @@ class CashRegister_IndexController extends Zend_Controller_Action
 
         if (NULL != $categoryRef)
         {
-            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-            $db = $this->getInvokeArg('bootstrap')
-                    ->getResource('multidb')
-                    ->getDb('ppmdb');
-
-            $model = new ArticleMapper($db);
-            $articles = $model->getArticles($categoryRef);
-
+            $articles = $this->articleMapper->getArticles($categoryRef);
             $this->view->content = $this->view->articlePad($articles);
         }
     }
@@ -194,13 +163,7 @@ class CashRegister_IndexController extends Zend_Controller_Action
 
         $categoryRef = $request->getParam('category');
 
-        /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-        $db = $this->getInvokeArg('bootstrap')
-                ->getResource('multidb')
-                ->getDb('ppmdb');
-
-        $model = new CategoryMapper($db);
-        $tree = $model->getCategoryTree();
+        $tree = $this->categoryMapper->getCategoryTree();
         if ($categoryRef !== NULL)
         {
             if (!array_key_exists($categoryRef, $tree))
@@ -221,16 +184,8 @@ class CashRegister_IndexController extends Zend_Controller_Action
             throw new Exception('EMPTY FORM');
         }
 
-        /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-        $db = $this->getInvokeArg('bootstrap')
-                ->getResource('multidb')
-                ->getDb('ppmdb');
-
-        $cartTrailer = new CartTrailer($db);
-        $articles = $cartTrailer->get($_POST['hash']);
-
-        $paymentMapper = new PaymentMapper($db);
-        $payments = $paymentMapper->get();
+        $articles = $this->cartTrailer->get($_POST['hash']);
+        $payments = $this->paymentMapper->get();
 
         foreach ($payments as $payment)
         {
@@ -245,8 +200,28 @@ class CashRegister_IndexController extends Zend_Controller_Action
             }
         }
 
-        $operationMapper = new OperationMapper($db);
-        $operationMapper->record($_POST['hash'], $articles, $payments);
+        $this->db->beginTransaction();
+        try
+        {
+            foreach ($articles as $article)
+            {
+                if ($article->stock)
+                {
+                    $this->stockManager->modify($article->reference, -($article->soldQuantity), $_POST['hash']);
+                }
+            }
+
+            $this->operationMapper->record($_POST['hash'], $articles, $payments);
+            
+            $this->db->commit();
+        }
+        catch (Exception $exc)
+        {
+            $this->db->rollBack();
+            throw $exc;
+        }
+
     }
+
 }
 

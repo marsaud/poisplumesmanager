@@ -5,9 +5,6 @@ class Admin_ProviderController extends AdminControllerAbstract
 
     public function init()
     {
-//        require_once APPLICATION_PATH . '/models/Provider.php';
-//        require_once APPLICATION_PATH . '/models/ProviderMapper.php';
-
         $ajaxContext = $this->_helper->getHelper('AjaxContext');
         /* @var $ajaxContext Zend_Controller_Action_Helper_AjaxContext */
         $ajaxContext->addActionContext('get', 'json')

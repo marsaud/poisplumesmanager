@@ -57,7 +57,7 @@ class Stock_IndexController extends AbstractControllerAbstract
         $article = $this->articleMapper->find($reference);
 
         $this->view->reference = $article->reference;
-        $this->view->quantity = $article->quantity;
+        $this->view->quantity = $article->stockedQuantity;
         $this->view->unit = $article->unit;
     }
 

@@ -48,8 +48,6 @@ class OperationMapper
             throw new Exception('WRONG TOTAL CONSOLIDATION' . ob_get_clean());
         }
 
-        $this->_db->beginTransaction();
-
         try
         {
             /**
@@ -79,7 +77,7 @@ class OperationMapper
                 $bind = array(
                     'hash' => $hash,
                     'reference' => $article->reference,
-                    'quantity' => $article->quantity,
+                    'quantity' => $article->soldQuantity,
                     'raw_price' => $article->getRawPrice(),
                     'tax_amount' => $article->getTaxAmount(),
                     'sale_price' => $article->getSalePrice(),
@@ -107,12 +105,9 @@ class OperationMapper
                 'payed' => true,
                 'payment_date' => $dateString
                     ), "hash = '$hash'");
-
-            $this->_db->commit();
         }
         catch (Exception $exc)
         {
-            $this->_db->rollBack();
             throw $exc;
         }
     }

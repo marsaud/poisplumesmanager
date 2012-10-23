@@ -9,9 +9,13 @@
  * Description of AbstractControllerAbstract
  *
  * @property-read ArticleMapper $articleMapper Description
+ * @property-read CartTrailer $cartTrailer Description
  * @property-read CategoryMapper $categoryMapper Description
+ * @property-read OperationMapper $operationMapper Description
+ * @property-read PaymentMapper $paymentMapper Description
  * @property-read PromotionMapper $promotionMapper Description
  * @property-read ProviderMapper $providerMapper Description
+ * @property-read StockManager $stockManager Description
  * @property-read TaxMapper $taxMapper Description
  * @property-read Zend_Db_Adapter_Pdo_Abstract $db Description
  * 
@@ -34,9 +38,33 @@ abstract class AbstractControllerAbstract extends Zend_Controller_Action
 
     /**
      *
+     * @var CartTrailer
+     */
+    protected $_cartTrailer;
+
+    /**
+     *
      * @var CategoryMapper
      */
     protected $_categoryMapper;
+
+    /**
+     *
+     * @var OperationManager
+     */
+    protected $_operationManager;
+
+    /**
+     *
+     * @var OperationMapper
+     */
+    protected $_operationMapper;
+
+    /**
+     *
+     * @var PaymentMapper
+     */
+    protected $_paymentMapper;
 
     /**
      *
@@ -52,19 +80,30 @@ abstract class AbstractControllerAbstract extends Zend_Controller_Action
 
     /**
      *
+     * @var StockManager
+     */
+    protected $_stockManager;
+
+    /**
+     *
      * @var TaxMapper
      */
     protected $_taxMapper;
-    
+
     /**
      *
      * @var string[]
      */
     protected $_models = array(
         'articleMapper',
+        'cartTrailer',
         'categoryMapper',
+        'operationManager',
+        'operationMapper',
+        'paymentMapper',
         'promotionMapper',
         'providerMapper',
+        'stockManager',
         'taxMapper'
     );
 
@@ -86,7 +125,7 @@ abstract class AbstractControllerAbstract extends Zend_Controller_Action
                         ->getResource('multidb')
                         ->getDb('ppmdb');
             }
-            
+
             return $this->_db;
         }
 

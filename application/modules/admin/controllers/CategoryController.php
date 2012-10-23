@@ -5,9 +5,6 @@ class Admin_CategoryController extends AdminControllerAbstract
 
     public function init()
     {
-//        require_once APPLICATION_PATH . '/models/Category.php';
-//        require_once APPLICATION_PATH . '/models/CategoryMapper.php';
-
         $ajaxContext = $this->_helper->getHelper('AjaxContext');
         /* @var $ajaxContext Zend_Controller_Action_Helper_AjaxContext */
         $ajaxContext->addActionContext('get', 'json')

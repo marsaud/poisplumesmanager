@@ -94,7 +94,7 @@ class ArticleMapper
 //                    if ($article->stock)
 //                    {
                     $article->unit = $row->unit;
-                    $article->quantity = $row->qty;
+                    $article->stockedQuantity = $row->qty;
 //                    }
 
                     $taxModel = new TaxMapper($this->_db);
@@ -171,7 +171,7 @@ class ArticleMapper
 //                    if ($article->stock)
 //                    {
                     $article->unit = $row->unit;
-                    $article->quantity = $row->qty;
+                    $article->stockedQuantity = $row->qty;
 //                    }
 
                     $taxModel = new TaxMapper($this->_db);
@@ -314,7 +314,7 @@ class ArticleMapper
         $bind['unit'] = $article->unit;
 //        } else
 //        {
-            $bind['qty'] = $article->quantity;
+            $bind['qty'] = $article->stockedQuantity;
             $bind['unit'] = $article->unit;
 //        }
 

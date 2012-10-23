@@ -13,11 +13,19 @@
 class OperationManager
 {
 
+    /**
+     * 
+     * @param Article[] $soldArticles
+     * @param float $totalRawPrice
+     * @param float $totalTax
+     * @param float $totalSalePrice
+     */
     public function compute(array $soldArticles, &$totalRawPrice, &$totalTax, &$totalSalePrice)
     {
+        /* @var $soldArticle Article */
         foreach ($soldArticles as $soldArticle)
         {
-            $quantity = $soldArticle->quantity;
+            $quantity = $soldArticle->soldQuantity;
 
             isset($totalRawPrice[$soldArticle->tax->ratio])
                     || $totalRawPrice[$soldArticle->tax->ratio] = 0;
