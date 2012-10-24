@@ -1,0 +1,14 @@
+/* 
+    Document   : stock.css
+    Created on : 24 oct. 2012, 22:14:32
+    Author     : fabrice
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+input:focus, 
+textarea:focus, 
+select:focus {
+    background-color: lightblue;
+}
+

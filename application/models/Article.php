@@ -56,7 +56,7 @@ class Article
      *
      * @var Category[]
      */
-    public $categories = array();
+    public $categories;
 
     /**
      *
@@ -90,7 +90,8 @@ class Article
 
     public function __construct()
     {
-        $this->_promos = new ArticlePromotionContainer();
+        $this->freeCategories();
+        $this->freePromotions();
     }
 
     public function getSalePrice()
@@ -162,4 +163,13 @@ class Article
         };
     }
 
+    public function freeCategories()
+    {
+        $this->categories = array();
+    }
+    
+    public function freePromotions()
+    {
+        $this->_promos = new ArticlePromotionContainer();
+    }
 }

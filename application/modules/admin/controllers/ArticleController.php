@@ -91,6 +91,10 @@ class Admin_ArticleController extends AdminControllerAbstract
             {
                 $article->unit = $_POST['modunit'];
             }
+            else
+            {
+                $article->stockedQuantity = 0;
+            }
 
             $article->tax = $this->taxMapper->find($_POST['modtva']);
 
@@ -98,7 +102,12 @@ class Admin_ArticleController extends AdminControllerAbstract
             {
                 $article->provider = $this->providerMapper->find($_POST['modprovider']);
             }
+            else
+            {
+                $article->provider = NULL;
+            }
 
+            $article->freeCategories();
             if (isset($_POST['modcat']))
             {
                 foreach ($_POST['modcat'] as $ref)
@@ -108,6 +117,7 @@ class Admin_ArticleController extends AdminControllerAbstract
                 }
             }
 
+            $article->freePromotions();
             if ($_POST['modpromo'] != '')
             {
                 $promo = $this->promotionMapper->find($_POST['modpromo']);

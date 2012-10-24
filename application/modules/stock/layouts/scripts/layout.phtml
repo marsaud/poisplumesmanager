@@ -4,6 +4,7 @@
         <meta charset="utf-8"/>
         <?php
         $this->headLink()->appendStylesheet($this->baseUrl('/css/style.css'));
+        $this->headLink()->appendStylesheet($this->baseUrl('/css/stock.css'));
         echo $this->headLink();
         $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->baseUrl('/js/prototype.js'));
         echo $this->headScript();
