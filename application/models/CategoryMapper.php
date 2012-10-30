@@ -31,8 +31,8 @@ class CategoryMapper
     public function getCategoryTree()
     {
         $select = $this->_db->select()
-            ->from('category')
-            ->order('category_ref ASC');
+                ->from('category')
+                ->order('category_ref ASC');
 
         $query = $select->query();
 
@@ -66,8 +66,8 @@ class CategoryMapper
     public function find($reference)
     {
         $select = $this->_db->select()
-            ->from('category', array('ref', 'name', 'desc'))
-            ->where('ref = ?', $reference);
+                ->from('category', array('ref', 'name', 'desc'))
+                ->where('ref = ?', $reference);
 
         $query = $select->query();
         if ($query->rowCount() == 1)
@@ -98,8 +98,8 @@ class CategoryMapper
     protected function _loadSubCategories(Category $category)
     {
         $select = $this->_db->select()
-            ->from('category')
-            ->where('category_ref = ?', $category->reference);
+                ->from('category')
+                ->where('category_ref = ?', $category->reference);
 
         $query = $select->query();
         while ($row = $query->fetch(Zend_Db::FETCH_OBJ))
@@ -124,8 +124,8 @@ class CategoryMapper
     public function findParent(Category $category)
     {
         $select = $this->_db->select()
-            ->from('category', 'category_ref')
-            ->where('ref = ?', $category->reference);
+                ->from('category', 'category_ref')
+                ->where('ref = ?', $category->reference);
 
         $query = $select->query();
         if ($query->rowCount() != 1)
@@ -164,9 +164,9 @@ class CategoryMapper
         if ($parentReference !== NULL)
         {
             $select = $this->_db
-                ->select()
-                ->from('category', 'ref')
-                ->where('ref = ?', $parentReference);
+                    ->select()
+                    ->from('category', 'ref')
+                    ->where('ref = ?', $parentReference);
 
             $query = $select->query();
             if ($query->rowCount() !== 1)
@@ -201,18 +201,17 @@ class CategoryMapper
         if ($parentReference !== NULL)
         {
             $select = $this->_db
-                ->select()
-                ->from('category', 'ref')
-                ->where('ref = ?', $parentReference);
+                    ->select()
+                    ->from('category', 'ref')
+                    ->where('ref = ?', $parentReference);
 
             $query = $select->query();
             if ($query->rowCount() !== 1)
             {
-                throw new RuntimeException();
+                throw new RuntimeException('Unknown parent category');
             }
-
-            $bind['category_ref'] = $parentReference;
         }
+        $bind['category_ref'] = $parentReference;
 
         $this->_db->update('category', $bind, $where);
     }
