@@ -1,22 +1,40 @@
 <form method="post" action="<?php echo $this->baseUrl('report/index/aggregate'); ?>">
     <fieldset>
         <legend>Date de synthèse</legend>
-    <label for="year">Année</label>
-    <input type="number" name="year" value="<?php echo $this->year; ?>" autocomplete="off"/>
-    <label for="month">Mois</label>
-    <input type="number" name="month" value="<?php echo $this->month; ?>" autocomplete="off"/>
-    <label for="day">Jour</label>
-    <input type="number" name="day" value="<?php echo $this->day; ?>" autocomplete="off"/>
-    <input type="submit" value="OK" />
+        <label for="year">Année</label>
+        <input type="number" name="year" value="<?php echo $this->year; ?>" autocomplete="off"/>
+        <label for="month">Mois</label>
+        <input type="number" name="month" value="<?php echo $this->month; ?>" autocomplete="off"/>
+        <label for="day">Jour</label>
+        <input type="number" name="day" value="<?php echo $this->day; ?>" autocomplete="off"/>
+        <input type="submit" value="OK" />
     </fieldset>
 </form>
 <?php if (isset($this->report)) : ?>
-<table>
-    <?php
-    foreach ($this->report as $key => $value)
-    {
-        echo '<tr><td>' . $key . '</td><td>' . $value . '</td></tr>';
-    }
-    ?>
-</table>
+    <table>
+        <tr><th>Jour</th><th>CB</th><th>Chèques</th><th>Ch.Resto</th><th>Espèces</th><th>Total</th></tr>
+        <?php
+        foreach ($this->report as $day => $report)
+        {
+            /* @var $report Report */
+            echo '<tr><th>' . $day . '</th>';
+
+            echo '<td>' . $this->currency($report->cb) . '</td>';
+            echo '<td>' . $this->currency($report->chq) . '</td>';
+            echo '<td>' . $this->currency($report->chr) . '</td>';
+            echo '<td>' . $this->currency($report->mon) . '</td>';
+            echo '<td>' . $this->currency($report->total) . '</td>';
+
+            echo '</tr>';
+        }
+        echo '<tr></tr>';
+        echo '<tr><th>Total</th>
+            <td>' . $this->currency($this->week->cb) . '</td>
+            <td>' . $this->currency($this->week->chq) . '</td>
+            <td>' . $this->currency($this->week->chr) . '</td>
+            <td>' . $this->currency($this->week->mon) . '</td>
+            <td>' . $this->currency($this->week->total) . '</th>
+        </tr>';
+        ?>
+    </table>
 <?php endif; ?>
