@@ -60,7 +60,15 @@ class ReportManager
             case self::DAY:
                 $select->where('DAY(payment_date) = ?', $date->get(Zend_Date::DAY));
             case self::WEEK:
-                $select->where('WEEK(payment_date) = ?', $date->get(Zend_Date::WEEK));
+                if ($date->get(Zend_Date::WEEKDAY_8601) == 7)
+                {
+                    $week = (string) ($date->get(Zend_Date::WEEK) + 1);
+                }
+                else
+                {
+                    $week = $date->get(Zend_Date::WEEK);
+                }
+                $select->where('WEEK(payment_date) = ?', $week);
             case self::MONTH:
                 $select->where('MONTH(payment_date) = ?', $date->get(Zend_Date::MONTH));
             case self::YEAR:

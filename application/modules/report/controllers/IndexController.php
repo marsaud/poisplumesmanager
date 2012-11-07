@@ -132,12 +132,11 @@ class Report_IndexController extends Zend_Controller_Action
             for ($weekDay = 1; $weekDay <= 7; $weekDay++)
             {
                 $date->setWeekday($weekDay);
-                $dateForString = new DateTime($date->getIso());
                 $day = $report->aggregate($date, ReportManager::DAY);
                 
                 $week->add($day);
                 
-                $weeklyReport[$dateForString->format('l')] = $day;
+                $weeklyReport[ucfirst($date->get(Zend_Date::WEEKDAY))] = $day;
             }
 
             $this->view->report = $weeklyReport;
