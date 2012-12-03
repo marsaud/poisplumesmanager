@@ -40,54 +40,75 @@ class ReportManager
      * 
      * @return Report
      */
-    public function aggregate(Zend_Date $date, $part)
+    public function aggregate(Zend_Date $date, $key, $period)
     {
-        $select = $this->_db->select()
-                ->from(array('c' => 'carttrailer'), array())
-                ->joinInner(array('o' => 'operationstrail')
-                        , 'c.hash = o.hash'
-                        , array(
-                            'total' => 'SUM(total_sale_price)',
-                            'cb' => 'SUM(cb)',
-                            'chq' => 'SUM(chq)',
-                            'chr' => 'SUM(chr)',
-                            'mon' => 'SUM(mon)'
-                            ))
-                ->where('payed = ?', true, Zend_Db::PARAM_BOOL);
+        $columns = array(
+            'total' => 'SUM(total)',
+            'cb' => 'SUM(cb)',
+            'chq' => 'SUM(chq)',
+            'chr' => 'SUM(chr)',
+            'mon' => 'SUM(mon)'
+        );
 
-        switch ($part)
+
+        switch ($key)
         {
             case self::DAY:
-                $select->where('DAY(payment_date) = ?', $date->get(Zend_Date::DAY));
+                $columns['part'] = 'DAY(pay_date)';
+                break;
             case self::WEEK:
-                if ($date->get(Zend_Date::WEEKDAY_8601) == 7)
-                {
-                    $week = (string) ($date->get(Zend_Date::WEEK) + 1);
-                }
-                else
-                {
-                    $week = $date->get(Zend_Date::WEEK);
-                }
-                $select->where('WEEK(payment_date) = ?', $week);
+                $columns['part'] = 'WEEK(pay_date, 3)';
+                break;
             case self::MONTH:
-                $select->where('MONTH(payment_date) = ?', $date->get(Zend_Date::MONTH));
+                $columns['part'] = 'MONTH(pay_date)';
+                break;
             case self::YEAR:
-                $select->where('YEAR(payment_date) = ?', $date->get(Zend_Date::YEAR));
+                $columns['part'] = 'YEAR(pay_date)';
                 break;
             default:
+                throw new RuntimeException('Unhandled report date part');
                 break;
         }
-        
+
+        $select = $this->_db->select()
+                ->from(array('v' => 'reporttrailview'), $columns);
+
+        switch ($period)
+        {
+            case self::DAY:
+                $select->where('DAY(pay_date) = ?', $date->get(Zend_Date::DAY));
+            case self::WEEK:
+                $select->where('WEEK(pay_date, 3) = ?', $date->get(Zend_Date::WEEK));
+            case self::MONTH:
+                $select->where('MONTH(pay_date) = ?', $date->get(Zend_Date::MONTH));
+            case self::YEAR:
+                $select->where('YEAR(pay_date) = ?', $date->get(Zend_Date::YEAR));
+                break;
+            default:
+                throw new RuntimeException('Unhandled report date part');
+                break;
+        }
+
+        $select->group('part')
+                ->order(array('part ASC'));
+
+        $aggregate = array();
+
         $query = $select->query();
+        while ($row = $query->fetch(Zend_Db::FETCH_OBJ))
+        {
+            $report = new Report();
+            $report->cb = $row->cb;
+            $report->chq = $row->chq;
+            $report->chr = $row->chr;
+            $report->mon = $row->mon;
+            $report->total = $row->total;
+            $aggregate[$row->part] = $report;
+        }
+
         $row = $query->fetch(Zend_Db::FETCH_OBJ);
-        $report = new Report();
-        $report->cb = $row->cb;
-        $report->chq = $row->chq;
-        $report->chr = $row->chr;
-        $report->mon = $row->mon;
-        $report->total = $row->total;
-        
-        return $report;
+
+        return $aggregate;
     }
 
 }

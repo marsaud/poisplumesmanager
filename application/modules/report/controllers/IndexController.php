@@ -124,18 +124,19 @@ class Report_IndexController extends Zend_Controller_Action
                                 $_POST['day']
                             )));
 
-            $report = new ReportManager($db);
+            $reportManager = new ReportManager($db);
 
             $weeklyReport = array();
             $week = new Report();
-            
+
             for ($weekDay = 1; $weekDay <= 7; $weekDay++)
             {
                 $date->setWeekday($weekDay);
-                $day = $report->aggregate($date, ReportManager::DAY);
+                $report = $reportManager->aggregate($date, ReportManager::DAY, ReportManager::DAY);
+                
+                $day = (!empty($report)) ? array_pop($report) : new Report();
                 
                 $week->add($day);
-                
                 $weeklyReport[ucfirst($date->get(Zend_Date::WEEKDAY))] = $day;
             }
 
