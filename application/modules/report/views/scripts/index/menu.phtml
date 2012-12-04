@@ -2,13 +2,23 @@
 <div id="adminmenu" class="menu">
     <ul>
         <li>
-            <a href="<?php echo $this->baseUrl('report/index/index');?>">
-                Détaillé
+            <a href="<?php echo $this->baseUrl('report/index/detail');?>">
+                Détail des opérations
             </a>
         </li>
         <li>
             <a href="<?php echo $this->baseUrl('report/index/aggregate');?>">
-                Consolidé
+                Consolidation hebdomadaire
+            </a>
+        </li>
+        <li>
+            <a href="<?php echo $this->baseUrl('report/index/month');?>">
+                Déclaration mensuelle
+            </a>
+        </li>
+        <li>
+            <a href="<?php echo $this->baseUrl('report/index/cart');?>">
+                Panier moyen
             </a>
         </li>
     </ul>

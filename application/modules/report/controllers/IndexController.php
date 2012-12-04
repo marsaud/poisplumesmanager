@@ -11,6 +11,11 @@ class Report_IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
+        
+    }
+    
+    public function detailAction()
+    {
         /* @var $db Zend_Db_Adapter_Pdo_Abstract */
         $db = $this->getInvokeArg('bootstrap')
                 ->getResource('multidb')
@@ -133,9 +138,9 @@ class Report_IndexController extends Zend_Controller_Action
             {
                 $date->setWeekday($weekDay);
                 $report = $reportManager->aggregate($date, ReportManager::DAY, ReportManager::DAY);
-                
+
                 $day = (!empty($report)) ? array_pop($report) : new Report();
-                
+
                 $week->add($day);
                 $weeklyReport[ucfirst($date->get(Zend_Date::WEEKDAY))] = $day;
             }
@@ -148,6 +153,90 @@ class Report_IndexController extends Zend_Controller_Action
     public function menuAction()
     {
         
+    }
+
+    public function monthAction()
+    {
+        if (empty($_POST))
+        {
+            $this->view->year = date('Y');
+            $this->view->month = date('m');
+        }
+        else
+        {
+            $this->view->year = $_POST['year'];
+            $this->view->month = $_POST['month'];
+            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
+            $db = $this->getInvokeArg('bootstrap')
+                    ->getResource('multidb')
+                    ->getDb('ppmdb');
+
+            $date = new Zend_Date(implode('-', array(
+                                $_POST['year'],
+                                $_POST['month'],
+                                '01'
+                            )));
+
+            $reportManager = new ReportManager($db);
+
+            $this->view->report = $reportManager->monthTax($date);
+        }
+    }
+
+    public function monthCsvAction()
+    {
+        isset($_GET['month'])
+        || $_GET['month'] = date('m');
+        
+        isset($_GET['year'])
+        || $_GET['year'] = date('Y');
+        
+        $reportDate = new Zend_Date(implode('-', array(
+                                $_GET['year'],
+                                $_GET['month'],
+                                '01'
+                            )));
+        
+        $this->view->year = $_GET['year'];
+        $this->view->month = $reportDate->get(Zend_Date::MONTH_NAME);
+        /* @var $db Zend_Db_Adapter_Pdo_Abstract */
+        $db = $this->getInvokeArg('bootstrap')
+                ->getResource('multidb')
+                ->getDb('ppmdb');
+
+        $reportManager = new ReportManager($db);
+
+        $this->view->report = $reportManager->monthTax($reportDate);
+        $this->view->date = new Zend_Date();
+        $this->_helper->getHelper('layout')->disableLayout();
+    }
+    
+    public function cartAction()
+    {
+        if (empty($_POST))
+        {
+            $this->view->year = date('Y');
+            $this->view->month = date('m');
+        }
+        else
+        {
+            $this->view->year = $_POST['year'];
+            $this->view->month = $_POST['month'];
+            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
+            $db = $this->getInvokeArg('bootstrap')
+                    ->getResource('multidb')
+                    ->getDb('ppmdb');
+
+            $date = new Zend_Date(implode('-', array(
+                                $_POST['year'],
+                                $_POST['month'],
+                                '01'
+                            )));
+
+            $reportManager = new ReportManager($db);
+
+            $this->view->report = $reportManager->mediumCart($date);
+        }
     }
 
 }

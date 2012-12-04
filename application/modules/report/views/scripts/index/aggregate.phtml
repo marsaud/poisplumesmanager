@@ -1,3 +1,4 @@
+<h1>Consolidation hebdomadaire</h1>
 <form method="post" action="<?php echo $this->baseUrl('report/index/aggregate'); ?>">
     <fieldset>
         <legend>Date de synthèse</legend>
@@ -19,21 +20,21 @@
             /* @var $report Report */
             echo '<tr><th>' . $day . '</th>';
 
-            echo '<td>' . $this->currency($report->cb) . '</td>';
-            echo '<td>' . $this->currency($report->chq) . '</td>';
-            echo '<td>' . $this->currency($report->chr) . '</td>';
-            echo '<td>' . $this->currency($report->mon) . '</td>';
-            echo '<td>' . $this->currency($report->total) . '</td>';
+            echo '<td class="currency-cell">' . $this->currency($report->cb) . '</td>';
+            echo '<td class="currency-cell">' . $this->currency($report->chq) . '</td>';
+            echo '<td class="currency-cell">' . $this->currency($report->chr) . '</td>';
+            echo '<td class="currency-cell">' . $this->currency($report->mon) . '</td>';
+            echo '<td class="currency-cell">' . $this->currency($report->total) . '</td>';
 
             echo '</tr>';
         }
         echo '<tr></tr>';
         echo '<tr><th>Total</th>
-            <td>' . $this->currency($this->week->cb) . '</td>
-            <td>' . $this->currency($this->week->chq) . '</td>
-            <td>' . $this->currency($this->week->chr) . '</td>
-            <td>' . $this->currency($this->week->mon) . '</td>
-            <td>' . $this->currency($this->week->total) . '</th>
+            <td class="currency-cell">' . $this->currency($this->week->cb) . '</td>
+            <td class="currency-cell">' . $this->currency($this->week->chq) . '</td>
+            <td class="currency-cell">' . $this->currency($this->week->chr) . '</td>
+            <td class="currency-cell">' . $this->currency($this->week->mon) . '</td>
+            <td class="currency-cell">' . $this->currency($this->week->total) . '</th>
         </tr>';
         ?>
     </table>

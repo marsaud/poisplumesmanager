@@ -111,4 +111,45 @@ class ReportManager
         return $aggregate;
     }
 
+    public function monthTax(Zend_Date $date)
+    {
+        "SELECT ol.tax_ratio, sum(final_price * quantity)
+FROM `operationlines` ol
+INNER JOIN `carttrailer` ct on ct.hash = ol.hash
+WHERE MONTH(ct.payment_date) = 11 AND YEAR(ct.payment_date) = 2012
+GROUP BY ol.tax_ratio";
+        
+        $select = $this->_db->select()
+                ->from(array('ol' => 'operationlines'), array('Taux' => 'tax_ratio', 'Total' => new Zend_Db_Expr('SUM(final_price * quantity)')))
+            ->joinInner(array('ct' => 'carttrailer'), 'ct.hash = ol.hash', array())
+            ->where('MONTH(ct.payment_date) = ?', $date->get(Zend_Date::MONTH))
+            ->where('YEAR(ct.payment_date) = ?', $date->get(Zend_Date::YEAR))
+            ->group('ol.tax_ratio');
+        
+        $query = $select->query();
+        $output = $query->fetchAll();
+        
+        return $output;
+    }
+    
+    public function mediumCart(Zend_Date $date)
+    {
+        "SELECT sum(total), count(total), sum(total)/count(total) as mean FROM `reporttrailview` 
+WHERE month(pay_date) = 12";
+        
+        $select = $this->_db->select()
+                ->from('reporttrailview', array(
+                    'Total' => new Zend_Db_Expr('SUM(total)'),
+                    'Nombre de paniers' => new Zend_Db_Expr('COUNT(total)'),
+                    'Panier moyen' => new Zend_Db_Expr('SUM(total)/COUNT(total)')
+                ))
+            ->where('MONTH(pay_date) = ?', $date->get(Zend_Date::MONTH))
+            ->where('YEAR(pay_date) = ?', $date->get(Zend_Date::YEAR));
+        
+        $query = $select->query();
+        $output = $query->fetchAll();
+        
+        return $output;
+    }
+
 }
