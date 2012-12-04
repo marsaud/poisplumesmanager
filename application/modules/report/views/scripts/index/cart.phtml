@@ -1,0 +1,43 @@
+<h1>Panier moyen</h1>
+<form method="post" action="<?php echo $this->baseUrl('report/index/cart'); ?>">
+    <fieldset>
+        <legend>Date de synthèse</legend>
+        <label for="year">Année</label>
+        <input type="number" name="year" value="<?php echo $this->year; ?>" autocomplete="off"/>
+        <label for="month">Mois</label>
+        <input type="number" name="month" value="<?php echo $this->month; ?>" autocomplete="off"/>
+        <input type="submit" value="OK" />
+    </fieldset>
+</form>
+<table>
+    <?php
+    if (empty($this->report))
+    {
+        return;
+    }
+    $line = array_shift($this->report);
+    ?>
+    <tr>
+        <?php
+        foreach ($line as $key => $value)
+        {
+            echo '<th>' . $key . '</th>';
+        }
+        ?>
+    </tr>
+    <?php
+    array_unshift($this->report, $line);
+    foreach ($this->report as $line)
+    {
+        ?>
+        <tr>
+            <?php
+            echo '<td class="currency-cell">' . $this->currency(array_shift($line)) . '</td>'
+            . '<td class="numeric-cell">' . array_shift($line) . '</td>'
+            . '<td class="currency-cell">' . $this->currency(array_shift($line)) . '</td>';
+            ?>
+        </tr>
+        <?php
+    }
+    ?>
+</table>

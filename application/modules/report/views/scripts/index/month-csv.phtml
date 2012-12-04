@@ -1,0 +1,21 @@
+<?php
+
+header('Content-Type: application/csv', true);
+
+if (empty($this->report))
+{
+    return;
+}
+
+echo 'DECLARATION DE CHIFFRE D\'AFFAIRE ' . $this->year . ' ' . $this->month . PHP_EOL . PHP_EOL;
+
+echo 'Extraction datée du ' . $this->date->getIso() . PHP_EOL . PHP_EOL;
+
+$line = array_shift($this->report);
+echo implode(';', array_keys($line)) . PHP_EOL;
+array_unshift($this->report, $line);
+foreach ($this->report as $line)
+{
+    $row = array(array_shift($line) . ' %', $this->currency(array_shift($line)));
+    echo implode(';', $row) . PHP_EOL;
+}
