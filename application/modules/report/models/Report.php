@@ -16,7 +16,7 @@
  *
  * @author MAKRIS
  */
-class Report
+class CashFlowReport
 {
 
     /**
@@ -99,7 +99,7 @@ class Report
         }
     }
     
-    public function add(Report $report)
+    public function add(CashFlowReport $report)
     {
         $this->cb += $report->cb;
         $this->chq += $report->chq;

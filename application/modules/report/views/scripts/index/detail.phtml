@@ -1,4 +1,44 @@
+<?php $this->headLink()->appendStylesheet($this->baseUrl('/css/calendar.css')); ?>
 <h1>Détail des opérations</h1>
+<form method="post" action="<?php echo $this->baseUrl('report/index/detail'); ?>">
+    <fieldset>
+        <legend>Période affichée</legend>
+        <noscript>
+        <fieldset>
+            <legend>Début</legend>
+            <label for="year">Année</label>
+            <input type="number" name="startyear" value="<?php echo $this->startyear; ?>" autocomplete="off"/>
+            <label for="month">Mois</label>
+            <input type="number" name="startmonth" value="<?php echo $this->startmonth; ?>" autocomplete="off"/>
+            <label for="day">Jour</label>
+            <input type="number" name="startday" value="<?php echo $this->startday; ?>" autocomplete="off"/>
+        </fieldset>
+        <fieldset>
+            <legend>Fin</legend>
+            <label for="year">Année</label>
+            <input type="number" name="endyear" value="<?php echo $this->endyear; ?>" autocomplete="off"/>
+            <label for="month">Mois</label>
+            <input type="number" name="endmonth" value="<?php echo $this->endmonth; ?>" autocomplete="off"/>
+            <label for="day">Jour</label>
+            <input type="number" name="endday" value="<?php echo $this->endday; ?>" autocomplete="off"/>
+        </fieldset>
+        </noscript>
+        <fieldset id="calendarscripted" disabled="disabled" style="display: none;">
+            <label for="year">Début</label>
+            <input class="calendrier" type="date" name="startfulldate" value="<?php echo $this->startfulldate; ?>" autocomplete="off"/>
+            <label for="year">Fin</label>
+            <input class="calendrier" type="date" name="endfulldate" value="<?php echo $this->endfulldate; ?>" autocomplete="off"/>
+        </fieldset>
+        <input type="submit" value="OK" />
+    </fieldset>
+</form>
+<script type="text/javascript">
+    <!--
+    var calendarFieldSet = $('calendarscripted');
+    calendarFieldSet.removeAttribute('disabled');
+    calendarFieldSet.removeAttribute('style');
+    -->
+</script>
 <a href="<?php echo $this->baseUrl('report/index/csv') ?>">Télécharger</a>
 <table>
     <?php
@@ -32,3 +72,9 @@
     }
     ?>
 </table>
+<script type="text/javascript" src="<?php echo $this->baseUrl('/js/calendar.js'); ?>"></script>
+<script type="text/javascript">
+    <!--
+    init_evenement();
+    -->
+</script>

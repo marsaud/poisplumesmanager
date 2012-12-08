@@ -4,14 +4,17 @@
         <meta charset="utf-8"/>
         <?php
         $this->headLink()->appendStylesheet($this->baseUrl('/css/style.css'));
-        echo $this->headLink()->appendStylesheet($this->baseUrl('/css/admin.css'));
+        $this->headLink()->appendStylesheet($this->baseUrl('/css/admin.css'));
+        
         $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->baseUrl('/js/prototype.js'));
-        echo $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->baseUrl('/js/lib/tools.js'));
+        $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->baseUrl('/js/lib/tools.js'));
+        
+        echo $this->headLink();
+        echo $this->headScript();
         ?>
         <title>todo</title>
     </head>
     <body>
-        
         <?php
         echo $this->action('main-menu', 'index', 'default');
         echo $this->action('menu', 'index', 'admin');
