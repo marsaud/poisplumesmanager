@@ -157,6 +157,14 @@ GROUP BY ol.tax_ratio";
         return $output;
     }
 
+    /**
+     * @todo On a la BDD en privé...
+     * 
+     * @param Zend_Db_Adapter_Pdo_Abstract $db
+     * @param Zend_Date $startDate
+     * @param Zend_Date $endDate
+     * @return string
+     */
     public function detail(Zend_Db_Adapter_Pdo_Abstract $db, Zend_Date $startDate = NULL, Zend_Date $endDate = NULL)
     {
         $select = $db->select()

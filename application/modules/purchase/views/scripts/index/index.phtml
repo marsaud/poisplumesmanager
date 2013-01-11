@@ -1,6 +1,31 @@
 <?php $this->headLink()->appendStylesheet($this->baseUrl('/css/calendar.css')); ?>
-<h1>Détail des opérations</h1>
-<form method="post" action="<?php echo $this->baseUrl('report/index/detail'); ?>">
+<form method="post" action="<?php echo $this->baseUrl('purchase/create'); ?>">
+    <fieldset>
+        <legend>Création</legend>
+        <label for="purchasedate">Date</label>
+        <input class="calendrier" type="date" name="purchasedate" autocomplete="off"/>
+        <label for="purchaseitem">Description</label>
+        <textarea name="purchaseitem"></textarea>
+        <label for="purchasettc">Montant TTC</label>
+        <input type="number" name="purchasettc" autocomplete="off"/>
+        <label for="purchaseht">Montant HT</label>
+        <input type="number" name="purchaseht" autocomplete="off"/>
+        <label for="purchasetax">TVA</label>
+        <select name="purchasetax">
+            <option value="19.6" selected="selected">19,60 %</option>
+            <option value="7">7 %</option>
+        </select>
+        <label for="purchasemode">Mode de paiement</label>
+        <select name="purchasemode">
+            <option value="">- -</option>
+            <option value="cb">CB</option>
+            <option value="chq">Chèque</option>
+            <option value="mon">Espèces</option>
+        </select>
+        <input type="submit" value="OK"/>
+    </fieldset>
+</form>
+<form method="post" action="<?php echo $this->baseUrl('purchase/display'); ?>">
     <fieldset>
         <legend>Période affichée</legend>
         <noscript>
@@ -40,42 +65,12 @@
     calendarFieldSet.removeAttribute('style');
     -->
 </script>
-<a href="<?php echo $this->baseUrl('report/index/csv') ?>">Télécharger</a>
-<table>
-    <?php
-    $lines = explode(PHP_EOL, $this->content);
-    $line1 = array_shift($lines);
-
-    echo '<tr>';
-
-    $cells = explode(';', $line1);
-    foreach ($cells as $cell)
-    {
-        echo '<th>' . $cell . '</th>';
-    }
-
-    echo '</tr>';
-
-    foreach ($lines as $csvLine)
-    {
-        if (!empty($csvLine))
-        {
-            echo '<tr>';
-
-            $cells = explode(';', $csvLine);
-            foreach ($cells as $cell)
-            {
-                echo '<td>' . $cell . '</td>';
-            }
-
-            echo '</tr>';
-        }
-    }
-    ?>
-</table>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/js/calendar.js'); ?>"></script>
 <script type="text/javascript">
     <!--
     init_evenement();
     -->
 </script>
+<?php
+echo $this->action('display', 'index', 'purchase');
+?>

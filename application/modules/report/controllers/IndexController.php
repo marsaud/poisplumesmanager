@@ -21,11 +21,11 @@ class Report_IndexController extends Zend_Controller_Action
 
     public function csvAction()
     {
-        
+
         $this->_helper->getHelper('layout')->disableLayout();
         $this->_detailData();
     }
-    
+
     protected function _detailData()
     {
         if (empty($_POST))
@@ -36,6 +36,17 @@ class Report_IndexController extends Zend_Controller_Action
             $this->view->endday = date('d', time() + 60 * 60 * 24);
             $this->view->startfulldate = date('Y-m-d');
             $this->view->endfulldate = date('Y-m-d', time() + 60 * 60 * 24);
+
+            $startDate = new Zend_Date(implode('-', array(
+                                $this->view->startyear,
+                                $this->view->startmonth,
+                                $this->view->startday
+                            )));
+            $endDate = new Zend_Date(implode('-', array(
+                                $this->view->endyear,
+                                $this->view->endmonth,
+                                $this->view->endday
+                            )));
         }
         else
         {
@@ -47,7 +58,7 @@ class Report_IndexController extends Zend_Controller_Action
                 $this->view->startyear = $startFullDate[0];
                 $this->view->startmonth = $startFullDate[1];
                 $this->view->startday = $startFullDate[2];
-                
+
                 $endDate = new Zend_Date($_POST['endfulldate']);
                 $this->view->endfulldate = $_POST['endfulldate'];
                 $endFullDate = explode('-', $_POST['endfulldate']);
@@ -67,7 +78,7 @@ class Report_IndexController extends Zend_Controller_Action
                     $_POST['endmonth'],
                     $_POST['endday']
                         ));
-                
+
                 $this->view->startyear = $_POST['startyear'];
                 $this->view->startmonth = $_POST['startmonth'];
                 $this->view->startday = $_POST['startday'];
@@ -86,7 +97,7 @@ class Report_IndexController extends Zend_Controller_Action
                                 )));
             }
         }
-        
+
         /* @var $db Zend_Db_Adapter_Pdo_Abstract */
         $db = $this->getInvokeArg('bootstrap')
                 ->getResource('multidb')

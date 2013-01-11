@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8"/>
+        <?php
+        $this->headLink()->appendStylesheet($this->baseUrl('/css/style.css'));
+        
+        $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->baseUrl('/js/prototype.js'));
+        
+        echo $this->headLink();
+        echo $this->headScript();
+        ?>
+        <title>todo</title>
+    </head>
+    <body>
+        <?php
+        echo $this->action('main-menu', 'index', 'default');
+        echo $this->action('menu', 'index', 'purchase');
+        echo $this->layout()->content; 
+        ?>
+    </body>
+</html>
