@@ -30,21 +30,42 @@ class PurchaseManager
 
     /**
      * 
-     * @param Zend_Date $startDate
-     * @param Zend_Date $endDate
+     * @param DateTime $startDate
+     * @param DateTime $endDate
      * @return Purchase[]
      */
-    public function get(Zend_Date $startDate, Zend_Date $endDate)
+    public function get(DateTime $startDate, DateTime $endDate)
     {
         $p = new Purchase();
         $p->date = 'date';
         $p->id = 1;
         $p->item = 'item';
         $p->payMode = 'pm';
-        $p->priceHT = 'HT';
-        $p->priceTTC = 'TTC';
-        $p->tax = 'tax';
+        $p->priceHT = 5;
+        $p->priceTTC = 6;
+        $p->tax = 19.6;
+        $p->offMargin = false;
         
-        return array($p, $p, $p);
+        $pp = clone $p;
+        $ppp = clone $p;
+
+        $pp->offMargin = true;
+        
+        return array($p, $pp, $ppp);
+    }
+    
+    public function create(Purchase $purchase)
+    {
+        
+    }
+    
+    public function update(Purchase $purchase)
+    {
+        
+    }
+    
+    public function delete(Purchase $purchase)
+    {
+        
     }
 }

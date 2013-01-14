@@ -19,4 +19,5 @@ class Purchase
     public $priceTTC;
     public $tax;
     public $payMode;
+    public $offMargin;
 }

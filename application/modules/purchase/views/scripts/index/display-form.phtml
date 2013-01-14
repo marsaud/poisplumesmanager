@@ -1,0 +1,34 @@
+<form class="purchaseform" method="post" action="<?php echo $this->baseUrl('purchase/index/display-date'); ?>">
+    <noscript>
+    <fieldset>
+        <legend>Période affichée</legend>
+        <fieldset>
+            <legend>Début</legend>
+            <label for="year">Année</label>
+            <input type="number" name="startyear" value="<?php echo $this->startyear; ?>" autocomplete="off"/>
+            <label for="month">Mois</label>
+            <input type="number" name="startmonth" value="<?php echo $this->startmonth; ?>" autocomplete="off"/>
+            <label for="day">Jour</label>
+            <input type="number" name="startday" value="<?php echo $this->startday; ?>" autocomplete="off"/>
+        </fieldset>
+        <fieldset>
+            <legend>Fin</legend>
+            <label for="year">Année</label>
+            <input type="number" name="endyear" value="<?php echo $this->endyear; ?>" autocomplete="off"/>
+            <label for="month">Mois</label>
+            <input type="number" name="endmonth" value="<?php echo $this->endmonth; ?>" autocomplete="off"/>
+            <label for="day">Jour</label>
+            <input type="number" name="endday" value="<?php echo $this->endday; ?>" autocomplete="off"/>
+        </fieldset>
+        <input type="submit" value="OK" />
+    </fieldset>
+    </noscript>
+    <fieldset class="calendarscripted" disabled="disabled" style="display: none;">
+        <legend>Période affichée</legend>
+        <label for="year">Début</label>
+        <input class="calendrier" type="date" name="startdate" value="<?php echo $this->startDate; ?>" autocomplete="off"/>
+        <label for="year">Fin</label>
+        <input class="calendrier" type="date" name="enddate" value="<?php echo $this->endDate; ?>" autocomplete="off"/>
+        <input type="submit" value="OK" />
+    </fieldset>
+</form>

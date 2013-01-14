@@ -1,15 +1,11 @@
 <?php
 $this->headLink()->appendStylesheet($this->baseUrl('/css/calendar.css'));
-echo $this->action('create-form', 'manage', 'purchase');
-?>
-<hr/>
-<?php
-echo $this->action('display-form', 'index', 'purchase');
+echo $this->action('update-form', 'manage', 'purchase');
 ?>
 <script type="text/javascript">
     <!--
     var calendarFieldSets = $$('*[class~="calendarscripted"]');
-    calendarFieldSets.each(function (item) {    
+    calendarFieldSets.each(function (item) {
         item.removeAttribute('disabled');
         item.removeAttribute('style');
     });
@@ -21,6 +17,3 @@ echo $this->action('display-form', 'index', 'purchase');
     init_evenement();
     -->
 </script>
-<?php
-echo $this->action('display', 'index', 'purchase');
-?>

@@ -1,0 +1,28 @@
+<form class="purchaseform" method="post" action="<?php echo $this->baseUrl('purchase/manage/create'); ?>">
+    <fieldset>
+        <legend>Création</legend>
+        <label for="purchasedate">Date</label>
+        <input class="calendrier" type="date" name="purchasedate" autocomplete="off"/>
+        <label for="purchaseitem">Description</label>
+        <textarea name="purchaseitem"></textarea>
+        <label for="purchasettc">Montant TTC</label>
+        <input type="number" name="purchasettc" autocomplete="off"/>
+        <label for="purchaseht">Montant HT</label>
+        <input type="number" name="purchaseht" autocomplete="off"/>
+        <label for="purchasetax">TVA</label>
+        <select name="purchasetax">
+            <option value="19.6" selected="selected">19,60 %</option>
+            <option value="7">7 %</option>
+        </select>
+        <label for="purchasemode">Mode de paiement</label>
+        <select name="purchasemode">
+            <option value="">- -</option>
+            <option value="cb">CB</option>
+            <option value="chq">Chèque</option>
+            <option value="mon">Espèces</option>
+        </select>
+        <label for="offmargin">Hors-marge</label>
+        <input type="checkbox" name="offmargin" />
+        <input type="submit" value="OK"/>
+    </fieldset>
+</form>

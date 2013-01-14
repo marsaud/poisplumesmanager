@@ -1,0 +1,32 @@
+<?php
+$this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
+?>
+<form class="purchaseform" method="post" action="<?php echo $this->baseUrl('purchase/manage/update'); ?>">
+    <fieldset>
+        <legend>Modification</legend>
+        <label for="purchasedate">Date</label>
+        <input class="calendrier" type="date" name="purchasedate" autocomplete="off" value="<?php echo $this->calendarDate($this->purchase->date); ?>"/>
+        <label for="purchaseitem">Description</label>
+        <textarea name="purchaseitem"><?php echo $this->purchase->item; ?></textarea>
+        <label for="purchasettc">Montant TTC</label>
+        <input type="number" name="purchasettc" autocomplete="off" value="<?php echo $this->purchase->priceTTC; ?>"/>
+        <label for="purchaseht">Montant HT</label>
+        <input type="number" name="purchaseht" autocomplete="off" value="<?php echo $this->purchase->priceHT; ?>"/>
+        <label for="purchasetax">TVA</label>
+        <select name="purchasetax">
+            <option value="19.6" <?php echo ($this->purchase->tax == 19.6) ? 'selected="selected"' : ''; ?>>19,60 %</option>
+            <option value="7" <?php echo ($this->purchase->tax == 7) ? 'selected="selected"' : ''; ?>>7 %</option>
+        </select>
+        <label for="purchasemode">Mode de paiement</label>
+        <select name="purchasemode">
+            <option value="">- -</option>
+            <option value="cb" <?php echo ($this->purchase->payMode == 'cb') ? 'selected="selected"' : ''; ?>>CB</option>
+            <option value="chq" <?php echo ($this->purchase->payMode == 'chq') ? 'selected="selected"' : ''; ?>>Chèque</option>
+            <option value="mon" <?php echo ($this->purchase->payMode == 'mon') ? 'selected="selected"' : ''; ?>>Espèces</option>
+        </select>
+        <label for="offmargin">Hors-marge</label>
+        <input type="checkbox" name="offmargin" <?php echo $this->purchase->offMargin ? 'checked="checked"' : ''; ?>/>
+        <input type="hidden" name="id" value="<?php echo $this->purchase->id; ?>"/>
+        <input type="submit" value="OK"/>
+    </fieldset>
+</form>

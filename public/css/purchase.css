@@ -1,0 +1,21 @@
+/*
+    Document   : admin
+    Created on : 25 juil. 2012, 23:17:11
+    Author     : fabrice
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.purchaseform input:focus, 
+.purchaseform textarea:focus, 
+.purchaseform select:focus {
+    background-color: lightblue;
+}
+
+fieldset {
+    background-color: lightgray;
+}
+
+legend {
+    font-weight: bold;
+}

@@ -12,6 +12,7 @@
  * @property-read CartTrailer $cartTrailer Description
  * @property-read CategoryMapper $categoryMapper Description
  * @property-read OperationMapper $operationMapper Description
+ * @property-read OperationManager $operationManager Description
  * @property-read PaymentMapper $paymentMapper Description
  * @property-read PromotionMapper $promotionMapper Description
  * @property-read ProviderMapper $providerMapper Description

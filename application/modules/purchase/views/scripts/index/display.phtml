@@ -1,3 +1,4 @@
 <?php
-var_dump($this->content);
+$this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Purchase_View_Helper');
+echo $this->purchaseDisplay($this->content);
 ?>
