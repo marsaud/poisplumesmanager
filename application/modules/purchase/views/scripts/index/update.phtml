@@ -1,10 +1,10 @@
 <?php
 $this->headLink()->appendStylesheet($this->baseUrl('/css/calendar.css'));
-echo $this->action('update-form', 'manage', 'purchase');
+echo $this->action('update-form', 'manage', 'purchase', array('purchaseid' => $this->purchaseid));
 ?>
 <script type="text/javascript">
     <!--
-    var calendarFieldSets = $$('*[class~="calendarscripted"]');
+    var calendarFieldSets = $$('.calendarscripted');
     calendarFieldSets.each(function (item) {
         item.removeAttribute('disabled');
         item.removeAttribute('style');

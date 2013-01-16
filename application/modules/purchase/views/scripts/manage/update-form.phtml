@@ -26,7 +26,7 @@ $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Help
         </select>
         <label for="offmargin">Hors-marge</label>
         <input type="checkbox" name="offmargin" <?php echo $this->purchase->offMargin ? 'checked="checked"' : ''; ?>/>
-        <input type="hidden" name="id" value="<?php echo $this->purchase->id; ?>"/>
+        <input type="hidden" name="purchaseid" value="<?php echo $this->purchase->id; ?>"/>
         <input type="submit" value="OK"/>
     </fieldset>
 </form>

@@ -3,16 +3,25 @@
 class Purchase_IndexController extends PurchaseControllerAbstract
 {
 
+    /**
+     * Main page for the purchase module
+     */
     public function indexAction()
     {
         
     }
 
+    /**
+     * Purchase module menu
+     */
     public function menuAction()
     {
         
     }
 
+    /**
+     * For displaying purchases 
+     */
     public function displayAction()
     {
         $session = new Zend_Session_Namespace('purchase');
@@ -26,9 +35,12 @@ class Purchase_IndexController extends PurchaseControllerAbstract
 
         $pm = new PurchaseManager($db);
 
-        $this->view->content = $pm->get($startDate, $endDate);
+        $this->view->content = $pm->getPeriod($startDate, $endDate);
     }
 
+    /**
+     * Display period form
+     */
     public function displayFormAction()
     {
         $session = new Zend_Session_Namespace('purchase');
@@ -43,6 +55,9 @@ class Purchase_IndexController extends PurchaseControllerAbstract
         $this->view->endDate = $session->endDate;
     }
 
+    /**
+     * Processing display period choice
+     */
     public function displayDateAction()
     {
         $startDate = new DateTime($_POST['startdate']);
@@ -54,10 +69,14 @@ class Purchase_IndexController extends PurchaseControllerAbstract
 
         $this->_forward('index', 'index', 'purchase');
     }
-    
+
+    /**
+     * Leading to a purchase updating form
+     */
     public function updateAction()
     {
-        
+        $this->view->purchaseid = $this->getRequest()->getParam('purchaseid');
     }
+
 }
 

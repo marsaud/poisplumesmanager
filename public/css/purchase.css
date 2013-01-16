@@ -19,3 +19,8 @@ fieldset {
 legend {
     font-weight: bold;
 }
+
+tr.deleteselected {
+    background-color: red;
+    color: white;
+}

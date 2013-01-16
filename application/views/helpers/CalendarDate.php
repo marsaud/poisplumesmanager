@@ -15,6 +15,6 @@ class Application_View_Helper_CalendarDate
     public function calendarDate($dateString)
     {
         $date = new DateTime($dateString);
-        return $date->format('H-m-d');
+        return $date->format('Y-m-d');
     }
 }

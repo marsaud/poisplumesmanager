@@ -24,10 +24,10 @@ class Purchase_View_Helper_PurchaseDisplay extends Zend_View_Helper_Abstract
         
         foreach($purchases as $purchase)
         {
-            $table .= '<tr>' . $this->_displayPurcahseLine($purchase) . '</tr>';
+            $table .= '<tr class="purchaseline">' . $this->_displayPurcahseLine($purchase) . '</tr>';
         }
         
-        $table = '<table><tr><th>Objet</th><th>HT</th><th>TVA</th><th>TTC</th><th>Paiement</th><th>Hors-marge</th><th>Actions</th></tr>' . $table . '</table>';
+        $table = '<table><tr><th>Objet</th><th>HT</th><th>TVA</th><th>TTC</th><th>Paiement</th><th>Hors-marge</th><th>Date</th><th>Actions</th></tr>' . $table . '</table>';
         
         return $table;
     }
@@ -42,8 +42,9 @@ class Purchase_View_Helper_PurchaseDisplay extends Zend_View_Helper_Abstract
         $line .= '<td>' . $this->view->currency($purchase->priceTTC) . '</td>';
         $line .= '<td>' . $purchase->payMode . '</td>';
         $line .= '<td>' . ($purchase->offMargin ? 'X' : '') . '</td>';
-        $line .= '<td><a href="'.$this->view->baseUrl('purchase/index/update/id/' . $purchase->id).'">Modifier</a>';
-        $line .= '&nbsp;<a href="'.$this->view->baseUrl('purchase/manage/delete/id/' . $purchase->id).'">Supprimer</a></td>';
+        $line .= '<td>'. $purchase->date .'</td>';
+        $line .= '<td><a href="'.$this->view->baseUrl('purchase/index/update/purchaseid/' . $purchase->id).'">Modifier</a>';
+        $line .= '&nbsp;<a href="'.$this->view->baseUrl('purchase/manage/delete/purchaseid/' . $purchase->id).'" class="confirm">Supprimer</a></td>';
         
         return $line;
     }

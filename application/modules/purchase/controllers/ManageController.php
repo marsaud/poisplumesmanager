@@ -19,31 +19,48 @@ class Purchase_ManageController extends PurchaseControllerAbstract
         {
             $date = new DateTime($_POST['purchasedate']);
             $purchase = new Purchase();
-            $purchase->date = $date->format('Y-m-d H:i:s');
+            $purchase->date = $date->format('Y-m-d');
             $purchase->item = $_POST['purchaseitem'];
             $purchase->offMargin = isset($_POST['offmargin']);
             $purchase->payMode = $_POST['purchasemode'];
             $purchase->priceHT = $_POST['purchaseht'];
             $purchase->priceTTC = $_POST['purchasettc'];
             $purchase->tax = $_POST['purchasetax'];
-            
+
             $purchaseManager = $this->purchaseManager;
             $purchaseManager->create($purchase);
-            
+
             $_POST = array();
-            
+
             $this->_forward('index', 'index', 'purchase');
         }
     }
 
     public function updateAction()
     {
+        $purchase = new Purchase();
+        $purchase->id = $_POST['purchaseid'];
+        $purchase->date = $_POST['purchasedate'];
+        $purchase->item = $_POST['purchaseitem'];
+        $purchase->offMargin = isset($_POST['offmargin']);
+        $purchase->payMode = $_POST['purchasemode'];
+        $purchase->priceHT = $_POST['purchaseht'];
+        $purchase->priceTTC = $_POST['purchasettc'];
+        $purchase->tax = $_POST['purchasetax'];
+        
+        $this->purchaseManager->update($purchase);
+        
         $this->_forward('index', 'index', 'purchase');
     }
 
     public function deleteAction()
     {
-        $this->_forward('index', 'index', 'purchase');   
+        $purchaseManager = $this->purchaseManager;
+        
+        $purchase = $purchaseManager->get($this->getRequest()->getParam('purchaseid'));
+        $purchaseManager->delete($purchase);
+        
+        $this->_forward('index', 'index', 'purchase');
     }
 
     public function createFormAction()
@@ -53,17 +70,7 @@ class Purchase_ManageController extends PurchaseControllerAbstract
 
     public function updateFormAction()
     {
-        $purchase = new Purchase();
-        
-        $purchase->date = '2013-01-14 21:45:00';
-        $purchase->id = 99;
-        $purchase->item = 'Taratata';
-        $purchase->offMargin = true;
-        $purchase->payMode = 'chq';
-        $purchase->priceHT = '5.87';
-        $purchase->priceTTC = '6.99';
-        $purchase->tax = 7;
-        
+        $purchase = $this->purchaseManager->get($this->getRequest()->getParam('purchaseid'));
         $this->view->purchase = $purchase;
     }
 
