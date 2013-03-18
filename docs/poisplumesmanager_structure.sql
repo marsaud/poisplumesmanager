@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Sam 13 Octobre 2012 à 21:23
+-- Généré le: Mer 16 Janvier 2013 à 21:22
 -- Version du serveur: 5.5.24-log
 -- Version de PHP: 5.3.13
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de données: `poisplumesmanager`
+-- Base de données: `poisplumesmanager2`
 --
 
 -- --------------------------------------------------------
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `article` (
   `tax_id` int(11) NOT NULL,
   `priceht` decimal(10,2) NOT NULL,
   `stocked` tinyint(1) NOT NULL,
-  `qty` decimal(10,2) DEFAULT NULL,
+  `qty` decimal(10,4) DEFAULT NULL,
   `unit` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ref`),
   UNIQUE KEY `name_UNIQUE` (`name`),
@@ -67,7 +67,10 @@ CREATE TABLE IF NOT EXISTS `carttrailer` (
   `payment_date` timestamp NULL DEFAULT NULL,
   `cancelled` tinyint(1) NOT NULL,
   `cancel_date` timestamp NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`hash`)
+  PRIMARY KEY (`hash`),
+  UNIQUE KEY `hash_3` (`hash`),
+  KEY `hash` (`hash`),
+  KEY `hash_2` (`hash`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -150,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `promo` (
   `description` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_uniq` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -178,8 +181,40 @@ CREATE TABLE IF NOT EXISTS `provider` (
   `comment` longtext,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `purchase`
+--
+
+CREATE TABLE IF NOT EXISTS `purchase` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `item` text NOT NULL,
+  `priceht` float(10,2) NOT NULL,
+  `pricettc` float(10,2) NOT NULL,
+  `tax` float(10,2) NOT NULL,
+  `paymode` enum('cb','chq','mon') NOT NULL,
+  `offmargin` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+-- --------------------------------------------------------
+
+--
+-- Doublure de structure pour la vue `reporttrailview`
+--
+CREATE TABLE IF NOT EXISTS `reporttrailview` (
+`hash` varchar(32)
+,`pay_date` timestamp
+,`total` decimal(10,2)
+,`cb` decimal(10,2)
+,`chq` decimal(10,2)
+,`chr` decimal(10,2)
+,`mon` decimal(10,2)
+);
 -- --------------------------------------------------------
 
 --
@@ -190,15 +225,15 @@ CREATE TABLE IF NOT EXISTS `stocktrail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `articleref` varchar(45) NOT NULL,
   `articlename` varchar(255) NOT NULL,
-  `previous` decimal(10,0) NOT NULL,
-  `modif` decimal(10,0) NOT NULL,
-  `new` decimal(10,0) NOT NULL,
+  `previous` decimal(10,4) NOT NULL,
+  `modif` decimal(10,4) NOT NULL,
+  `new` decimal(10,4) NOT NULL,
   `unit` varchar(45) DEFAULT NULL,
   `date` datetime NOT NULL,
   `user` varchar(45) NOT NULL,
   `comment` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -213,7 +248,16 @@ CREATE TABLE IF NOT EXISTS `tax` (
   `description` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la vue `reporttrailview`
+--
+DROP TABLE IF EXISTS `reporttrailview`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `reporttrailview` AS select `c`.`hash` AS `hash`,`c`.`payment_date` AS `pay_date`,`o`.`total_sale_price` AS `total`,`o`.`cb` AS `cb`,`o`.`chq` AS `chq`,`o`.`chr` AS `chr`,`o`.`mon` AS `mon` from (`carttrailer` `c` join `operationstrail` `o` on((`c`.`hash` = `o`.`hash`))) where (`c`.`payed` = 1);
 
 --
 -- Contraintes pour les tables exportées
@@ -223,13 +267,13 @@ CREATE TABLE IF NOT EXISTS `tax` (
 -- Contraintes pour la table `article`
 --
 ALTER TABLE `article`
-  ADD CONSTRAINT `fk_article_tva1` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`);
+  ADD CONSTRAINT `article_ibfk_1` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`) ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `articleprovider`
 --
 ALTER TABLE `articleprovider`
-  ADD CONSTRAINT `fk_articleprovider_article1` FOREIGN KEY (`article_ref`) REFERENCES `article` (`ref`),
+  ADD CONSTRAINT `articleprovider_ibfk_1` FOREIGN KEY (`article_ref`) REFERENCES `article` (`ref`) ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_articleprovider_provider1` FOREIGN KEY (`provider_id`) REFERENCES `provider` (`id`);
 
 --
@@ -242,7 +286,7 @@ ALTER TABLE `category`
 -- Contraintes pour la table `categoryarticle`
 --
 ALTER TABLE `categoryarticle`
-  ADD CONSTRAINT `fk_categoryarticle_article1` FOREIGN KEY (`article_ref`) REFERENCES `article` (`ref`),
+  ADD CONSTRAINT `categoryarticle_ibfk_1` FOREIGN KEY (`article_ref`) REFERENCES `article` (`ref`) ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_categoryarticle_category1` FOREIGN KEY (`category_ref`) REFERENCES `category` (`ref`);
 
 --

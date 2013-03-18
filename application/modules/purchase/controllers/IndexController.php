@@ -8,7 +8,7 @@ class Purchase_IndexController extends PurchaseControllerAbstract
      */
     public function indexAction()
     {
-        
+        $this->_forward('manage', 'index', 'purchase');
     }
 
     /**
@@ -18,9 +18,18 @@ class Purchase_IndexController extends PurchaseControllerAbstract
     {
         
     }
+    
+    /**
+     * Composed of Create form and Display zone
+     * Menu acces
+     */
+    public function manageAction()
+    {
+        
+    }
 
     /**
-     * For displaying purchases 
+     * Display zone
      */
     public function displayAction()
     {
@@ -71,7 +80,7 @@ class Purchase_IndexController extends PurchaseControllerAbstract
     }
 
     /**
-     * Leading to a purchase updating form
+     * Composed of update form
      */
     public function updateAction()
     {

@@ -10,14 +10,9 @@
  *
  * @author fabrice
  */
-class Purchase
+class Purchase extends AbstractMove
 {
-    public $id;
-    public $date;
-    public $item;
     public $priceHT;
-    public $priceTTC;
     public $tax;
-    public $payMode;
     public $offMargin;
 }

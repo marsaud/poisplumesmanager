@@ -1,9 +1,9 @@
-<form class="purchaseform" method="post" action="<?php echo $this->baseUrl('purchase/index/display-date'); ?>">
+<form class="purchaseform" method="post" action="<?php echo $this->baseUrl('purchase/cash/display-date'); ?>">
     <fieldset class="calendarscripted">
         <legend>Période affichée</legend>
         <label for="year">Début</label>
         <input class="calendrier" type="date" name="startdate" value="<?php echo $this->startDate; ?>" autocomplete="off"/>
-        <label for="year">Fin</label>
+        <label for="year">Etat au :</label>
         <input class="calendrier" type="date" name="enddate" value="<?php echo $this->endDate; ?>" autocomplete="off"/>
         <input type="submit" value="OK" />
     </fieldset>

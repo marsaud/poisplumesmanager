@@ -9,6 +9,7 @@
  * Description of PurchaseControllerAbstract
  * 
  * @property-read PurchaseManager $purchaseManager Description
+ * @property-read CashManager $cashManager Description
  *
  * @author fabrice
  */
@@ -18,8 +19,13 @@ class PurchaseControllerAbstract extends AbstractControllerAbstract
     public function init()
     {
         parent::init();
+        require_once APPLICATION_PATH . '/modules/purchase/models/AbstractMove.php';
         require_once APPLICATION_PATH . '/modules/purchase/models/Purchase.php';
         require_once APPLICATION_PATH . '/modules/purchase/models/PurchaseManager.php';
+        require_once APPLICATION_PATH . '/modules/purchase/models/CashMove.php';
+        require_once APPLICATION_PATH . '/modules/purchase/models/CashState.php';
+        require_once APPLICATION_PATH . '/modules/purchase/models/CashManager.php';
+        
     }
 
     /**
@@ -27,13 +33,20 @@ class PurchaseControllerAbstract extends AbstractControllerAbstract
      * @var PurchaseManager
      */
     protected $_purchaseManager;
+    
+    /**
+     *
+     * @var CashManager
+     */
+    protected $_cashManager;
 
     /**
      *
      * @var string[]
      */
     protected $_models = array(
-        'purchaseManager'
+        'purchaseManager',
+        'cashManager'
     );
 
 }

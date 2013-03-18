@@ -1,0 +1,16 @@
+<?php
+$this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
+?>
+<form class="purchaseform" method="post" action="<?php echo $this->baseUrl('purchase/cash/update'); ?>">
+    <fieldset>
+        <legend>Modification</legend>
+        <label for="movedate">Date</label>
+        <input class="calendrier" type="date" name="movedate" autocomplete="off" value="<?php echo $this->calendarDate($this->cashMove->date); ?>"/>
+        <label for="moveitem">Description</label>
+        <textarea name="moveitem"><?php echo $this->cashMove->item; ?></textarea>
+        <label for="movettc">Montant TTC</label>
+        <input type="number" name="movettc" autocomplete="off" value="<?php echo $this->cashMove->priceTTC; ?>"/>
+        <input type="hidden" name="moveid" value="<?php echo $this->cashMove->id; ?>"/>
+        <input type="submit" value="OK"/>
+    </fieldset>
+</form>

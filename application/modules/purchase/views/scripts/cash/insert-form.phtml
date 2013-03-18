@@ -1,0 +1,12 @@
+<form class="purchaseform" method="post" action="<?php echo $this->baseUrl('purchase/cash/insert'); ?>">
+    <fieldset>
+        <legend>Insérer un mouvement de caisse</legend>
+        <label for="movedate">Date</label>
+        <input class="calendrier" type="date" name="movedate" autocomplete="off"/>
+        <label for="moveitem">Description</label>
+        <textarea name="moveitem"></textarea>
+        <label for="movettc">Montant TTC</label>
+        <input type="number" name="movettc" autocomplete="off"/>
+        <input type="submit" value="OK"/>
+    </fieldset>
+</form>

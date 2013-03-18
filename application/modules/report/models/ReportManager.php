@@ -165,7 +165,7 @@ GROUP BY ol.tax_ratio";
      * @param Zend_Date $endDate
      * @return string
      */
-    public function detail(Zend_Db_Adapter_Pdo_Abstract $db, Zend_Date $startDate = NULL, Zend_Date $endDate = NULL)
+    public function detail(Zend_Db_Adapter_Pdo_Abstract $db, DateTime $startDate = NULL, DateTime $endDate = NULL)
     {
         $select = $db->select()
                 ->from('carttrailer', array('hash', 'payment_date'))
@@ -175,18 +175,12 @@ GROUP BY ol.tax_ratio";
 
         if (NULL !== $startDate)
         {
-            $startDate->setHour(0);
-            $startDate->setMinute(0);
-            $startDate->setSecond(0);
-            $select->where('payment_date >= ?', $startDate->getIso());
+            $select->where('payment_date >= ?', $startDate->format('Y-m-d'));
         }
 
         if (NULL !== $endDate)
         {
-            $endDate->setHour(23);
-            $endDate->setMinute(59);
-            $endDate->setSecond(59);
-            $select->where('payment_date <= ?', $endDate->getIso());
+            $select->where('payment_date <= ?', $endDate->format('Y-m-d 23:59:59'));
         }
 
         $query = $select->query();

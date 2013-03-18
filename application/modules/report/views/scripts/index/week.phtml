@@ -1,31 +1,12 @@
 <?php $this->headLink()->appendStylesheet($this->baseUrl('/css/calendar.css')); ?>
 <h1>Consolidation hebdomadaire</h1>
 <form method="post" action="<?php echo $this->baseUrl('report/index/week'); ?>">
-    <noscript>
     <fieldset>
-        <legend>Date de recherche</legend>
-        <label for="year">Année</label>
-        <input type="number" name="year" value="<?php echo $this->year; ?>" autocomplete="off"/>
-        <label for="month">Mois</label>
-        <input type="number" name="month" value="<?php echo $this->month; ?>" autocomplete="off"/>
-        <label for="day">Jour</label>
-        <input type="number" name="day" value="<?php echo $this->day; ?>" autocomplete="off"/>
-        <input type="submit" value="OK" />
-    </fieldset>
-    </noscript>
-    <fieldset id="calendarscripted" disabled="disabled" style="display: none;">
         <label for="year">Date de recherche</label>
         <input class="calendrier" type="date" name="fulldate" value="<?php echo $this->fulldate; ?>" autocomplete="off"/>
         <input type="submit" value="OK" />
     </fieldset>
 </form>
-<script type="text/javascript">
-    <!--
-    var calendarFieldSet = $('calendarscripted');
-    calendarFieldSet.removeAttribute('disabled');
-    calendarFieldSet.removeAttribute('style');
-    -->
-</script>
 <?php if (isset($this->report)) : ?>
     <table>
         <tr><th>Jour</th><th>CB</th><th>Chèques</th><th>Ch.Resto</th><th>Espèces</th><th>Total</th></tr>

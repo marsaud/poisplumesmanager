@@ -1,14 +1,18 @@
+<?php $this->headLink()->appendStylesheet($this->baseUrl('/css/calendar.css')); ?>
 <h1>Déclaration mensuelle</h1>
 <form method="post" action="<?php echo $this->baseUrl('report/index/month'); ?>">
     <fieldset>
-        <legend>Date de synthèse</legend>
-        <label for="year">Année</label>
-        <input type="number" name="year" value="<?php echo $this->year; ?>" autocomplete="off"/>
-        <label for="month">Mois</label>
-        <input type="number" name="month" value="<?php echo $this->month; ?>" autocomplete="off"/>
+        <label for="year">Date de synthèse</label>
+        <input class="calendrier" type="date" name="fulldate" value="<?php echo $this->fulldate; ?>" autocomplete="off"/>
         <input type="submit" value="OK" />
     </fieldset>
 </form>
+<script type="text/javascript" src="<?php echo $this->baseUrl('/js/calendar.js'); ?>"></script>
+<script type="text/javascript">
+    <!--
+    init_evenement();
+    -->
+</script>
 <table>
     <?php
     if (empty($this->report))
@@ -41,5 +45,5 @@
     ?>
 </table>
 <p>
-    <a href="<?php echo $this->baseUrl('report/index/month-csv?month=' . $this->month . '&year=' . $this->year); ?>">Télécharger</a>
+    <a href="<?php echo $this->baseUrl('report/index/month-csv/fulldate/' . $this->fulldate); ?>">Télécharger</a>
 </p>

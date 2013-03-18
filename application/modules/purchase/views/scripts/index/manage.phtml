@@ -1,0 +1,23 @@
+<?php
+$this->headLink()->appendStylesheet($this->baseUrl('/css/calendar.css'));
+echo $this->action('create-form', 'manage', 'purchase');
+?>
+<hr/>
+<?php
+echo $this->action('display-form', 'index', 'purchase');
+?>
+<script type="text/javascript" src="<?php echo $this->baseUrl('/js/calendar.js'); ?>"></script>
+<script type="text/javascript">
+    <!--
+    init_evenement();
+    -->
+</script>
+<?php
+echo $this->action('display', 'index', 'purchase');
+?>
+<script type="text/javascript" src="<?php echo $this->baseUrl('/js/purchase/purchase.js'); ?>"></script>
+<script type="text/javascript">
+    <!--
+    purchaseInit();
+    -->
+</script>

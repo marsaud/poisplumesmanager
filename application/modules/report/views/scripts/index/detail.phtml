@@ -3,28 +3,7 @@
 <form method="post" action="<?php echo $this->baseUrl('report/index/detail'); ?>">
     <fieldset>
         <legend>Période affichée</legend>
-        <noscript>
         <fieldset>
-            <legend>Début</legend>
-            <label for="year">Année</label>
-            <input type="number" name="startyear" value="<?php echo $this->startyear; ?>" autocomplete="off"/>
-            <label for="month">Mois</label>
-            <input type="number" name="startmonth" value="<?php echo $this->startmonth; ?>" autocomplete="off"/>
-            <label for="day">Jour</label>
-            <input type="number" name="startday" value="<?php echo $this->startday; ?>" autocomplete="off"/>
-        </fieldset>
-        <fieldset>
-            <legend>Fin</legend>
-            <label for="year">Année</label>
-            <input type="number" name="endyear" value="<?php echo $this->endyear; ?>" autocomplete="off"/>
-            <label for="month">Mois</label>
-            <input type="number" name="endmonth" value="<?php echo $this->endmonth; ?>" autocomplete="off"/>
-            <label for="day">Jour</label>
-            <input type="number" name="endday" value="<?php echo $this->endday; ?>" autocomplete="off"/>
-        </fieldset>
-        <input type="submit" value="OK" />
-        </noscript>
-        <fieldset id="calendarscripted" disabled="disabled" style="display: none;">
             <label for="year">Début</label>
             <input class="calendrier" type="date" name="startfulldate" value="<?php echo $this->startfulldate; ?>" autocomplete="off"/>
             <label for="year">Fin</label>
@@ -33,14 +12,7 @@
         </fieldset>
     </fieldset>
 </form>
-<script type="text/javascript">
-    <!--
-    var calendarFieldSet = $('calendarscripted');
-    calendarFieldSet.removeAttribute('disabled');
-    calendarFieldSet.removeAttribute('style');
-    -->
-</script>
-<a href="<?php echo $this->baseUrl('report/index/csv') ?>">Télécharger</a>
+<a href="<?php echo $this->baseUrl('report/index/csv/startfulldate/' . $this->startfulldate . '/endfulldate/' . $this->endfulldate) ?>">Télécharger</a>
 <table>
     <?php
     $lines = explode(PHP_EOL, $this->content);

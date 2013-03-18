@@ -12,7 +12,9 @@
  */
 class Purchase_ManageController extends PurchaseControllerAbstract
 {
-
+    /**
+     * Creates from a submission and forwards to default action
+     */
     public function createAction()
     {
         if (!empty($_POST))
@@ -36,6 +38,9 @@ class Purchase_ManageController extends PurchaseControllerAbstract
         }
     }
 
+    /**
+     * Updates from a submission and forwards to default action
+     */
     public function updateAction()
     {
         $purchase = new Purchase();
@@ -53,6 +58,9 @@ class Purchase_ManageController extends PurchaseControllerAbstract
         $this->_forward('index', 'index', 'purchase');
     }
 
+    /**
+     * Deletes from a submission and forward to default action
+     */
     public function deleteAction()
     {
         $purchaseManager = $this->purchaseManager;
@@ -63,11 +71,17 @@ class Purchase_ManageController extends PurchaseControllerAbstract
         $this->_forward('index', 'index', 'purchase');
     }
 
+    /**
+     * The creation form
+     */
     public function createFormAction()
     {
         
     }
 
+    /**
+     * The update form
+     */
     public function updateFormAction()
     {
         $purchase = $this->purchaseManager->get($this->getRequest()->getParam('purchaseid'));

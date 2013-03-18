@@ -16,6 +16,7 @@ $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Help
         <select name="purchasetax">
             <option value="19.6" <?php echo ($this->purchase->tax == 19.6) ? 'selected="selected"' : ''; ?>>19,60 %</option>
             <option value="7" <?php echo ($this->purchase->tax == 7) ? 'selected="selected"' : ''; ?>>7 %</option>
+            <option value="5.5" <?php echo ($this->purchase->tax == 5.5) ? 'selected="selected"' : ''; ?>>5,5 %</option>
         </select>
         <label for="purchasemode">Mode de paiement</label>
         <select name="purchasemode">
