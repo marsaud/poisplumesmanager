@@ -56,8 +56,8 @@ class OperationMapper
             $tableTrail = 'operationstrail';
             $bindTrail = array(
                 'hash' => $hash,
-                'total_raw_price' => $totalRawPrice,
-                'total_tax' => $totalTax,
+                'total_raw_price' => $totalRawPrice, // @todo FAUX !! c'est un array !
+                'total_tax' => $totalTax, // @todo FAUX !! c'est un array !
                 'total_sale_price' => $totalSalePrice,
             );
             foreach ($payments as $payement)

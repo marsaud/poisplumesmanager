@@ -7,11 +7,6 @@
     float: left;
 }
 
-#promo {
-    margin-left: 50%;
-    width: 50%;
-}
-
 #choice {
     width: 50%;
     background-color: gainsboro;
@@ -25,9 +20,12 @@
 }
 
 
-#bill {
+#billing {
     margin-left: 50%;
     width: 50%;
+}
+
+#bill {
     background-color: pink;
 }
 input[type=button] {

@@ -1,21 +1,6 @@
 <?php
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegister_View_Helper');
 ?>
-<div id="modificators">
-    <div id="quantity">
-        <input type="button" qty="2" value="x2"/>
-        <input type="button" qty="3" value="x3"/>
-        <input type="button" qty="4" value="x4"/>
-        <input type="button" qty="5" value="x5"/>
-    </div>
-    <div id="promo">
-        <input id="promoToggle" type="button" value="Promotions"/>
-        <input id="promoRemove" type="button" value="Sans promotion"/>
-        <div id="promoPad">
-            <?php echo $this->promoPad($this->promoList); ?>
-        </div>
-    </div>
-</div>
 <div id="choice">
     <h6>Catégories</h6>
     <div id="categorypad" class="touchpad">
@@ -26,13 +11,30 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegist
     <h6>Articles</h6>
     <div id="articlepad" class="touchpad"></div>
 </div>
-<form id="bill" method="post" action="<?php echo $this->baseUrl('cash-register/index/pay'); ?>">
-    <fieldset>
-        <input type="submit" value="Enregistrer"/>
-        <input id="total" type="text" disabled="disabled" value="<?php $this->currency(0);?>"/>
-    </fieldset>
-    <fieldset id="billList"></fieldset>
-</form>
+<div id="billing">
+    <div id="modificators">
+        <div id="quantity" style="display: none;">
+            <input type="button" qty="2" value="x2"/>
+            <input type="button" qty="3" value="x3"/>
+            <input type="button" qty="4" value="x4"/>
+            <input type="button" qty="5" value="x5"/>
+        </div>
+        <div id="promo">
+            <input id="promoToggle" type="button" value="Promotions"/>
+            <input id="promoRemove" type="button" value="Sans promotion"/>
+            <div id="promoPad">
+                <?php echo $this->promoPad($this->promoList); ?>
+            </div>
+        </div>
+    </div>
+    <form id="bill" method="post" action="<?php echo $this->baseUrl('cash-register/index/pay'); ?>">
+        <fieldset>
+            <input type="submit" value="Enregistrer"/>
+            <input id="total" type="text" disabled="disabled" value="<?php $this->currency(0); ?>"/>
+        </fieldset>
+        <fieldset id="billList"></fieldset>
+    </form>
+</div>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/cash-register/front-end.js'); ?>"></script>
 <script type="text/javascript">
     frontEndInit();
