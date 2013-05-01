@@ -1,0 +1,20 @@
+<form class="purchaseform" method="post" action="<?php echo $this->baseUrl('purchase/income/create'); ?>">
+    <fieldset>
+        <legend>Création</legend>
+        <label for="incomedate">Date</label>
+        <input class="calendrier" type="date" name="incomedate" autocomplete="off"/>
+        <label for="incomeitem">Description</label>
+        <textarea name="incomeitem"></textarea>
+        <label for="incomepricettc">Montant (Total TTC)</label>
+        <input type="number" name="incomepricettc" autocomplete="off"/>
+        <label for="incomemode">Mode de paiement</label>
+        <select name="incomemode">
+            <option value="">- -</option>
+            <option value="vir">Virement</option>
+            <option value="cb">CB</option>
+            <option value="chq">Chèque</option>
+            <option value="mon">Espèces</option>
+        </select>
+        <input type="submit" value="OK"/>
+    </fieldset>
+</form>

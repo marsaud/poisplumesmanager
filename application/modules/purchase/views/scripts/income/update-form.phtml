@@ -1,0 +1,24 @@
+<?php
+$this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
+?>
+<form class="incomeform" method="post" action="<?php echo $this->baseUrl('purchase/income/update'); ?>">
+    <fieldset>
+        <legend>Modification</legend>
+        <label for="incomedate">Date</label>
+        <input class="calendrier" type="date" name="incomedate" autocomplete="off" value="<?php echo $this->calendarDate($this->income->date); ?>"/>
+        <label for="incomeitem">Description</label>
+        <textarea name="incomeitem"><?php echo $this->income->item; ?></textarea>
+        <label for="incomettc">Montant (Total TTC)</label>
+        <input type="number" name="incomepricettc" autocomplete="off" value="<?php echo $this->income->priceTTC; ?>"/>
+        <label for="incomemode">Mode de paiement</label>
+        <select name="incomemode">
+            <option value="">- -</option>
+            <option value="vir" <?php echo ($this->income->payMode == 'vir') ? 'selected="selected"' : ''; ?>>Virement</option>
+            <option value="cb" <?php echo ($this->income->payMode == 'cb') ? 'selected="selected"' : ''; ?>>CB</option>
+            <option value="chq" <?php echo ($this->income->payMode == 'chq') ? 'selected="selected"' : ''; ?>>Chèque</option>
+            <option value="mon" <?php echo ($this->income->payMode == 'mon') ? 'selected="selected"' : ''; ?>>Espèces</option>
+        </select>
+        <input type="hidden" name="incomeid" value="<?php echo $this->income->id; ?>"/>
+        <input type="submit" value="OK"/>
+    </fieldset>
+</form>

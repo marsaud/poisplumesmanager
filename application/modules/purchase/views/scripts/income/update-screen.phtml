@@ -1,0 +1,10 @@
+<?php
+$this->headLink()->appendStylesheet($this->baseUrl('/css/calendar.css'));
+echo $this->action('update-form', 'income', 'purchase', array('incomeid' => $this->incomeid));
+?>
+<script type="text/javascript" src="<?php echo $this->baseUrl('/js/calendar.js'); ?>"></script>
+<script type="text/javascript">
+    <!--
+    init_evenement();
+    -->
+</script>

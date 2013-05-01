@@ -24,7 +24,7 @@ class Purchase_View_Helper_PurchaseDisplay extends Zend_View_Helper_Abstract
         
         foreach($purchases as $purchase)
         {
-            $table .= '<tr class="purchaseline">' . $this->_displayPurcahseLine($purchase) . '</tr>';
+            $table .= '<tr class="purchaseline">' . $this->_displayPurchaseLine($purchase) . '</tr>';
         }
         
         $table = '<table><tr><th>Objet</th><th>HT</th><th>TVA</th><th>TTC</th><th>Paiement</th><th>Hors-marge</th><th>Date</th><th>Actions</th></tr>' . $table . '</table>';
@@ -32,7 +32,7 @@ class Purchase_View_Helper_PurchaseDisplay extends Zend_View_Helper_Abstract
         return $table;
     }
     
-    protected function _displayPurcahseLine(Purchase $purchase)
+    protected function _displayPurchaseLine(Purchase $purchase)
     {
         $line = '';
         

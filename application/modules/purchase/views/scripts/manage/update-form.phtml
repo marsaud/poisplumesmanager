@@ -17,6 +17,7 @@ $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Help
             <option value="19.6" <?php echo ($this->purchase->tax == 19.6) ? 'selected="selected"' : ''; ?>>19,60 %</option>
             <option value="7" <?php echo ($this->purchase->tax == 7) ? 'selected="selected"' : ''; ?>>7 %</option>
             <option value="5.5" <?php echo ($this->purchase->tax == 5.5) ? 'selected="selected"' : ''; ?>>5,5 %</option>
+            <option value="0" <?php echo ($this->purchase->tax == 0) ? 'selected="selected"' : ''; ?>>0 %</option>
         </select>
         <label for="purchasemode">Mode de paiement</label>
         <select name="purchasemode">
@@ -24,6 +25,7 @@ $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Help
             <option value="cb" <?php echo ($this->purchase->payMode == 'cb') ? 'selected="selected"' : ''; ?>>CB</option>
             <option value="chq" <?php echo ($this->purchase->payMode == 'chq') ? 'selected="selected"' : ''; ?>>Chèque</option>
             <option value="mon" <?php echo ($this->purchase->payMode == 'mon') ? 'selected="selected"' : ''; ?>>Espèces</option>
+            <option value="vir" <?php echo ($this->purchase->payMode == 'vir') ? 'selected="selected"' : ''; ?>>Virement</option>
         </select>
         <label for="offmargin">Hors-marge</label>
         <input type="checkbox" name="offmargin" <?php echo $this->purchase->offMargin ? 'checked="checked"' : ''; ?>/>

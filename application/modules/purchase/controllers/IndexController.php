@@ -37,14 +37,7 @@ class Purchase_IndexController extends PurchaseControllerAbstract
         $startDate = new DateTime($session->startDate);
         $endDate = new DateTime($session->endDate);
 
-        /* @var $db Zend_Db_Adapter_Pdo_Abstract */
-        $db = $this->getInvokeArg('bootstrap')
-                ->getResource('multidb')
-                ->getDb('ppmdb');
-
-        $pm = new PurchaseManager($db);
-
-        $this->view->content = $pm->getPeriod($startDate, $endDate);
+        $this->view->content = $this->purchaseManager->getPeriod($startDate, $endDate);
     }
 
     /**
