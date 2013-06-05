@@ -119,15 +119,28 @@ INNER JOIN `carttrailer` ct on ct.hash = ol.hash
 WHERE MONTH(ct.payment_date) = 11 AND YEAR(ct.payment_date) = 2012
 GROUP BY ol.tax_ratio";
 
+        "SELECT YEAR(ct.payment_date) as annee, MONTH(ct.payment_date) as mois, ol.tax_ratio as tva, sum(raw_price * quantity) as HT, sum(final_price * quantity) as TTC
+FROM `operationlines` ol
+INNER JOIN `carttrailer` ct on ct.hash = ol.hash
+GROUP BY YEAR(ct.payment_date), MONTH(ct.payment_date), ol.tax_ratio
+order by annee DESC, mois DESC";
+
         $select = $this->_db->select()
-                ->from(array('ol' => 'operationlines'), array('Taux' => 'tax_ratio', 'Total' => new Zend_Db_Expr('SUM(final_price * quantity)')))
-                ->joinInner(array('ct' => 'carttrailer'), 'ct.hash = ol.hash', array())
+                ->from(array('ol' => 'operationlines'), array(
+                    'tva' => 'tax_ratio',
+                    'ttc' => new Zend_Db_Expr('SUM(final_price * quantity)'),
+                    'ht' => new Zend_Db_Expr('SUM(raw_price * quantity)')
+                ))
+                ->joinInner(array('ct' => 'carttrailer'), 'ct.hash = ol.hash', array(
+                    'year' => new Zend_Db_Expr('YEAR(ct.payment_date)'),
+                    'month' => new Zend_Db_Expr('MONTH(ct.payment_date)')
+                ))
                 ->where('MONTH(ct.payment_date) = ?', $date->get(Zend_Date::MONTH))
                 ->where('YEAR(ct.payment_date) = ?', $date->get(Zend_Date::YEAR))
                 ->group('ol.tax_ratio');
 
         $query = $select->query();
-        $output = $query->fetchAll();
+        $output = $query->fetchAll(Zend_Db::FETCH_OBJ);
 
         return $output;
     }

@@ -22,12 +22,7 @@
     $line = array_shift($this->report);
     ?>
     <tr>
-        <?php
-        foreach ($line as $key => $value)
-        {
-            echo '<th>' . $key . '</th>';
-        }
-        ?>
+        <th>ANNEE</th><th>MOIS</th><th>Taux</th><th>TTC</th><th>HT</th>
     </tr>
     <?php
     array_unshift($this->report, $line);
@@ -36,8 +31,13 @@
         ?>
         <tr>
             <?php
-            echo '<td class="numeric-cell">' . array_shift($line) . ' %</td>'
-            . '<td class="currency-cell">' . $this->currency(array_shift($line)) . '</td>';
+            echo ''
+            . '<td class="numeric-cell">' . $line->year . '</td>'
+            . '<td class="numeric-cell">' . $line->month . '</td>'
+            . '<td class="numeric-cell">' . $line->tva . ' %</td>'
+            . '<td class="currency-cell">' . $this->currency($line->ttc) . '</td>'
+            . '<td class="currency-cell">' . $this->currency($line->ht) . '</td>'
+            ;
             ?>
         </tr>
         <?php

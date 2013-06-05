@@ -12,11 +12,15 @@ echo 'DECLARATION DE CHIFFRE D\'AFFAIRE ' . $this->year . ' ' . $this->month . P
 
 echo 'Extraction datée du ' . $this->date->getIso() . PHP_EOL . PHP_EOL;
 
-$line = array_shift($this->report);
-echo implode(';', array_keys($line)) . PHP_EOL;
-array_unshift($this->report, $line);
+echo implode(';', array('ANNEE', 'MOIS', 'Taux', 'TTC', 'HT')) . PHP_EOL;
 foreach ($this->report as $line)
 {
-    $row = array(array_shift($line) . ' %', $this->currency(array_shift($line)));
-    echo implode(';', $row) . PHP_EOL;
+    echo implode(';', array(
+        $line->year,
+        $line->month,
+        $line->tva . ' %',
+        $this->currency($line->ttc),
+        $this->currency($line->ht)
+    ))
+    . PHP_EOL;
 }
