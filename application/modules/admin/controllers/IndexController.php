@@ -15,7 +15,7 @@ class Admin_IndexController extends Zend_Controller_Action
 
     public function menuAction()
     {
-
+        $this->view->controllerName = $this->getFrontController()->getRequest()->getControllerName();
     }
 
 }

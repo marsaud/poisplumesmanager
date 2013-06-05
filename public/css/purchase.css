@@ -24,3 +24,12 @@ tr.deleteselected {
     background-color: red;
     color: white;
 }
+
+tr.readonlyinfo {
+    background-color: gainsboro;
+    color: gray;
+}
+
+tr.readonlyinfo td {
+  border-color: gray;  
+}

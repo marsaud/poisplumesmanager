@@ -16,7 +16,7 @@ class Purchase_IndexController extends PurchaseControllerAbstract
      */
     public function menuAction()
     {
-        
+        $this->view->controllerName = $this->getFrontController()->getRequest()->getControllerName();
     }
     
     /**
@@ -69,7 +69,7 @@ class Purchase_IndexController extends PurchaseControllerAbstract
         $session->startDate = $startDate->format('Y-m-d');
         $session->endDate = $endDate->format('Y-m-d');
 
-        $this->_forward('index', 'index', 'purchase');
+        $this->_forward('manage', 'index', 'purchase');
     }
 
     /**

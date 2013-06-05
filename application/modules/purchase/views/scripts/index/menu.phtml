@@ -2,17 +2,17 @@
 <div id="purchasemenu" class="menu">
     <ul>
         <li>
-            <a href="<?php echo $this->baseUrl('purchase/index/manage');?>">
+            <a href="<?php echo $this->baseUrl('purchase/index/manage');?>"<?php echo ($this->controllerName == 'index' ? ' class="active"' : '');?>>
                 Achats
             </a>
         </li>
         <li>
-            <a href="<?php echo $this->baseUrl('purchase/cash/index');?>">
+            <a href="<?php echo $this->baseUrl('purchase/cash/index');?>"<?php echo ($this->controllerName == 'cash' ? ' class="active"' : '');?>>
                 Fond de caisse
             </a>
         </li>
         <li>
-            <a href="<?php echo $this->baseUrl('purchase/income/index');?>">
+            <a href="<?php echo $this->baseUrl('purchase/income/index');?>"<?php echo ($this->controllerName == 'income' ? ' class="active"' : '');?>>
                 Entrées
             </a>
         </li>

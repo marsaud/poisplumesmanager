@@ -34,7 +34,7 @@ class Purchase_ManageController extends PurchaseControllerAbstract
 
             $_POST = array();
 
-            $this->_forward('index', 'index', 'purchase');
+            $this->_forward('manage', 'index', 'purchase');
         }
     }
 
@@ -55,7 +55,7 @@ class Purchase_ManageController extends PurchaseControllerAbstract
         
         $this->purchaseManager->update($purchase);
         
-        $this->_forward('index', 'index', 'purchase');
+        $this->_forward('manage', 'index', 'purchase');
     }
 
     /**
@@ -68,7 +68,7 @@ class Purchase_ManageController extends PurchaseControllerAbstract
         $purchase = $purchaseManager->get($this->getRequest()->getParam('purchaseid'));
         $purchaseManager->delete($purchase);
         
-        $this->_forward('index', 'index', 'purchase');
+        $this->_forward('manage', 'index', 'purchase');
     }
 
     /**

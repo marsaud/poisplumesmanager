@@ -2,22 +2,22 @@
 <div id="reportmenu" class="menu">
     <ul>
         <li>
-            <a href="<?php echo $this->baseUrl('report/index/detail');?>">
+            <a href="<?php echo $this->baseUrl('report/index/detail');?>"<?php echo ($this->actionName == 'detail' ? ' class="active"' : '');?>>
                 Détail des opérations
             </a>
         </li>
         <li>
-            <a href="<?php echo $this->baseUrl('report/index/week');?>">
+            <a href="<?php echo $this->baseUrl('report/index/week');?>"<?php echo ($this->actionName == 'week' ? ' class="active"' : '');?>>
                 Consolidation hebdomadaire
             </a>
         </li>
         <li>
-            <a href="<?php echo $this->baseUrl('report/index/month');?>">
+            <a href="<?php echo $this->baseUrl('report/index/month');?>"<?php echo ($this->actionName == 'month' ? ' class="active"' : '');?>>
                 Déclaration mensuelle
             </a>
         </li>
         <li>
-            <a href="<?php echo $this->baseUrl('report/index/cart');?>">
+            <a href="<?php echo $this->baseUrl('report/index/cart');?>"<?php echo ($this->actionName == 'cart' ? ' class="active"' : '');?>>
                 Panier moyen
             </a>
         </li>
