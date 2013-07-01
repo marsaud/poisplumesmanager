@@ -27,9 +27,9 @@ class CashRegister_View_Helper_SoldArticles extends Zend_View_Helper_Abstract
             $output .= $soldArticle->name . "\n"
                     . $soldArticle->reference . "\t"
                     . $soldArticle->soldQuantity . " x \t"
-                    . $this->view->currency($soldArticle->getPromotionPrice()) . "\t"
+                    . $this->view->currency($soldArticle->getFinalPrice()) . "\t"
                     . $this->view->currency(
-                            $soldArticle->soldQuantity * $soldArticle->getPromotionPrice()
+                            $soldArticle->soldQuantity * $soldArticle->getFinalPrice()
                     ) . "\n";
         }
 

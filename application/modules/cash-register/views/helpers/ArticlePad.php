@@ -39,11 +39,11 @@ class CashRegister_View_Helper_ArticlePad extends Zend_View_Helper_Abstract
              ref="<?php echo $article->reference; ?>"
              name="<?php echo $article->name; ?>"
              promoratio="<?php echo $promo ? $promo->ratio : ''; ?>"
-             saleprice="<?php echo $article->getSalePrice(); ?>">
+             saleprice="<?php echo $article->getFinalPrice(); ?>">
             <div class="facevalue">
                 <?php echo $article->name; ?><br/>
                 <?php echo $promo ? $promo->ratio . '%' : ''; ?><br />
-                <?php echo $this->view->currency($article->getPromotionPrice()); ?>
+                <?php echo $this->view->currency($article->getFinalPrice()); ?>
             </div>
             <div class="inputdata">
                 <input type="hidden" class="qty"

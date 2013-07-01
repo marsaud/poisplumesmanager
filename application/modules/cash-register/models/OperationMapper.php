@@ -81,7 +81,7 @@ class OperationMapper
                     'raw_price' => $article->getRawPrice(),
                     'tax_amount' => $article->getTaxAmount(),
                     'sale_price' => $article->getSalePrice(),
-                    'final_price' => $article->getPromotionPrice(),
+                    'final_price' => $article->getFinalPrice(),
                     'tax_id' => $article->tax->id,
                     'tax_ratio' => $article->tax->ratio,
                     'promo_id' => $article->onePromo ? $article->onePromo->id : null,

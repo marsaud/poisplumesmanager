@@ -94,26 +94,43 @@ class Article
         $this->freePromotions();
     }
 
+    /**
+     * Prix hors taxe avec promotion
+     * 
+     * @return float
+     */
     public function getSalePrice()
     {
-        return $this->price;
+        $price = $this->getRawPrice();
+        $promo = $this->onePromo;
+        return $promo ? $promo->apply($price) : $price;
     }
 
+    /**
+     * Prix hors taxe catalogue 
+     * 
+     * @return float
+     */
     public function getRawPrice()
     {
-        return $this->tax->remove($this->getSalePrice());
+        return $this->tax->remove($this->price);
     }
 
-    public function getPromotionPrice()
+    /**
+     * Prix TTC avec promotion
+     * 
+     * @return float
+     */
+    public function getFinalPrice()
     {
-        $price = $this->getSalePrice();
+        $price = $this->price;
         $promo = $this->onePromo;
         return $promo ? $promo->apply($price) : $price;
     }
 
     public function getTaxAmount()
     {
-        return $this->getSalePrice() - $this->getRawPrice();
+        return $this->getFinalPrice() - $this->getSalePrice();
     }
 
     public function __set($name, $value)

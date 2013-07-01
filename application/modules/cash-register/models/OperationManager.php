@@ -33,9 +33,9 @@ class OperationManager
                     || $totalTax[$soldArticle->tax->ratio] = 0;
 
             $totalRawPrice[$soldArticle->tax->ratio] +=
-                    $quantity * $soldArticle->getRawPrice();
+                    $quantity * $soldArticle->getSalePrice();
             $totalSalePrice +=
-                    $quantity * $soldArticle->getPromotionPrice();
+                    $quantity * $soldArticle->getFinalPrice();
             $totalTax[$soldArticle->tax->ratio] +=
                     $quantity * $soldArticle->getTaxAmount();
         }
