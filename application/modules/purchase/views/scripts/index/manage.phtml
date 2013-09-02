@@ -1,5 +1,7 @@
 <?php
-$this->headLink()->appendStylesheet($this->baseUrl('/css/calendar.css'));
+$this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
+?>
+<?php
 echo $this->action('create-form', 'manage', 'purchase');
 ?>
 <hr/>
@@ -15,9 +17,4 @@ echo $this->action('display-form', 'index', 'purchase');
 <?php
 echo $this->action('display', 'index', 'purchase');
 ?>
-<script type="text/javascript" src="<?php echo $this->baseUrl('/js/purchase/purchase.js'); ?>"></script>
-<script type="text/javascript">
-    <!--
-    purchaseInit();
-    //-->
-</script>
+<?php echo $this->trigCalendar(); ?>

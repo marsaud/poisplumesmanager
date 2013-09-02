@@ -1,7 +1,7 @@
 <?php
 
 header('Content-Type: application/csv', true);
-header('Content-Disposition: attachment; filename="CafePoisPlumes_CA_' . $this->year . '-' . $this->month . '.csv"', true);
+header('Content-Disposition: attachment; filename="cafepoisplumes_declaration_tva_' . $this->year . $this->month . '.csv"', true);
 
 if (empty($this->report))
 {

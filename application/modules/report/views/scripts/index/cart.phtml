@@ -1,43 +1,52 @@
+<?php
+$this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
+?>
 <h1>Panier moyen</h1>
 <form method="post" action="<?php echo $this->baseUrl('report/index/cart'); ?>">
     <fieldset>
-        <legend>Date de synthèse</legend>
-        <label for="year">Année</label>
-        <input type="number" name="year" value="<?php echo $this->year; ?>" autocomplete="off"/>
-        <label for="month">Mois</label>
-        <input type="number" name="month" value="<?php echo $this->month; ?>" autocomplete="off"/>
+        <label for="date">Date de référence</label>
+        <input class="calendrier" type="date" name="date" value="<?php echo $this->date; ?>" autocomplete="off"/>
         <input type="submit" value="OK" />
     </fieldset>
 </form>
 <table>
     <?php
-    if (empty($this->report))
+    if (!empty($this->report))
     {
-        return;
-    }
-    $line = array_shift($this->report);
-    ?>
-    <tr>
-        <?php
-        foreach ($line as $key => $value)
-        {
-            echo '<th>' . $key . '</th>';
-        }
-        ?>
-    </tr>
-    <?php
-    array_unshift($this->report, $line);
-    foreach ($this->report as $line)
-    {
+        $line = array_shift($this->report);
         ?>
         <tr>
             <?php
-            echo '<td class="currency-cell">' . $this->currency(array_shift($line)) . '</td>'
-            . '<td class="numeric-cell">' . array_shift($line) . '</td>'
-            . '<td class="currency-cell">' . $this->currency(array_shift($line)) . '</td>';
+            foreach ($line as $key => $value)
+            {
+                echo '<th>' . $key . '</th>';
+            }
             ?>
         </tr>
         <?php
+        array_unshift($this->report, $line);
+        foreach ($this->report as $line)
+        {
+            $total = array_shift($line);
+            $number = array_shift($line);
+            $mean = array_shift($line);
+
+            $total !== NULL
+                    || $total = 0;
+
+            $mean !== NULL
+                    || $mean = 0;
+            ?>
+            <tr>
+                <?php
+                echo '<td class="currency-cell">' . $this->currency($total) . '</td>'
+                . '<td class="numeric-cell">' . $number . '</td>'
+                . '<td class="currency-cell">' . $this->currency($mean) . '</td>';
+                ?>
+            </tr>
+            <?php
+        }
     }
     ?>
 </table>
+<?php echo $this->trigCalendar(); ?>

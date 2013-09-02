@@ -258,7 +258,7 @@ class ArticleMapper
             'name' => $article->name,
             'description' => $article->description,
             'tax_id' => $article->tax->id,
-            'priceht' => $article->getSalePrice(),
+            'priceht' => $article->getFrontPrice(),
             'stocked' => $article->stock,
         );
 
@@ -305,7 +305,7 @@ class ArticleMapper
             'name' => $article->name,
             'description' => $article->description,
             'tax_id' => $article->tax->id,
-            'priceht' => $article->getSalePrice(),
+            'priceht' => $article->getFrontPrice(),
             'stocked' => $article->stock,
         );
 

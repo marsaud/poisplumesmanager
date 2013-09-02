@@ -9,7 +9,7 @@ $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Help
         <label for="incomeitem">Description</label>
         <textarea name="incomeitem"><?php echo $this->income->item; ?></textarea>
         <label for="incomettc">Montant (Total TTC)</label>
-        <input type="number" name="incomepricettc" autocomplete="off" value="<?php echo $this->income->priceTTC; ?>"/>
+        <input type="number" step=0.01 name="incomepricettc" autocomplete="off" value="<?php echo $this->income->priceTTC; ?>"/>
         <label for="incomemode">Mode de paiement</label>
         <select name="incomemode">
             <option value="">- -</option>

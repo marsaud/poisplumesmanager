@@ -1,4 +1,6 @@
-<?php $this->headLink()->appendStylesheet($this->baseUrl('/css/calendar.css')); ?>
+<?php
+$this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
+?>
 <h1>Détail des opérations</h1>
 <form method="post" action="<?php echo $this->baseUrl('report/index/detail'); ?>">
     <fieldset>
@@ -45,9 +47,4 @@
     }
     ?>
 </table>
-<script type="text/javascript" src="<?php echo $this->baseUrl('/js/calendar.js'); ?>"></script>
-<script type="text/javascript">
-    <!--
-    init_evenement();
-    //-->
-</script>
+<?php echo $this->trigCalendar(); ?>

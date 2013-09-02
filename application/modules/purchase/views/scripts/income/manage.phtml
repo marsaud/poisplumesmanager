@@ -1,17 +1,14 @@
 <?php
-$this->headLink()->appendStylesheet($this->baseUrl('/css/calendar.css'));
+$this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
+?>
+<?php
 echo $this->action('create-form', 'income', 'purchase');
 ?>
 <hr/>
 <?php
 echo $this->action('display-form', 'income', 'purchase');
 ?>
-<script type="text/javascript" src="<?php echo $this->baseUrl('/js/calendar.js'); ?>"></script>
-<script type="text/javascript">
-    <!--
-    init_evenement();
-    //-->
-</script>
+<?php echo $this->trigCalendar(); ?>
 <?php
 echo $this->action('display', 'income', 'purchase');
 ?>

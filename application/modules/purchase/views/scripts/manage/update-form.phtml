@@ -9,9 +9,9 @@ $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Help
         <label for="purchaseitem">Description</label>
         <textarea name="purchaseitem"><?php echo $this->purchase->item; ?></textarea>
         <label for="purchasettc">Montant TTC</label>
-        <input type="number" name="purchasettc" autocomplete="off" value="<?php echo $this->purchase->priceTTC; ?>"/>
+        <input type="number" step=0.01 name="purchasettc" autocomplete="off" value="<?php echo $this->purchase->priceTTC; ?>"/>
         <label for="purchaseht">Montant HT</label>
-        <input type="number" name="purchaseht" autocomplete="off" value="<?php echo $this->purchase->priceHT; ?>"/>
+        <input type="number" step=0.01 name="purchaseht" autocomplete="off" value="<?php echo $this->purchase->priceHT; ?>"/>
         <label for="purchasetax">TVA</label>
         <select name="purchasetax">
             <option value="19.6" <?php echo ($this->purchase->tax == 19.6) ? 'selected="selected"' : ''; ?>>19,60 %</option>

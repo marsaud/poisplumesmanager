@@ -1,8 +1,10 @@
-<?php $this->headLink()->appendStylesheet($this->baseUrl('/css/calendar.css')); ?>
+<?php
+$this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
+?>
 <h1>Consolidation hebdomadaire</h1>
 <form method="post" action="<?php echo $this->baseUrl('report/index/week'); ?>">
     <fieldset>
-        <label for="year">Date de recherche</label>
+        <label for="year">Date de référence</label>
         <input class="calendrier" type="date" name="fulldate" value="<?php echo $this->fulldate; ?>" autocomplete="off"/>
         <input type="submit" value="OK" />
     </fieldset>
@@ -35,9 +37,4 @@
         ?>
     </table>
 <?php endif; ?>
-<script type="text/javascript" src="<?php echo $this->baseUrl('/js/calendar.js'); ?>"></script>
-<script type="text/javascript">
-    <!--
-    init_evenement();
-    //-->
-</script>
+<?php echo $this->trigCalendar(); ?>

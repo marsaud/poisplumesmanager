@@ -53,10 +53,10 @@ class Admin_View_Helper_ArticleList extends Zend_View_Helper_Abstract
                 . $article->name . '</td><td>'
                 . $article->description . '</td><td>'
                 . $categoryList . '</td><td>'
-                . $this->view->currency($article->getRawPrice()) . '</td><td>'
+                . $this->view->currency($article->getSalePrice()) . '</td><td>'
                 . $article->tax->ratio . '%</td><td>'
                 . $promoList . '</td><td>'
-                . $this->view->currency($article->getSalePrice())
+                . $this->view->currency($article->getFinalPrice())
                 . '</td><td>'
                 . ($article->provider !== NULL ? $article->provider->name : '')
                 . '</td></tr>' . PHP_EOL;

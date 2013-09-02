@@ -1,0 +1,23 @@
+<?php
+$this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
+?>
+<h1>Taux de marge</h1>
+<form method="post" action="<?php echo $this->baseUrl('report/index/margin'); ?>">
+    <fieldset>
+        <label for="date">Date de référence</label>
+        <input class="calendrier" type="date" name="date" value="<?php echo $this->date; ?>" autocomplete="off"/>
+        <input type="submit" value="OK" />
+    </fieldset>
+</form>
+<table>
+    <?php
+    if ($this->margin !== null)
+    {
+        ?>
+    <tr><th>Taux de marge</th></tr>
+    <tr><td class="numeric-cell"><?php echo $this->margin; ?> %</td></tr>
+    <?php
+    }
+    ?>
+</table>
+<?php echo $this->trigCalendar(); ?>

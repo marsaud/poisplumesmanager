@@ -66,13 +66,14 @@ class Report_IndexController extends Zend_Controller_Action
     {
         if (empty($_POST))
         {
-            $this->view->fulldate = date('Y-m-d');
+            $date = new DateTime();
+            $this->view->fulldate = $date->format('Y-m-d');
         }
         else
         {
             
-            $date = new Zend_Date($this->getRequest()->getParam('fulldate'));
-            $this->view->fulldate = date('Y-m-d', $date->getTimestamp());
+            $date = new DateTime($this->getRequest()->getParam('fulldate'));
+            $this->view->fulldate = $date->format('Y-m-d');
 
             /* @var $db Zend_Db_Adapter_Pdo_Abstract */
             $db = $this->getInvokeArg('bootstrap')
@@ -84,15 +85,17 @@ class Report_IndexController extends Zend_Controller_Action
             $weeklyReport = array();
             $week = new CashFlowReport();
 
+            $zDate = new Zend_Date($date->getTimestamp(), Zend_Date::TIMESTAMP);
+            
             for ($weekDay = 1; $weekDay <= 7; $weekDay++)
             {
-                $date->setWeekday($weekDay);
-                $report = $reportManager->aggregate($date, ReportManager::DAY, ReportManager::DAY);
+                $zDate->setWeekday($weekDay);
+                $report = $reportManager->aggregate($zDate, ReportManager::DAY, ReportManager::DAY);
 
                 $day = (!empty($report)) ? array_pop($report) : new CashFlowReport();
 
                 $week->add($day);
-                $weeklyReport[ucfirst($date->get(Zend_Date::WEEKDAY))] = $day;
+                $weeklyReport[ucfirst($zDate->get(Zend_Date::WEEKDAY))] = $day;
             }
 
             $this->view->report = $weeklyReport;
@@ -109,12 +112,14 @@ class Report_IndexController extends Zend_Controller_Action
     {
         if (empty($_POST))
         {
-            $this->view->fulldate = date('Y-m-d');
+            $date = new DateTime();
+            $this->view->fulldate = $date->format('Y-m-d');
         }
         else
         {
-            $date = new Zend_Date($this->getRequest()->getParam('fulldate'));
-            $this->view->fulldate = date('Y-m-d', $date->getTimestamp());
+            $date = new DateTime($this->getRequest()->getParam('fulldate'));
+            
+            $this->view->fulldate = $date->format('Y-m-d');
             /* @var $db Zend_Db_Adapter_Pdo_Abstract */
             $db = $this->getInvokeArg('bootstrap')
                     ->getResource('multidb')
@@ -122,25 +127,29 @@ class Report_IndexController extends Zend_Controller_Action
 
             $reportManager = new ReportManager($db);
 
-            $this->view->report = $reportManager->monthTax($date);
+            $zDate = new Zend_Date($date->getTimestamp(), Zend_Date::TIMESTAMP);
+            $this->view->report = $reportManager->monthTax($zDate);
         }
     }
 
     public function monthCsvAction()
-    {   
+    {
         $fullDate = $this->getRequest()->getParam('fulldate');
         if (NULL !== $fullDate)
         {
-            $reportDate = new Zend_Date($fullDate);
+            $reportDate = new DateTime($fullDate);
         }
         else
         {
-            $reportDate = new Zend_Date();
+            $reportDate = new DateTime();
         }
 
-        $this->view->fulldate = date('Y-m-d', $reportDate->getTimestamp());
-        $this->view->year = date('Y', $reportDate->getTimestamp());
-        $this->view->month = $reportDate->get(Zend_Date::MONTH_NAME);
+        $this->view->fulldate = $reportDate->format('Y-m-d');
+        
+        $zDate = new Zend_Date($reportDate->getTimestamp(), Zend_Date::TIMESTAMP);
+        
+        $this->view->year = $zDate->get(Zend_Date::YEAR_8601);
+        $this->view->month = $zDate->get(Zend_Date::MONTH);
         /* @var $db Zend_Db_Adapter_Pdo_Abstract */
         $db = $this->getInvokeArg('bootstrap')
                 ->getResource('multidb')
@@ -148,7 +157,7 @@ class Report_IndexController extends Zend_Controller_Action
 
         $reportManager = new ReportManager($db);
 
-        $this->view->report = $reportManager->monthTax($reportDate);
+        $this->view->report = $reportManager->monthTax($zDate);
         $this->view->date = new Zend_Date();
         $this->_helper->getHelper('layout')->disableLayout();
     }
@@ -157,29 +166,57 @@ class Report_IndexController extends Zend_Controller_Action
     {
         if (empty($_POST))
         {
-            $this->view->year = date('Y');
-            $this->view->month = date('m');
+            $date = new DateTime();
+            $this->view->date = $date->format('Y-m-d');
         }
         else
         {
-            $this->view->year = $_POST['year'];
-            $this->view->month = $_POST['month'];
+            $date = new DateTime($_POST['date']);
+            
+            var_dump($date->format(DateTime::RFC1036));
+            
+            $this->view->date = $date->format('Y-m-d');
+            
             /* @var $db Zend_Db_Adapter_Pdo_Abstract */
             $db = $this->getInvokeArg('bootstrap')
                     ->getResource('multidb')
                     ->getDb('ppmdb');
 
-            $date = new Zend_Date(implode('-', array(
-                                $_POST['year'],
-                                $_POST['month'],
-                                '01'
-                            )));
-
+            $zDate = new Zend_Date($date->getTimestamp(), Zend_Date::TIMESTAMP);
             $reportManager = new ReportManager($db);
-
-            $this->view->report = $reportManager->mediumCart($date);
+            $this->view->report = $reportManager->mediumCart($zDate);
         }
     }
 
+    public function marginAction()
+    {
+        if (empty($_POST))
+        {
+            $date = new DateTime();
+            $this->view->date = $date->format('Y-m-d');
+            $this->view->margin = null;
+        }
+        else
+        {
+            $date = new DateTime($_POST['date']);
+            
+            var_dump($date->format(DateTime::RFC1036));
+            
+            $this->view->date = $date->format('Y-m-d');
+            
+            /* @var $db Zend_Db_Adapter_Pdo_Abstract */
+            $db = $this->getInvokeArg('bootstrap')
+                    ->getResource('multidb')
+                    ->getDb('ppmdb');
+
+            $zDate = new Zend_Date($date->getTimestamp(), Zend_Date::TIMESTAMP);
+            $reportManager = new ReportManager($db);
+            $this->view->margin = $reportManager->monthMargin($zDate);
+        }
+    }
+
+
 }
+
+
 

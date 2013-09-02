@@ -1,5 +1,7 @@
 <?php
+$fileNameDate = substr($this->endfulldate, 0, 4) . substr($this->endfulldate, 5, 2);
+
 header('Content-Type: application/csv', true);
-header('Content-Disposition: attachment; filename="CafePoisPlumes_Ventes_detail.csv"', true);
+header('Content-Disposition: attachment; filename="cafepoisplumes_detail_journalier_' . $fileNameDate . '.csv"', true);
 
 echo $this->content;

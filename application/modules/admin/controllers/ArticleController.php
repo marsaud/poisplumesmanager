@@ -157,7 +157,7 @@ class Admin_ArticleController extends AdminControllerAbstract
 
             $this->view->name = $article->name;
             $this->view->description = $article->description;
-            $this->view->priceht = $article->getSalePrice();
+            $this->view->priceht = $article->getFrontPrice();
             $this->view->stock = $article->stock;
             $this->view->tax = $article->tax->id;
             $this->view->unit = $article->unit;

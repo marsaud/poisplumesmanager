@@ -9,8 +9,9 @@ $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Help
         <label for="moveitem">Description</label>
         <textarea name="moveitem"><?php echo $this->cashMove->item; ?></textarea>
         <label for="movettc">Montant TTC</label>
-        <input type="number" name="movettc" autocomplete="off" value="<?php echo $this->cashMove->priceTTC; ?>"/>
+        <input type="number" step=0.01 name="movettc" autocomplete="off" value="<?php echo $this->cashMove->priceTTC; ?>"/>
         <input type="hidden" name="moveid" value="<?php echo $this->cashMove->id; ?>"/>
         <input type="submit" value="OK"/>
     </fieldset>
 </form>
+<?php echo $this->trigCalendar(); ?>

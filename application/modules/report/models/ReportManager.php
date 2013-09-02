@@ -113,18 +113,6 @@ class ReportManager
 
     public function monthTax(Zend_Date $date)
     {
-        "SELECT ol.tax_ratio, sum(final_price * quantity)
-FROM `operationlines` ol
-INNER JOIN `carttrailer` ct on ct.hash = ol.hash
-WHERE MONTH(ct.payment_date) = 11 AND YEAR(ct.payment_date) = 2012
-GROUP BY ol.tax_ratio";
-
-        "SELECT YEAR(ct.payment_date) as annee, MONTH(ct.payment_date) as mois, ol.tax_ratio as tva, sum(raw_price * quantity) as HT, sum(final_price * quantity) as TTC
-FROM `operationlines` ol
-INNER JOIN `carttrailer` ct on ct.hash = ol.hash
-GROUP BY YEAR(ct.payment_date), MONTH(ct.payment_date), ol.tax_ratio
-order by annee DESC, mois DESC";
-
         $select = $this->_db->select()
                 ->from(array('ol' => 'operationlines'), array(
                     'tva' => 'tax_ratio',
@@ -143,6 +131,64 @@ order by annee DESC, mois DESC";
         $output = $query->fetchAll(Zend_Db::FETCH_OBJ);
 
         return $output;
+    }
+
+    public function monthIncome(Zend_Date $date)
+    {
+        $select = $this->_db->select()
+                ->from(array('ol' => 'operationlines'), array(
+                    'ht' => new Zend_Db_Expr('SUM(raw_price * quantity)')
+                ))
+                ->joinInner(array('ct' => 'carttrailer'), 'ct.hash = ol.hash', array(
+                    'year' => new Zend_Db_Expr('YEAR(ct.payment_date)'),
+                    'month' => new Zend_Db_Expr('MONTH(ct.payment_date)')
+                ))
+                ->where('MONTH(ct.payment_date) = ?', $date->get(Zend_Date::MONTH))
+                ->where('YEAR(ct.payment_date) = ?', $date->get(Zend_Date::YEAR))
+                ->limit(1);
+
+        $query = $select->query();
+        $output = $query->fetch(Zend_Db::FETCH_OBJ);
+
+        var_dump($output);
+        
+        return $output->ht;
+    }
+
+    public function monthOutcome(Zend_Date $date)
+    {
+        $select = $this->_db->select()
+                ->from('purchase', array(
+                    'ht' => new Zend_Db_Expr('SUM(priceht)')
+                ))
+                ->where('MONTH(date) = ?', $date->get(Zend_Date::MONTH))
+                ->where('YEAR(date) = ?', $date->get(Zend_Date::YEAR))
+                ->where('offmargin = ?', false)
+                ->limit(1);
+
+        $query = $select->query();
+        $output = $query->fetch(Zend_Db::FETCH_OBJ);
+
+        var_dump($output);
+        
+        return $output->ht;
+    }
+
+    public function monthMargin(Zend_Date $date)
+    {
+        $income = $this->monthIncome($date);
+        $outcome = $this->monthOutcome($date);
+
+        if ($outcome == 0)
+        {
+            $margin = 0;
+        }
+        else
+        {
+            $margin = (($income - $outcome) / $outcome) * 100;
+        }
+
+        return $margin;
     }
 
     public function mediumCart(Zend_Date $date)

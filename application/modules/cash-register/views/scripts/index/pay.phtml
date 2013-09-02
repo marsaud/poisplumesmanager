@@ -14,7 +14,7 @@ TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
         <label for="cb" class="touchable">Carte bancaire</label>
         <span class="cbfields invisible">
             <label for="cbgiven">Perçu</label>
-            <input id="cbgiven" type="text" name="cbgiven" value="0" />
+            <input id="cbgiven" type="number" step=0.01 name="cbgiven" value="0" />
         </span>
         </div>
         <br />
@@ -23,7 +23,7 @@ TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
         <label for="chq" class="touchable">Chèque bancaire</label>
         <span class="chqfields invisible">
             <label for="chqgiven">Perçu</label>
-            <input id="chqgiven" type="text" name="chqgiven" value="0"/>
+            <input id="chqgiven" type="number" step=0.01 name="chqgiven" value="0"/>
         </span>
         </div>
         <br />
@@ -32,7 +32,7 @@ TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
         <label for="chr" class="touchable">Chèque restaurant</label>
         <span class="chrfields invisible">
             <label for="chrgiven">Perçu</label>
-            <input id="chrgiven" type="text" name="chrgiven" value="0"/>
+            <input id="chrgiven" type="number" step=0.01 name="chrgiven" value="0"/>
         </span>
         </div>
         <br />
@@ -41,7 +41,7 @@ TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
         <label for="mon" class="touchable">Espèces</label>
         <span class="monfields invisible">
             <label for="given">Perçu</label>
-            <input id="mongiven" type="text" name="mongiven" value="0"/>
+            <input id="mongiven" type="number" step=0.01 name="mongiven" value="0"/>
             <label for="returned">A rendre</label>
             <input id="monreturned" type="text" name="monreturned" readonly="readonly" value="0"/>
         </span>

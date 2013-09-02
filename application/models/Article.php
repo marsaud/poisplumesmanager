@@ -127,6 +127,16 @@ class Article
         $promo = $this->onePromo;
         return $promo ? $promo->apply($price) : $price;
     }
+    
+    /**
+     * Prox TTC
+     * 
+     * @return float
+     */
+    public function getFrontPrice()
+    {
+        return $this->price;
+    }
 
     public function getTaxAmount()
     {

@@ -58,7 +58,8 @@ function cleanMultiSelect(id)
     var options = $A($(id).options);
     options.each(function(option){
         option.selected = false;
-    });
+    }
+    );
 }
 
 function updateUpdateArticleForm(response)
