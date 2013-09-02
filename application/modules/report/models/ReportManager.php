@@ -150,7 +150,7 @@ class ReportManager
         $query = $select->query();
         $output = $query->fetch(Zend_Db::FETCH_OBJ);
 
-        var_dump($output);
+        // var_dump($output);
         
         return $output->ht;
     }
@@ -169,7 +169,7 @@ class ReportManager
         $query = $select->query();
         $output = $query->fetch(Zend_Db::FETCH_OBJ);
 
-        var_dump($output);
+        // var_dump($output);
         
         return $output->ht;
     }

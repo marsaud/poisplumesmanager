@@ -85,7 +85,7 @@ class Report_IndexController extends Zend_Controller_Action
             $weeklyReport = array();
             $week = new CashFlowReport();
 
-            $zDate = new Zend_Date($date->getTimestamp(), Zend_Date::TIMESTAMP);
+            $zDate = new Zend_Date($date->format('U'), Zend_Date::TIMESTAMP);
             
             for ($weekDay = 1; $weekDay <= 7; $weekDay++)
             {
@@ -127,7 +127,7 @@ class Report_IndexController extends Zend_Controller_Action
 
             $reportManager = new ReportManager($db);
 
-            $zDate = new Zend_Date($date->getTimestamp(), Zend_Date::TIMESTAMP);
+            $zDate = new Zend_Date($date->format('U'), Zend_Date::TIMESTAMP);
             $this->view->report = $reportManager->monthTax($zDate);
         }
     }
@@ -146,7 +146,7 @@ class Report_IndexController extends Zend_Controller_Action
 
         $this->view->fulldate = $reportDate->format('Y-m-d');
         
-        $zDate = new Zend_Date($reportDate->getTimestamp(), Zend_Date::TIMESTAMP);
+        $zDate = new Zend_Date($reportDate->format('U'), Zend_Date::TIMESTAMP);
         
         $this->view->year = $zDate->get(Zend_Date::YEAR_8601);
         $this->view->month = $zDate->get(Zend_Date::MONTH);
@@ -173,7 +173,7 @@ class Report_IndexController extends Zend_Controller_Action
         {
             $date = new DateTime($_POST['date']);
             
-            var_dump($date->format(DateTime::RFC1036));
+            // var_dump($date->format(DateTime::RFC1036));
             
             $this->view->date = $date->format('Y-m-d');
             
@@ -182,7 +182,7 @@ class Report_IndexController extends Zend_Controller_Action
                     ->getResource('multidb')
                     ->getDb('ppmdb');
 
-            $zDate = new Zend_Date($date->getTimestamp(), Zend_Date::TIMESTAMP);
+            $zDate = new Zend_Date($date->format('U'), Zend_Date::TIMESTAMP);
             $reportManager = new ReportManager($db);
             $this->view->report = $reportManager->mediumCart($zDate);
         }
@@ -200,7 +200,7 @@ class Report_IndexController extends Zend_Controller_Action
         {
             $date = new DateTime($_POST['date']);
             
-            var_dump($date->format(DateTime::RFC1036));
+            // var_dump($date->format(DateTime::RFC1036));
             
             $this->view->date = $date->format('Y-m-d');
             
@@ -209,7 +209,7 @@ class Report_IndexController extends Zend_Controller_Action
                     ->getResource('multidb')
                     ->getDb('ppmdb');
 
-            $zDate = new Zend_Date($date->getTimestamp(), Zend_Date::TIMESTAMP);
+            $zDate = new Zend_Date($date->format('U'), Zend_Date::TIMESTAMP);
             $reportManager = new ReportManager($db);
             $this->view->margin = $reportManager->monthMargin($zDate);
         }
