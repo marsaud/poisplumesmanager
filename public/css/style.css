@@ -23,7 +23,7 @@
     border-style: inset;
 }
 
-.menu a.active {
+.menu li.active a {
     background-color: aquamarine;
 }
 

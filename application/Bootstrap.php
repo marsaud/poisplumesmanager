@@ -23,7 +23,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initView()
     {
         $view = new Zend_View();
-        $view->headLink()->appendStylesheet($view->baseUrl('/css/style.css'));
+        // $view->headLink()->appendStylesheet($view->baseUrl('/css/style.css'));
 
         return $view;
     }

@@ -23,19 +23,20 @@ class Admin_View_Helper_PromoBox
     public function promoBox($name, array $promoList, $label = NULL)
     {
         $label !== NULL
-            || $label = $name;
+                || $label = $name;
 
         $promoBox = '<label for="' . $name . '">' . $label . '</label>'
-            . PHP_EOL
-            . '<select id="' . $name . '" name="' . $name . '">' . PHP_EOL
-            . '<option value="0">- -</option>' . PHP_EOL;
+                . PHP_EOL
+                . '<select id="' . $name
+                . '" name="' . $name . '" class="form-control">' . PHP_EOL
+                . '<option value="0">- -</option>' . PHP_EOL;
         foreach ($promoList as $promo)
         {
             /* @var $promo Promotion */
             $promoBox .= '<option value="' . $promo->id . '">'
-                . $promo->name . ' - ' . $promo->ratio
-                . '%</option>'
-                . PHP_EOL;
+                    . $promo->name . ' ' . $promo->ratio
+                    . '%</option>'
+                    . PHP_EOL;
         }
 
         $promoBox .= '</select>' . PHP_EOL;

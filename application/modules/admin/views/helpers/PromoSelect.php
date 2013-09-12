@@ -23,7 +23,7 @@ class Admin_View_Helper_PromoSelect
     public function promoSelect($name, array $promoList, $label = NULL)
     {
         $label !== NULL
-            || $label = $name;
+                || $label = $name;
 
         /**
          * @todo Quelle valeur pour la catégorie par défaut ?
@@ -34,23 +34,24 @@ class Admin_View_Helper_PromoSelect
         {
             /* @var $promo Promotion */
             $promoSelect .= '<option value="'
-                . $promo->id
-                . '">'
-                . $promo->name
-                . '</option>'
-                . PHP_EOL;
+                    . $promo->id
+                    . '">'
+                    . $promo->name
+                    . '</option>'
+                    . PHP_EOL;
         }
 
         $promoSelect = '<label for="' . $name . '">' . $label . '</label>'
-            . PHP_EOL
-            . '<select id="' . $name . '" name="' . $name . '">'
-            . PHP_EOL
-            . '<option value="">- -</option>'
-            . PHP_EOL
-            . $promoSelect
-            . PHP_EOL
-            . '</select>'
-            . PHP_EOL;
+                . PHP_EOL
+                . '<select id="' . $name
+                . '" name="' . $name . '" class="form-control">'
+                . PHP_EOL
+                . '<option value="">- -</option>'
+                . PHP_EOL
+                . $promoSelect
+                . PHP_EOL
+                . '</select>'
+                . PHP_EOL;
 
         return $promoSelect;
     }

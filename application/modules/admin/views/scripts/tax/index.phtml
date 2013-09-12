@@ -1,41 +1,47 @@
 <?php
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View_Helper');
 ?>
-<h1>Gestion des taxes</h1>
-<div class="leftpart">
+<!--h1>Gestion des taxes</h1-->
+<div class="leftpart col-md-4">
     <form method="post" action="<?php echo $this->baseUrl('admin/tax/create'); ?>" id="createtaxform" class="createform adminform">
         <fieldset>
             <legend>Créer une taxe</legend>
-            <label for="name">Nom de la taxe</label>
-            <input type="text" name="name" id="name" autocomplete="off"/>
-            <br/>
-            <label for="ratio">Ratio</label>
-            <input type="number" step=0.01 name="ratio" id="ratio" autocomplete="off"/><span>%</span>
-            <br/>
-            <label for="desc">Description</label>
-            <textarea id="desc" name="desc">(r.a.s.)</textarea>
-            <br/>
-            <input type="Submit" value="Créer"/>
+            <div class="form-group">
+                <label for="name">Nom de la taxe</label>
+                <input type="text" name="name" id="name" autocomplete="off" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="ratio">Ratio (%)</label>
+                <input type="number" step=0.01 max="100" min="0" name="ratio" id="ratio" autocomplete="off" class="form-control" value="0"/>
+            </div>
+            <div class="form-group">
+                <label for="desc">Description de la taxe</label>
+                <textarea id="desc" name="desc" placeholder="facultatif" class="form-control"></textarea>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Créer"/>
         </fieldset>
     </form>
     <form method="post" action="<?php echo $this->baseUrl('admin/tax/update'); ?>" id="updatetaxform" class="updateform adminform">
         <fieldset>
             <legend>Modifier une taxe</legend>
-            <?php
-            echo $this->taxBox('modid', $this->taxes, 'Nom de la taxe à modifier');
-            ?>
-            <br/>
-            <label for="modratio">Ratio</label>
-            <input type="number" step=0.01 name="modratio" id="modratio" autocomplete="off"/><span>%</span>
-            <br/>
-            <label for="moddesc">Description</label>
-            <textarea id="moddesc" name="moddesc">(r.a.s.)</textarea>
-            <br/>
-            <input type="Submit" value="Modifier"/>
+            <div class="form-group">
+                <?php
+                echo $this->taxBox('modid', $this->taxes, 'Nom de la taxe à modifier');
+                ?>
+            </div>
+            <div class="form-group">
+                <label for="modratio">Ratio (%)</label>
+                <input type="number" step=0.01  max="100" min="0" name="modratio" id="modratio" autocomplete="off" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="moddesc">Description de la taxe</label>
+                <textarea id="moddesc" name="moddesc" placeholder="facultatif" class="form-control"></textarea>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Modifier"/>
         </fieldset>
     </form>
 </div>
-<div id="taxlist" class="listdisplay rightpart">
+<div id="taxlist" class="rightpart col-md-8">
     <?php
     echo $this->taxList($this->taxes, 'Taxes existantes');
     ?>
