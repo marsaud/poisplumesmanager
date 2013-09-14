@@ -312,7 +312,7 @@ function selectForBill(event)
     hideTotalPrice();
     triggerTotalUpdate();
 
-    var element = $(event.findElement('div[class="article button"]'));
+    var element = $(event.findElement('div[class="article button btn btn-success"]'));
     var target = $$('#billList div[ref=' + element.getAttribute('ref') + ']');
 
     if (target.size() == 0)
@@ -378,7 +378,7 @@ function unselectForBill(event)
     hideTotalPrice();
     triggerTotalUpdate();
 
-    var element = $(event.findElement('div[class="article button"]'));
+    var element = $(event.findElement('div[class="article button btn btn-success"]'));
     element.stopObserving();
     element.remove();
 }

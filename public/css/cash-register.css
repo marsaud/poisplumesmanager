@@ -1,3 +1,4 @@
+/*
 #modificators {
     width: 100%;
 }
@@ -39,34 +40,38 @@ input[type=submit] {
     font-size: 1.5em;
     min-width: 170px;
 }
-
-input[type=text] {
-    /*height: 100px;*/
+*/
+#total {
     font-size: 2em;
 }
-
+/*
 h6 {
     font-size: inherit;
     margin: 0px;
     padding: 0px;
 }
-
-.button {
-    display: inline-block;
-    width: 24%;
-    height: 100px;
-    background-color: buttonface;
-    border: outset black 1px;
-    font-size: inherit;
+*/
+#choice .button {
+    width: 16%;
+    height: 70px;
+    margin-bottom: 4px;
+    /*font-size: inherit;
     font-weight: inherit;
     text-align: center;
-    vertical-align: text-top;
+    vertical-align: text-top;*/
+}
+
+#billing .button {
+    width: 32%;
+    height: 70px;
+    margin-bottom: 4px;
 }
 
 .highlight {
-    background-color: skyblue;
+    font-size: 1.2em;
     font-weight: bold;
 }
+/*
 
 .invisible {
     display: none;
@@ -91,3 +96,4 @@ h6 {
 #paymentZone input[type=text] {
     font-size: 1.5em;
 }
+*/

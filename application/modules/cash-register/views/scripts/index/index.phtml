@@ -1,17 +1,14 @@
 <?php
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegister_View_Helper');
 ?>
-<div id="choice">
-    <h6>Catégories</h6>
+<div id="choice" class="col-md-8">
     <div id="categorypad" class="touchpad">
         <?php echo $this->categoryPad($this->categoryTree); ?>
     </div>
-    <h6>Sous-catégories</h6>
     <div id="subcategorypad" class="touchpad"></div>
-    <h6>Articles</h6>
     <div id="articlepad" class="touchpad"></div>
 </div>
-<div id="billing">
+<div id="billing" class="col-md-4">
     <div id="modificators">
         <div id="quantity" style="display: none;">
             <input type="button" qty="2" value="x2"/>
@@ -20,8 +17,8 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegist
             <input type="button" qty="5" value="x5"/>
         </div>
         <div id="promo">
-            <input id="promoToggle" type="button" value="Promotions"/>
-            <input id="promoRemove" type="button" value="Sans promotion"/>
+            <input id="promoToggle" type="button" value="Promotions" class="button btn btn-default"/>
+            <input id="promoRemove" type="button" value="Sans promotion" class="button btn btn-default"/>
             <div id="promoPad">
                 <?php echo $this->promoPad($this->promoList); ?>
             </div>
@@ -29,7 +26,7 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegist
     </div>
     <form id="bill" method="post" action="<?php echo $this->baseUrl('cash-register/index/pay'); ?>">
         <fieldset>
-            <input type="submit" value="Enregistrer"/>
+            <input type="submit" value="Enregistrer" class="button btn btn-warning"/>
             <input id="total" type="text" disabled="disabled" value="<?php $this->currency(0); ?>"/>
         </fieldset>
         <fieldset id="billList"></fieldset>
