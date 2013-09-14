@@ -42,5 +42,5 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View
 </div>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/tax.js'); ?>"></script>
 <script type="text/javascript">
-    taxInit();
+    jQuery(document).ready(taxInit);
 </script>
