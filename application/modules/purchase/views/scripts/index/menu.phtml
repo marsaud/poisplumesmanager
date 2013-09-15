@@ -1,18 +1,17 @@
-<h1>Gestion</h1>
-<div id="purchasemenu" class="menu">
-    <ul>
-        <li>
-            <a href="<?php echo $this->baseUrl('purchase/index/manage');?>"<?php echo ($this->controllerName == 'index' ? ' class="active"' : '');?>>
+<div id="purchasemenu" class="menu navbar navbar-inverse">
+    <ul class="nav navbar-nav">
+        <li<?php echo ($this->controllerName == 'index' ? ' class="active"' : '');?>>
+            <a href="<?php echo $this->baseUrl('purchase/index/manage');?>">
                 Achats
             </a>
         </li>
-        <!--li>
-            <a href="<?php echo $this->baseUrl('purchase/cash/index');?>"<?php echo ($this->controllerName == 'cash' ? ' class="active"' : '');?>>
+        <!--li<?php echo ($this->controllerName == 'cash' ? ' class="active"' : '');?>>
+            <a href="<?php echo $this->baseUrl('purchase/cash/index');?>">
                 Fond de caisse
             </a>
         </li>
-        <li>
-            <a href="<?php echo $this->baseUrl('purchase/income/index');?>"<?php echo ($this->controllerName == 'income' ? ' class="active"' : '');?>>
+        <li<?php echo ($this->controllerName == 'income' ? ' class="active"' : '');?>>
+            <a href="<?php echo $this->baseUrl('purchase/income/index');?>">
                 Entrées
             </a>
         </li-->

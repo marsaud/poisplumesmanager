@@ -1,16 +1,6 @@
 <?php
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
-?>
-<?php
+
 echo $this->action('update-form', 'manage', 'purchase', array('purchaseid' => $this->purchaseid));
-?>
-<script type="text/javascript">
-    <!--
-    var calendarFieldSets = $$('.calendarscripted');
-    calendarFieldSets.each(function (item) {
-        item.removeAttribute('disabled');
-        item.removeAttribute('style');
-    });
-    //-->
-</script>
-<?php echo $this->trigCalendar(); ?>
+
+echo $this->trigCalendar();

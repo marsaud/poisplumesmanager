@@ -40,11 +40,11 @@ input[type=submit] {
     font-size: 1.5em;
     min-width: 170px;
 }
-*/
+
 #total {
     font-size: 2em;
 }
-/*
+
 h6 {
     font-size: inherit;
     margin: 0px;
@@ -61,7 +61,7 @@ h6 {
     vertical-align: text-top;*/
 }
 
-#billing .button {
+#billing .button, #total {
     width: 32%;
     height: 70px;
     margin-bottom: 4px;

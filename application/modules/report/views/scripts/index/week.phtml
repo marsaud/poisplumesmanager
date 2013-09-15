@@ -1,40 +1,43 @@
 <?php
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
 ?>
-<h1>Consolidation hebdomadaire</h1>
-<form method="post" action="<?php echo $this->baseUrl('report/index/week'); ?>">
-    <fieldset>
-        <label for="year">Date de référence</label>
-        <input class="calendrier" type="date" name="fulldate" value="<?php echo $this->fulldate; ?>" autocomplete="off"/>
-        <input type="submit" value="OK" />
-    </fieldset>
-</form>
-<?php if (isset($this->report)) : ?>
-    <table>
-        <tr><th>Jour</th><th>CB</th><th>Chèques</th><th>Ch.Resto</th><th>Espèces</th><th>Total</th></tr>
-        <?php
-        foreach ($this->report as $day => $report)
-        {
-            /* @var $report CashFlowReport */
-            echo '<tr><th>' . $day . '</th>';
+<div class="col-md-12">
+    <form method="post" class="form-inline" action="<?php echo $this->baseUrl('report/index/week'); ?>">
+        <fieldset>
+            <label for="fulldate">Date de référence</label>
+            <div class="form-group">
+                <input class="calendrier form-control" type="date" name="fulldate" value="<?php echo $this->fulldate; ?>" autocomplete="off"/>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Valider" />
+        </fieldset>
+    </form>
+    <?php if (isset($this->report)) : ?>
+        <table class="table table-striped">
+            <tr><th>Jour</th><th>CB</th><th>Chèques</th><th>Ch.Resto</th><th>Espèces</th><th>Total</th></tr>
+            <?php
+            foreach ($this->report as $day => $report)
+            {
+                /* @var $report CashFlowReport */
+                echo '<tr><th>' . $day . '</th>';
 
-            echo '<td class="currency-cell">' . $this->currency($report->cb) . '</td>';
-            echo '<td class="currency-cell">' . $this->currency($report->chq) . '</td>';
-            echo '<td class="currency-cell">' . $this->currency($report->chr) . '</td>';
-            echo '<td class="currency-cell">' . $this->currency($report->mon) . '</td>';
-            echo '<td class="currency-cell">' . $this->currency($report->total) . '</td>';
+                echo '<td class="currency-cell">' . $this->currency($report->cb) . '</td>';
+                echo '<td class="currency-cell">' . $this->currency($report->chq) . '</td>';
+                echo '<td class="currency-cell">' . $this->currency($report->chr) . '</td>';
+                echo '<td class="currency-cell">' . $this->currency($report->mon) . '</td>';
+                echo '<td class="currency-cell">' . $this->currency($report->total) . '</td>';
 
-            echo '</tr>';
-        }
-        echo '<tr></tr>';
-        echo '<tr><th>Total</th>
+                echo '</tr>';
+            }
+            echo '<tr></tr>';
+            echo '<tr><th>Total</th>
             <td class="currency-cell">' . $this->currency($this->week->cb) . '</td>
             <td class="currency-cell">' . $this->currency($this->week->chq) . '</td>
             <td class="currency-cell">' . $this->currency($this->week->chr) . '</td>
             <td class="currency-cell">' . $this->currency($this->week->mon) . '</td>
             <td class="currency-cell">' . $this->currency($this->week->total) . '</th>
         </tr>';
-        ?>
-    </table>
-<?php endif; ?>
+            ?>
+        </table>
+    <?php endif; ?>
+</div>
 <?php echo $this->trigCalendar(); ?>
