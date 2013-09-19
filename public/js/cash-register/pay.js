@@ -11,6 +11,7 @@ var countCheckBoxes = 0;
 
 function payInit()
 {
+    disableValidation();
     var checkboxes = $A(['cb', 'chq', 'chr', 'mon']);
     checkboxes.each(function (item){
         var checkbox = $(item);
@@ -20,7 +21,6 @@ function payInit()
         given.observe('keypress', disableValidation())
     });
     $('ok').observe('click', updatePaymentForm);
-    disableValidation();
 }
 
 function selectPaymentMode(event)
