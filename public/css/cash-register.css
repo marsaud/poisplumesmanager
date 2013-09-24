@@ -88,19 +88,19 @@ h6 {
 #paymentZone label {
     font-size: 1.5em;
 }
-*/
+
 #paymentZone label.touchable {
-    /*display: inline-block;
+    display: inline-block;
     padding: 10px;
     margin-right: 40px;
     background-color: buttonface;
-    border:solid 1px buttonshadow;*/
+    border:solid 1px buttonshadow;
 }
-
+/*
 #paymentZone input[type=checkbox] {
     display: none;
 }
-/*
+
 #paymentZone input[type=text] {
     font-size: 1.5em;
 }

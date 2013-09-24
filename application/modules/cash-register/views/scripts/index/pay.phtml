@@ -1,80 +1,62 @@
 <div class="col-md-12">
-<h3>Ticket : <?php echo $this->hash; ?></h3>
-<pre><?php echo $this->soldArticles($this->soldArticles); ?>
+    <h3>Ticket : <?php echo $this->hash; ?></h3>
+    <pre><?php echo $this->soldArticles($this->soldArticles); ?>
 
 TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
 
-    <?php echo $this->taxBreakDown($this->totalTax, $this->totalRawPrice); ?>
-</pre>
+        <?php echo $this->taxBreakDown($this->totalTax, $this->totalRawPrice); ?>
+    </pre>
 </div>
 <div class="col-md-6">
     <form id="paymentForm" class="form-horizontal" method="post" action="<?php echo $this->baseUrl('cash-register/index/register'); ?>" autocomplete="off">
         <input id="total" type="hidden" name="total" value="<?php echo $this->totalSalePrice; ?>"/>
         <input id="hash" type="hidden" name="hash" value="<?php echo $this->hash; ?>"/>
-        <fieldset id="paymentZone">
-            <div class="form-group">
-                <div class="col-lg-3">
-                    <div class="checkbox">
-                        <label class="touchable btn btn-primary">
-                            <input type="checkbox" name="cb" id="cb"/> Carte bancaire
-                        </label>
-                    </div>
-                </div>
-                <label for="cbgiven" class="cbfields invisible col-lg-1">Perçu</label>
-                <div class="cbfields invisible col-lg-7">
-                    <input id="cbgiven" class="form-control" type="number" step=0.01 name="cbgiven" value="0" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-3">
-                    <div class="checkbox">
-                        <label class="touchable btn btn-primary">
-                            <input type="checkbox" name="chq" id="chq"/> Chèque bancaire
-                        </label>
-                    </div>
-                </div>
-                <label for="chqgiven" class="chqfields invisible col-lg-1">Perçu</label>
-                <div class="chqfields invisible col-lg-7">
-                    <input id="chqgiven" class="form-control" type="number" step=0.01 name="chqgiven" value="0"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-3">
-                    <div class="checkbox">
-                        <label class="touchable btn btn-primary">
-                            <input type="checkbox" name="chr" id="chr"/> Chèque restaurant
-                        </label>
-                    </div>
-                </div>
-                <label for="chrgiven" class="chrfields invisible col-lg-1">Perçu</label>
-                <div class="chrfields invisible col-lg-7">
-                    <input id="chrgiven" class="form-control" type="number" step=0.01 name="chrgiven" value="0"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-3">
-                    <div class="checkbox">
-                        <label class="touchable btn btn-primary">
-                            <input type="checkbox" name="mon" id="mon"/> Espèces
-                        </label>
-                    </div>
-                </div>
-                <label for="given" class="monfields invisible col-lg-1">Perçu</label>
-                <div class="monfields invisible col-lg-3">
-                    <input id="mongiven" class="form-control" type="number" step=0.01 name="mongiven" value="0"/>
-                </div>
-                <label for="returned" class="monfields invisible col-lg-1">A rendre</label>
-                <div class="monfields invisible col-lg-3">
-                    <input id="monreturned" class="form-control" type="text" name="monreturned" readonly="readonly" value="0"/>
-                </div>
-            </div>
-        </fieldset>
         <div class="form-group">
-            <div class="col-lg-2">
-                <input type="button" value="Ok" id="ok" class="btn btn-primary"/>
+            <div class="col-lg-3">
+                <input type="button" name="cb" id="cb" class="btn btn-primary form-control" value="Carte bancaire"/>
             </div>
-            <div class="col-lg-2">
-                <input type="submit" value="Valider" id="validate" class="btn btn-success"/>
+            <label for="cbgiven" class="cbfields invisible col-lg-1">Perçu</label>
+            <div class="cbfields invisible col-lg-7">
+                <input id="cbgiven" class="form-control" type="number" step=0.01 name="cbgiven" value="0" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-3">
+                <input type="button" name="chq" id="chq" class="btn btn-primary form-control" value="Chèque bancaire"/>
+            </div>
+            <label for="chqgiven" class="chqfields invisible col-lg-1">Perçu</label>
+            <div class="chqfields invisible col-lg-7">
+                <input id="chqgiven" class="form-control" type="number" step=0.01 name="chqgiven" value="0"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-3">
+                <input type="button" name="chr" id="chr" class="btn btn-primary form-control" value="Chèque restaurant"/>
+            </div>
+            <label for="chrgiven" class="chrfields invisible col-lg-1">Perçu</label>
+            <div class="chrfields invisible col-lg-7">
+                <input id="chrgiven" class="form-control" type="number" step=0.01 name="chrgiven" value="0"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-3">
+                <input type="button" name="mon" id="mon" class="btn btn-primary form-control" value="Espèces"/>
+            </div>
+            <label for="given" class="monfields invisible col-lg-1">Perçu</label>
+            <div class="monfields invisible col-lg-3">
+                <input id="mongiven" class="form-control" type="number" step=0.01 name="mongiven" value="0"/>
+            </div>
+            <label for="returned" class="monfields invisible col-lg-1">A rendre</label>
+            <div class="monfields invisible col-lg-3">
+                <input id="monreturned" class="form-control" type="text" name="monreturned" readonly="readonly" value="0"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-3">
+                <input type="button" value="Ok" id="ok" class="btn btn-info form-control"/>
+            </div>
+            <div class="col-lg-3">
+                <input type="submit" value="Valider" id="validate" class="btn btn-success form-control"/>
             </div>
         </div>
     </form>
