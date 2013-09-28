@@ -11,7 +11,7 @@
  *
  * @property-read Category[] $subCategories Description
  */
-class Category implements ArrayAccess, IteratorAggregate
+class Category implements ArrayAccess, IteratorAggregate, Countable
 {
 
     /**
@@ -104,6 +104,11 @@ class Category implements ArrayAccess, IteratorAggregate
     public function __set($name, $value)
     {
         throw new OutOfRangeException();
+    }
+
+    public function count()
+    {
+        return count($this->_subCategories);
     }
 
 
