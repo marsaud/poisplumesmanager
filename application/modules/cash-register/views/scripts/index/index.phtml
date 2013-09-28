@@ -11,14 +11,10 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegist
 <div id="billing" class="col-md-4">
     <div id="modificators">
         <div id="quantity" style="display: none;">
-            <input type="button" qty="2" value="x2"/>
-            <input type="button" qty="3" value="x3"/>
-            <input type="button" qty="4" value="x4"/>
-            <input type="button" qty="5" value="x5"/>
+            <input type="button" qty="2" value="x2"/><input type="button" qty="3" value="x3"/><input type="button" qty="4" value="x4"/><input type="button" qty="5" value="x5"/>
         </div>
         <div id="promo">
-            <input id="promoToggle" type="button" value="Promotions" class="button btn btn-default"/>
-            <input id="promoRemove" type="button" value="Sans promotion" class="button btn btn-default"/>
+            <input id="promoToggle" type="button" value="Promotions" class="button btn btn-default"/><input id="promoRemove" type="button" value="Sans promotion" class="button btn btn-default"/>
             <div id="promoPad">
                 <?php echo $this->promoPad($this->promoList); ?>
             </div>
@@ -26,10 +22,11 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegist
     </div>
     <form id="bill" method="post" action="<?php echo $this->baseUrl('cash-register/index/pay'); ?>">
         <fieldset>
-            <input type="submit" value="Enregistrer" class="button btn btn-warning"/>
-            <input id="total" type="text" disabled="disabled" class="input-lg" value="<?php $this->currency(0); ?>"/>
+            <input type="submit" value="Enregistrer" class="button btn btn-warning"/><input id="total" type="text" disabled="disabled" class="input-lg" value="<?php $this->currency(0); ?>"/>
         </fieldset>
-        <fieldset id="billList"></fieldset>
+        <fieldset>
+            <div id="billList"></div>
+        </fieldset>
     </form>
 </div>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/cash-register/front-end.js'); ?>"></script>

@@ -51,10 +51,14 @@ h6 {
     padding: 0px;
 }
 */
-#choice .button {
-    width: 16%;
+.button {
     height: 70px;
     margin-bottom: 4px;
+    margin-right: 4px;
+}
+
+#choice .button {
+    width: 16%;
     /*font-size: inherit;
     font-weight: inherit;
     text-align: center;
@@ -63,8 +67,6 @@ h6 {
 
 #billing .button, #total {
     width: 32%;
-    height: 70px;
-    margin-bottom: 4px;
 }
 
 .highlight {

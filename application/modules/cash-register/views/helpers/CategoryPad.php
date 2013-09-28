@@ -26,7 +26,7 @@ class CashRegister_View_Helper_CategoryPad
         {
             /* @var $category Category */
             $categoryPad .= '<div class="category button btn btn-primary" ref="' . $category->reference . '">'
-                . $category->name . '</div>' . PHP_EOL;
+                . $category->name . '</div>';
         }
 
         return $categoryPad;

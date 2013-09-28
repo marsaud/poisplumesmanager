@@ -36,7 +36,7 @@ class CashRegister_View_Helper_PromoPad
             $promoPad .= '<input type="button" class="button btn btn-info" promoid="' . $promo->id
                 . '" promoratio="' . $promo->ratio
                 . '" value="' . $promo->name . PHP_EOL . $promo->ratio
-                . '%"/>' . PHP_EOL;
+                . '%"/>';
         }
         return $promoPad;
     }
