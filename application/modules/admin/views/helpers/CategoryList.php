@@ -14,8 +14,7 @@ class Admin_View_Helper_CategoryList
 
     public function categoryList(array $categoryTree, $caption = NULL)
     {
-        $caption !== NULL
-                || $caption = 'Liste des catégories';
+        $caption !== NULL || $caption = 'Liste des catégories';
 
         $categoryList = '<table class="table table-striped">'
                 . PHP_EOL
@@ -27,7 +26,9 @@ class Admin_View_Helper_CategoryList
         foreach ($categoryTree as $category)
         {
             /* @var $category Category */
-            $categoryList .= '<tr><td>'
+            $categoryList .= '<tr><td'
+                    . ((($cc = $category->count()) > 0) ? (' rowspan="' . ($cc + 1) . '"') : '')
+                    . '>'
                     . $category->reference
                     . '</td><td></td><td>'
                     . $category->name
@@ -38,7 +39,7 @@ class Admin_View_Helper_CategoryList
             foreach ($category as $subCategory)
             {
                 /* @var $subCategory Category */
-                $categoryList .= '<tr><td></td><td>'
+                $categoryList .= '<tr><td>'
                         . $subCategory->reference
                         . '</td><td>'
                         . $subCategory->name
