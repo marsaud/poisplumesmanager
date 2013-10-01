@@ -1,10 +1,14 @@
-<form class="purchaseform" method="post" action="<?php echo $this->baseUrl('purchase/index/display-date'); ?>">
-    <fieldset class="calendarscripted">
+<form class="purchaseform form-inline" method="post" action="<?php echo $this->baseUrl('purchase/index/display-date'); ?>">
+    <fieldset>
         <legend>Période affichée</legend>
-        <label for="year">Début</label>
-        <input class="calendrier" type="date" name="startdate" value="<?php echo $this->startDate; ?>" autocomplete="off"/>
-        <label for="year">Fin</label>
-        <input class="calendrier" type="date" name="enddate" value="<?php echo $this->endDate; ?>" autocomplete="off"/>
-        <input type="submit" value="OK" />
+        <label for="startdate">Début</label>
+        <div class="form-group">
+            <input class="calendrier form-control" type="date" name="startdate" value="<?php echo $this->startDate; ?>" autocomplete="off"/>
+        </div>
+        <label for="enddate">Fin</label>
+        <div class="form-group">
+            <input class="calendrier form-control" type="date" name="enddate" value="<?php echo $this->endDate; ?>" autocomplete="off"/>
+        </div>
+        <input type="submit" value="Afficher" class="btn btn-primary"/>
     </fieldset>
 </form>

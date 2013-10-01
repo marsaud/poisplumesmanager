@@ -1,55 +1,63 @@
 <?php
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View_Helper');
 ?>
-<h1>Gestion des catégories</h1>
-<div class="leftpart">
+<!--h1>Gestion des catégories</h1-->
+<div class="leftpart col-md-4">
     <form method="post" action="<?php echo $this->baseUrl('admin/category/create'); ?>" id="createcategoryform" class="createform adminform">
         <fieldset>
             <legend>Créer une catégorie</legend>
-            <label for="categoryref">Référence de la catégorie</label>
-            <input id="categoryref" type="text" name="categoryref" autocomplete="off"/>
-            <br/>
-            <label for="categoryname">Nom de la catégorie</label>
-            <input id="categoryname" type="text" name="categoryname" autocomplete="off"/>
-            <br/>
-            <label for="categorydesc">Description de la catégorie (optionel)</label>
-            <textarea id="categorydesc" name="categorydesc">(r.a.s.)</textarea>
-            <br/>
-            <?php
-            echo $this->categoryBox(
-                'parentcategory', $this->categoryTree, 'Catégorie parente (optionel)', true
-            );
-            ?>
-            <br/>
-            <input type="submit" value="Créer"/>
+            <div class="form-group">
+                <label for="categoryref">Référence de la catégorie</label>
+                <input id="categoryref" type="text" name="categoryref" autocomplete="off" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="categoryname">Nom de la catégorie</label>
+                <input id="categoryname" type="text" name="categoryname" autocomplete="off" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="categorydesc">Description de la catégorie</label>
+                <textarea id="categorydesc" name="categorydesc" placeholder="facultatif" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <?php
+                echo $this->categoryBox(
+                        'parentcategory', $this->categoryTree, 'Catégorie parente (optionel)', true
+                );
+                ?>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Créer"/>
         </fieldset>
     </form>
     <form method="post" action="<?php echo $this->baseUrl('admin/category/update'); ?>" id="updatecategoryform" class="updateform adminform">
         <fieldset>
             <legend>Modifier une catégorie</legend>
-            <?php
-            echo $this->categoryBox(
-                'modcategoryref', $this->categoryTree, 'Catégorie à modifier'
-            );
-            ?>
-            <br/>
-            <label for="modcategoryname">Nom de la catégorie</label>
-            <input id="modcategoryname" type="text" name="modcategoryname" autocomplete="off"/>
-            <br/>
-            <label for="modcategorydesc">Description de la catégorie (optionel)</label>
-            <textarea id="modcategorydesc" name="modcategorydesc">(r.a.s.)</textarea>
-            <br/>
-            <?php
-            echo $this->categoryBox(
-                'modparentcategory', $this->categoryTree, 'Catégorie parente (optionel)', true
-            );
-            ?>
-            <br/>
-            <input type="submit" value="Modifier"/>
+            <div class="form-group">
+                <?php
+                echo $this->categoryBox(
+                        'modcategoryref', $this->categoryTree, 'Catégorie à modifier'
+                );
+                ?>
+            </div>
+            <div class="form-group">
+                <label for="modcategoryname">Nom de la catégorie</label>
+                <input id="modcategoryname" type="text" name="modcategoryname" autocomplete="off" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="modcategorydesc">Description de la catégorie</label>
+                <textarea id="modcategorydesc" name="modcategorydesc" placeholder="facultatif" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <?php
+                echo $this->categoryBox(
+                        'modparentcategory', $this->categoryTree, 'Catégorie parente (optionel)', true
+                );
+                ?>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Modifier"/>
         </fieldset>
     </form>
 </div>
-<div id="categorylist" class="listdisplay rightpart">
+<div id="categorylist" class="rightpart col-md-8">
     <?php
     echo $this->categoryList($this->categoryTree);
     ?>

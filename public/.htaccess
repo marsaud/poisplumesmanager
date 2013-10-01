@@ -1,3 +1,7 @@
+#AuthName "Password Required"
+#AuthType Basic
+#AuthUserFile "<absolute path to>/<password file>"
+#Require valid-user
 
 RewriteEngine On
 RewriteBase "/"

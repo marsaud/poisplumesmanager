@@ -24,7 +24,7 @@ class Admin_View_Helper_CategorySelect
     public function categorySelect($name, array $categoryTree, $label = NULL, $parentCategoriesOnly = false)
     {
         $label !== NULL
-            || $label = $name;
+                || $label = $name;
 
         /**
          * @todo Quelle valeur pour la catégorie par défaut ?
@@ -35,34 +35,35 @@ class Admin_View_Helper_CategorySelect
         {
             /* @var $category Category */
             $categorySelect .= '<option value="'
-                . $category->reference
-                . '">'
-                . $category->name
-                . '</option>'
-                . PHP_EOL;
+                    . $category->reference
+                    . '">'
+                    . $category->name
+                    . '</option>'
+                    . PHP_EOL;
             if (!$parentCategoriesOnly)
             {
                 foreach ($category as $subCategory)
                 {
                     /* @var $subCategory Category */
                     $categorySelect .= '<option value="'
-                        . $subCategory->reference
-                        . '">--> '
-                        . $subCategory->name
-                        . '</option>'
-                        . PHP_EOL;
+                            . $subCategory->reference
+                            . '">--> '
+                            . $subCategory->name
+                            . '</option>'
+                            . PHP_EOL;
                 }
             }
         }
 
         $categorySelect = '<label for="' . $name . '">' . $label . '</label>'
-            . PHP_EOL
-            . '<select multiple="multiple" size="10" id="' . $name . '" name="' . $name . '[]">'
-            . PHP_EOL
-            . $categorySelect
-            . PHP_EOL
-            . '</select>'
-            . PHP_EOL;
+                . PHP_EOL
+                . '<select multiple="multiple" size="10" id="' . $name
+                . '" name="' . $name . '[]" class="form-control">'
+                . PHP_EOL
+                . $categorySelect
+                . PHP_EOL
+                . '</select>'
+                . PHP_EOL;
 
         return $categorySelect;
     }

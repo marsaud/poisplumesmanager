@@ -27,7 +27,7 @@ class Purchase_View_Helper_PurchaseDisplay extends Zend_View_Helper_Abstract
             $table .= '<tr class="purchaseline">' . $this->_displayPurchaseLine($purchase) . '</tr>';
         }
         
-        $table = '<table><tr><th>Objet</th><th>HT</th><th>TVA</th><th>TTC</th><th>Paiement</th><th>Hors-marge</th><th>Date</th><th>Actions</th></tr>' . $table . '</table>';
+        $table = '<table class="table"><tr><th>Objet</th><th>HT</th><th>TVA</th><th>TTC</th><th>Paiement</th><th>Hors-marge</th><th>Date</th><th>Actions</th></tr>' . $table . '</table>';
         
         return $table;
     }
@@ -43,8 +43,8 @@ class Purchase_View_Helper_PurchaseDisplay extends Zend_View_Helper_Abstract
         $line .= '<td>' . $purchase->payMode . '</td>';
         $line .= '<td>' . ($purchase->offMargin ? 'X' : '') . '</td>';
         $line .= '<td>'. $purchase->date .'</td>';
-        $line .= '<td><a href="'.$this->view->baseUrl('purchase/index/update/purchaseid/' . $purchase->id).'">Modifier</a>';
-        $line .= '&nbsp;<a href="'.$this->view->baseUrl('purchase/manage/delete/purchaseid/' . $purchase->id).'" class="confirm">Supprimer</a></td>';
+        $line .= '<td><a href="'.$this->view->baseUrl('purchase/index/update/purchaseid/' . $purchase->id).'" class="btn btn-xs btn-warning">Modifier</a>';
+        $line .= '&nbsp;<a href="'.$this->view->baseUrl('purchase/manage/delete/purchaseid/' . $purchase->id).'" class="confirm btn btn-xs btn-danger">Supprimer</a></td>';
         
         return $line;
     }

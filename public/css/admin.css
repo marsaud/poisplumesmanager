@@ -9,35 +9,36 @@
 .adminform input:focus, 
 .adminform textarea:focus, 
 .adminform select:focus {
-    background-color: lightblue;
+    /*background-color: lightblue;*/
 }
 
 .leftpart {
-    float:left;
-    width: 33%;
+    /*    float:left;
+        width: 33%;*/
 }
 
 .rightpart {
-    margin-left: 33%;
-    clear:right;
+    /*    margin-left: 33%;
+        clear:right;*/
 }
 
 .rightpart table {
-    width: 100%;
+    /*width: 100%;*/
 }
 
 textarea {
-    width: 100%;
+    /*width: 100%;*/
 }
 
 select[multiple='multiple'] {
-    width: 100%;
+    /*width: 100%;*/
 }
 
 fieldset {
-    background-color: lightgray;
+    /*background-color: lightgray;*/
 }
 
 legend {
-    font-weight: bold;
+    /*font-weight: bold;*/
+    /*background-color: gainsboro;*/
 }

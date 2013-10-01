@@ -1,46 +1,50 @@
 <?php
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
 ?>
-<h1>Déclaration mensuelle</h1>
-<form method="post" action="<?php echo $this->baseUrl('report/index/month'); ?>">
-    <fieldset>
-        <label for="fulldate">Date de référence</label>
-        <input class="calendrier" type="date" name="fulldate" value="<?php echo $this->fulldate; ?>" autocomplete="off"/>
-        <input type="submit" value="OK" />
-    </fieldset>
-</form>
-<?php echo $this->trigCalendar(); ?>
-<?php
-if (!empty($this->report))
-{
-    ?>
-    <table>
-        <tr>
-            <th>ANNEE</th><th>MOIS</th><th>Taux</th><th>TTC</th><th>HT</th>
-        </tr>
-        <?php
-        $line = array_shift($this->report);
-        array_unshift($this->report, $line);
-        foreach ($this->report as $line)
-        {
-            ?>
+<div class="col-md-12">
+    <form method="post" class="form-inline" action="<?php echo $this->baseUrl('report/index/month'); ?>">
+        <fieldset>
+            <label for="fulldate">Date de référence</label>
+            <div class="form-group">
+                <input class="calendrier form-control" type="date" name="fulldate" value="<?php echo $this->fulldate; ?>" autocomplete="off"/>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Valider" />
+        </fieldset>
+    </form>
+    <?php echo $this->trigCalendar(); ?>
+    <?php
+    if (!empty($this->report))
+    {
+        ?>
+        <p>
+            <a class="btn btn-info" href="<?php echo $this->baseUrl('report/index/month-csv/fulldate/' . $this->fulldate); ?>">Télécharger</a>
+        </p>
+        <table class="table">
             <tr>
-                <?php
-                echo ''
-                . '<td class="numeric-cell">' . $line->year . '</td>'
-                . '<td class="numeric-cell">' . $line->month . '</td>'
-                . '<td class="numeric-cell">' . $line->tva . ' %</td>'
-                . '<td class="currency-cell">' . $this->currency($line->ttc) . '</td>'
-                . '<td class="currency-cell">' . $this->currency($line->ht) . '</td>'
-                ;
-                ?>
+                <th>ANNEE</th><th>MOIS</th><th>Taux</th><th>TTC</th><th>HT</th>
             </tr>
             <?php
-        }
-        ?>
-    </table>
-    <p>
-        <a href="<?php echo $this->baseUrl('report/index/month-csv/fulldate/' . $this->fulldate); ?>">Télécharger</a>
-    </p>
-    <?php
-}
+            $line = array_shift($this->report);
+            array_unshift($this->report, $line);
+            foreach ($this->report as $line)
+            {
+                ?>
+                <tr>
+                    <?php
+                    echo ''
+                    . '<td class="numeric-cell">' . $line->year . '</td>'
+                    . '<td class="numeric-cell">' . $line->month . '</td>'
+                    . '<td class="numeric-cell">' . $line->tva . ' %</td>'
+                    . '<td class="currency-cell">' . $this->currency($line->ttc) . '</td>'
+                    . '<td class="currency-cell">' . $this->currency($line->ht) . '</td>'
+                    ;
+                    ?>
+                </tr>
+                <?php
+            }
+            ?>
+        </table>
+        <?php
+    }
+    ?>
+</div>

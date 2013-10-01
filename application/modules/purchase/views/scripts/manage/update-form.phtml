@@ -1,35 +1,53 @@
 <?php
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
 ?>
-<form class="purchaseform" method="post" action="<?php echo $this->baseUrl('purchase/manage/update'); ?>">
-    <fieldset>
-        <legend>Modification</legend>
-        <label for="purchasedate">Date</label>
-        <input class="calendrier" type="date" name="purchasedate" autocomplete="off" value="<?php echo $this->calendarDate($this->purchase->date); ?>"/>
-        <label for="purchaseitem">Description</label>
-        <textarea name="purchaseitem"><?php echo $this->purchase->item; ?></textarea>
-        <label for="purchasettc">Montant TTC</label>
-        <input type="number" step=0.01 name="purchasettc" autocomplete="off" value="<?php echo $this->purchase->priceTTC; ?>"/>
-        <label for="purchaseht">Montant HT</label>
-        <input type="number" step=0.01 name="purchaseht" autocomplete="off" value="<?php echo $this->purchase->priceHT; ?>"/>
-        <label for="purchasetax">TVA</label>
-        <select name="purchasetax">
-            <option value="19.6" <?php echo ($this->purchase->tax == 19.6) ? 'selected="selected"' : ''; ?>>19,60 %</option>
-            <option value="7" <?php echo ($this->purchase->tax == 7) ? 'selected="selected"' : ''; ?>>7 %</option>
-            <option value="5.5" <?php echo ($this->purchase->tax == 5.5) ? 'selected="selected"' : ''; ?>>5,5 %</option>
-            <option value="0" <?php echo ($this->purchase->tax == 0) ? 'selected="selected"' : ''; ?>>0 %</option>
-        </select>
-        <label for="purchasemode">Mode de paiement</label>
-        <select name="purchasemode">
-            <option value="">- -</option>
-            <option value="cb" <?php echo ($this->purchase->payMode == 'cb') ? 'selected="selected"' : ''; ?>>CB</option>
-            <option value="chq" <?php echo ($this->purchase->payMode == 'chq') ? 'selected="selected"' : ''; ?>>Chèque</option>
-            <option value="mon" <?php echo ($this->purchase->payMode == 'mon') ? 'selected="selected"' : ''; ?>>Espèces</option>
-            <option value="vir" <?php echo ($this->purchase->payMode == 'vir') ? 'selected="selected"' : ''; ?>>Virement</option>
-        </select>
-        <label for="offmargin">Hors-marge</label>
-        <input type="checkbox" name="offmargin" <?php echo $this->purchase->offMargin ? 'checked="checked"' : ''; ?>/>
-        <input type="hidden" name="purchaseid" value="<?php echo $this->purchase->id; ?>"/>
-        <input type="submit" value="OK"/>
-    </fieldset>
-</form>
+<div class="col-md-12">
+    <form class="purchaseform form-inline" method="post" action="<?php echo $this->baseUrl('purchase/manage/update'); ?>">
+        <fieldset>
+            <legend>Modification</legend>
+            <label for="purchasedate">Date</label>
+            <div class="form-group">
+                <input class="calendrier form-control" type="date" name="purchasedate" autocomplete="off" value="<?php echo $this->calendarDate($this->purchase->date); ?>"/>
+            </div>
+            <label for="purchaseitem">Description</label>
+            <div class="form-group">
+                <textarea name="purchaseitem" class="form-control"><?php echo $this->purchase->item; ?></textarea>
+            </div>
+            <label for="purchasettc">Montant TTC</label>
+            <div class="form-group">
+                <input type="number" step=0.01 name="purchasettc" autocomplete="off" value="<?php echo $this->purchase->priceTTC; ?>" class="form-control"/>
+            </div>
+            <label for="purchaseht">Montant HT</label>
+            <div class="form-group">
+                <input type="number" step=0.01 name="purchaseht" autocomplete="off" value="<?php echo $this->purchase->priceHT; ?>" class="form-control"/>
+            </div>
+            <label for="purchasetax">TVA</label>
+            <div class="form-group">
+                <select name="purchasetax" class="form-control">
+                    <option value="19.6" <?php echo ($this->purchase->tax == 19.6) ? 'selected="selected"' : ''; ?>>19,60 %</option>
+                    <option value="7" <?php echo ($this->purchase->tax == 7) ? 'selected="selected"' : ''; ?>>7 %</option>
+                    <option value="5.5" <?php echo ($this->purchase->tax == 5.5) ? 'selected="selected"' : ''; ?>>5,5 %</option>
+                    <option value="0" <?php echo ($this->purchase->tax == 0) ? 'selected="selected"' : ''; ?>>0 %</option>
+                </select>
+            </div>
+            <label for="purchasemode">Mode de paiement</label>
+            <div class="form-group">
+                <select name="purchasemode" class="form-control">
+                    <option value="">- -</option>
+                    <option value="cb" <?php echo ($this->purchase->payMode == 'cb') ? 'selected="selected"' : ''; ?>>CB</option>
+                    <option value="chq" <?php echo ($this->purchase->payMode == 'chq') ? 'selected="selected"' : ''; ?>>Chèque</option>
+                    <option value="mon" <?php echo ($this->purchase->payMode == 'mon') ? 'selected="selected"' : ''; ?>>Espèces</option>
+                    <option value="vir" <?php echo ($this->purchase->payMode == 'vir') ? 'selected="selected"' : ''; ?>>Virement</option>
+                </select>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="offmargin" <?php echo $this->purchase->offMargin ? 'checked="checked"' : ''; ?>/> Hors-marge
+                </label>
+            </div>
+            <input type="hidden" name="purchaseid" value="<?php echo $this->purchase->id; ?>"/>
+            <input type="submit" value="Valider" class="btn btn-primary"/>
+            <a href="<?php echo $this->baseUrl('purchase/index/manage'); ?>" class="btn btn-warning">Annuler</a>
+        </fieldset>
+    </form>
+</div>

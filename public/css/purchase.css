@@ -5,7 +5,7 @@
     Description:
         Purpose of the stylesheet follows.
 */
-
+/*
 .purchaseform input:focus, 
 .purchaseform textarea:focus, 
 .purchaseform select:focus {
@@ -19,7 +19,7 @@ fieldset {
 legend {
     font-weight: bold;
 }
-
+*/
 tr.deleteselected {
     background-color: red;
     color: white;

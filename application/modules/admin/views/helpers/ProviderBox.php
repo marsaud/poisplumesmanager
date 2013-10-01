@@ -24,21 +24,22 @@ class Admin_View_Helper_ProviderBox
     public function providerBox($name, array $providerList, $label = NULL)
     {
         $label !== NULL
-            || $label = $name;
+                || $label = $name;
 
         $providerBox = '<label for="' . $name . '">' . $label . '</label>'
-            . PHP_EOL
-            . '<select id="' . $name . '" name="' . $name . '">'
-            . PHP_EOL
-            . '<option value="0">- -</option>'
-            . PHP_EOL;
+                . PHP_EOL
+                . '<select id="' . $name
+                . '" name="' . $name . '" class="form-control">'
+                . PHP_EOL
+                . '<option value="0">- -</option>'
+                . PHP_EOL;
 
         foreach ($providerList as $provider)
         {
             /* @var $provider Provider */
             $providerBox .= '<option value="' . $provider->id . '">'
-                . $provider->name
-                . '</option>';
+                    . $provider->name
+                    . '</option>';
         }
 
         $providerBox .= '</select>' . PHP_EOL;

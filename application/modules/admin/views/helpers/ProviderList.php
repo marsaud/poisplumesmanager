@@ -21,18 +21,18 @@ class Admin_View_Helper_ProviderList
      */
     public function providerList(array $providers, $caption)
     {
-        $providerList = '<table>' . PHP_EOL
-            . '<caption>' . $caption . '</caption>'
-            . '<tr><th>Nom</th><th>Informations et coordonnées</th>'
-            . '<th>Commentaires</th></tr>' . PHP_EOL;
+        $providerList = '<table class="table table-striped">' . PHP_EOL
+                . '<caption>' . $caption . '</caption>'
+                . '<tr><th>Nom</th><th>Informations et coordonnées</th>'
+                . '<th>Commentaires</th></tr>' . PHP_EOL;
 
         foreach ($providers as $provider)
         {
             /* @var $provider Provider */
             $providerList .= '<tr><td>' . $provider->name . '</td>'
-                . '<td>' . $provider->info . '</td>'
-                . '<td>' . $provider->comment . '</td>'
-                . '</tr>' . PHP_EOL;
+                    . '<td>' . $provider->info . '</td>'
+                    . '<td>' . $provider->comment . '</td>'
+                    . '</tr>' . PHP_EOL;
         }
 
         $providerList .= '</table>' . PHP_EOL;

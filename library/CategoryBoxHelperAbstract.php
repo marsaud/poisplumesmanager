@@ -40,7 +40,7 @@ abstract class CategoryBoxHelperAbstract
             /* @var $category Category */
             $categoryBox .= '<option value="' . $category->reference . '"'
                     . ($selectedCategory === $category->reference ?
-                    ' selected="selected"' : '')
+                            ' selected="selected"' : '')
                     . '>'
                     . $category->name
                     . '</option>'
@@ -50,10 +50,10 @@ abstract class CategoryBoxHelperAbstract
                 foreach ($category as $subCategory)
                 {
                     /* @var $subCategory Category */
-                    $categoryBox .= '<option value="' . $subCategory->reference 
+                    $categoryBox .= '<option value="' . $subCategory->reference
                             . '"'
                             . ($selectedCategory === $subCategory->reference ?
-                            ' selected="selected"' : '')
+                                    ' selected="selected"' : '')
                             . '>--> '
                             . $subCategory->name
                             . '</option>'
@@ -64,7 +64,8 @@ abstract class CategoryBoxHelperAbstract
 
         $categoryBox = '<label for="' . $name . '">' . $label . '</label>'
                 . PHP_EOL
-                . '<select id="' . $name . '" name="' . $name . '">'
+                . '<select id="' . $name
+                . '" name="' . $name . '" class="form-control">'
                 . PHP_EOL
                 . $categoryBox
                 . PHP_EOL

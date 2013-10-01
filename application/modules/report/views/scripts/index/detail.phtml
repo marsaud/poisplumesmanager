@@ -1,50 +1,59 @@
 <?php
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
 ?>
-<h1>Détail des opérations</h1>
-<form method="post" action="<?php echo $this->baseUrl('report/index/detail'); ?>">
-    <fieldset>
-        <legend>Période affichée</legend>
+<div class="col-md-8">
+    <form class="form-inline" method="post" action="<?php echo $this->baseUrl('report/index/detail'); ?>">
         <fieldset>
-            <label for="year">Début</label>
-            <input class="calendrier" type="date" name="startfulldate" value="<?php echo $this->startfulldate; ?>" autocomplete="off"/>
-            <label for="year">Fin</label>
-            <input class="calendrier" type="date" name="endfulldate" value="<?php echo $this->endfulldate; ?>" autocomplete="off"/>
-            <input type="submit" value="OK" />
+            <legend>Période affichée</legend>
+            <label for="startfulldate">Début</label>
+            <div class="form-group">
+                <input class="calendrier form-control" type="date" name="startfulldate" value="<?php echo $this->startfulldate; ?>" autocomplete="off"/>
+            </div>
+            <label for="endfulldate">Fin</label>
+            <div class="form-group">
+                <input class="calendrier form-control" type="date" name="endfulldate" value="<?php echo $this->endfulldate; ?>" autocomplete="off"/>
+            </div>
+            <input type="submit" value="Valider" class="btn btn-primary"/>
         </fieldset>
-    </fieldset>
-</form>
-<a href="<?php echo $this->baseUrl('report/index/csv/startfulldate/' . $this->startfulldate . '/endfulldate/' . $this->endfulldate) ?>">Télécharger</a>
-<table>
+    </form>
     <?php
     $lines = explode(PHP_EOL, $this->content);
-    $line1 = array_shift($lines);
+    if (count($lines) > 2 && !empty($lines[1])): ?>
+        <p>
+            <a href="<?php echo $this->baseUrl('report/index/csv/startfulldate/' . $this->startfulldate . '/endfulldate/' . $this->endfulldate)?>" class="btn btn-info">
+                Télécharger
+            </a>
+        </p>
+        <?php endif; ?>
+    <table class="table table-bordered table-hover">
+        <?php
+        $line1 = array_shift($lines);
+        echo '<tr>';
 
-    echo '<tr>';
-
-    $cells = explode(';', $line1);
-    foreach ($cells as $cell)
-    {
-        echo '<th>' . $cell . '</th>';
-    }
-
-    echo '</tr>';
-
-    foreach ($lines as $csvLine)
-    {
-        if (!empty($csvLine))
+        $cells = explode(';', $line1);
+        foreach ($cells as $cell)
         {
-            echo '<tr>';
-
-            $cells = explode(';', $csvLine);
-            foreach ($cells as $cell)
-            {
-                echo '<td>' . $cell . '</td>';
-            }
-
-            echo '</tr>';
+            echo '<th>' . $cell . '</th>';
         }
-    }
-    ?>
-</table>
+
+        echo '</tr>';
+
+        foreach ($lines as $csvLine)
+        {
+            if (!empty($csvLine))
+            {
+                echo '<tr>';
+
+                $cells = explode(';', $csvLine);
+                foreach ($cells as $cell)
+                {
+                    echo '<td>' . $cell . '</td>';
+                }
+
+                echo '</tr>';
+            }
+        }
+        ?>
+    </table>
+</div>
 <?php echo $this->trigCalendar(); ?>

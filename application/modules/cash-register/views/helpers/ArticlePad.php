@@ -34,8 +34,7 @@ class CashRegister_View_Helper_ArticlePad extends Zend_View_Helper_Abstract
         /* @var $promo Promotion */
         $promo = $article->onePromo;
         ob_start();
-        ?>
-        <div class="article button"
+        ?><div class="article button btn btn-success"
              ref="<?php echo $article->reference; ?>"
              name="<?php echo $article->name; ?>"
              promoratio="<?php echo $promo ? $promo->ratio : ''; ?>"
@@ -52,8 +51,7 @@ class CashRegister_View_Helper_ArticlePad extends Zend_View_Helper_Abstract
                        name="promo_<?php echo $article->reference; ?>"
                        value="<?php echo $promo ? $promo->id : ''; ?>"/>
             </div>
-        </div>
-        <?php
+        </div><?php
         $output = ob_get_clean();
         return $output;
     }
