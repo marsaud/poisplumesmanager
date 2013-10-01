@@ -40,11 +40,10 @@ class Stock_IndexController extends AbstractControllerAbstract
         $comment = $request->getParam('cmnt');
         $quantity = $request->getParam('qty');
 
-        $stockManager = new StockManager($this->db);
         $this->db->beginTransaction();
         try
         {
-            $stockManager->update($reference, $quantity, $comment);
+            $this->stockManager->update($reference, $quantity, $comment);
             $this->db->commit();
         }
         catch (Exception $exc)

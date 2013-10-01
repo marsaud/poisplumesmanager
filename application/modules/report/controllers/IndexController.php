@@ -50,13 +50,18 @@ class Report_IndexController extends Zend_Controller_Action
         $this->view->startfulldate = $startDate->format('Y-m-d');
         $this->view->endfulldate = $endDate->format('Y-m-d');
 
+        /**
+         * @todo AbstractControllerAbstract should avoid writing the following
+         */
         /* @var $db Zend_Db_Adapter_Pdo_Abstract */
         $db = $this->getInvokeArg('bootstrap')
                 ->getResource('multidb')
                 ->getDb('ppmdb');
 
+        /**
+         * @todo AbstractControllerAbstract should avoid writing the following
+         */
         $reportManager = new ReportManager($db);
-
         $detail = $reportManager->detail($db, $startDate, $endDate);
 
         return $detail;

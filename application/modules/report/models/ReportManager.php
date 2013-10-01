@@ -260,7 +260,7 @@ class ReportManager
         {
             $selectOperation = $db->select()
                     ->from(array('ot' => 'operationstrail'), array('total_sale_price', 'cb', 'chq', 'chr', 'mon'))
-                    ->joinInner(array('ol' => 'operationlines'), 'ot.hash = ol.hash', array('reference', 'sale_price', 'quantity'))
+                    ->joinInner(array('ol' => 'operationlines'), 'ot.hash = ol.hash', array('reference', 'final_price', 'quantity'))
                     ->where('ot.hash = ?', $cart->hash);
 
             $queryOperation = $selectOperation->query();
@@ -281,9 +281,9 @@ class ReportManager
 
             $csvLines = implode(';', array(
                         $row->reference,
-                        $row->sale_price,
+                        $row->final_price,
                         $row->quantity,
-                        $row->sale_price * $row->quantity
+                        $row->final_price * $row->quantity
                     ))
                     . PHP_EOL;
 
@@ -291,9 +291,9 @@ class ReportManager
             {
                 $csvLines .= implode(';', array(
                             $row->reference,
-                            $row->sale_price,
+                            $row->final_price,
                             $row->quantity,
-                            $row->sale_price * $row->quantity
+                            $row->final_price * $row->quantity
                         ))
                         . PHP_EOL;
             }
