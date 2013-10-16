@@ -1,49 +1,43 @@
 function taxInit()
 {
-    var taxBox = $('modid');
-    taxBox.observe('change', requestForTax)
-    var updateForm = $('updatetaxform');
-    updateForm.observe('submit', checkUpdateTax);
+    jQuery('#modid').change(requestForTax);
+    jQuery('#updatetaxform').submit(checkUpdateTax);
 }
 
 function requestForTax()
 {
-    var taxBox = $('modid');
-    var id = $F(taxBox);
+    var id = jQuery('#modid').val();
 
-    if (id == 0)
+    if (0 == id)
     {
         defaultUpdateTaxForm();
-    }else
+    }
+    else
     {
-
-        new Ajax.Request('/admin/tax/get/format/json/id/' + id,
-        {
-            onSuccess: function (response){
-                updateUpdateTaxForm(response);
-            },
-            onFailure: function() {
-                alert('ERROR');
+        jQuery.ajax({
+            url: '/admin/tax/get/format/json/id/' + id,
+            type: "GET",
+            dataType: "json",
+            success: updateUpdateTaxForm,
+            error: function(xhr, status) {
+                alert('ERROR ' + status);
             }
-        }
-        );
+        });
     }
 }
 
 function defaultUpdateTaxForm()
 {
-    $('modratio').setValue('');
-    $('moddesc').setValue('(r.a.s.)');
+    jQuery('#modratio').val('');
+    jQuery('#moddesc').val('');
 }
 
 function updateUpdateTaxForm(response)
 {
-    var tax = eval(response.responseJSON);
-
-    if (tax != null)
+    if (null != response)
     {
-        $('modratio').setValue(tax.ratio);
-        $('moddesc').setValue(tax.description);
+        jQuery('#modratio').val(response.ratio);
+        jQuery('#moddesc').val(response.description);
     }
     else
     {
@@ -53,12 +47,9 @@ function updateUpdateTaxForm(response)
 
 function checkUpdateTax(event)
 {
-    var taxBox = $('modid');
-    var id = $F(taxBox);
-
-    if (id == 0)
+    if (0 == jQuery('#modid').val())
     {
         alert('Choisissez la Taxe à modifier');
-        event.stop();
+        event.preventDefault();
     }
 }
