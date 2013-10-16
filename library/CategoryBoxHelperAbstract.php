@@ -19,20 +19,20 @@ abstract class CategoryBoxHelperAbstract
      * @param string $label
      * @param boolean $parentCategoriesOnly
      * @param string $selectedCategory
+     * @param boolean $required
      *
      * @return string
      */
     public function categoryBox(
     $name, array $categoryTree, $label = NULL
-    , $parentCategoriesOnly = false, $selectedCategory = NULL
+    , $parentCategoriesOnly = false, $selectedCategory = NULL, $required = false
     )
     {
-        $label !== NULL
-                || $label = $name;
+        $label !== NULL || $label = $name;
 
-        $categoryBox = '<option value=""'
+        $categoryBox = '<option'
                 . ($selectedCategory === NULL ? ' selected="selected"' : '')
-                . '> - - </option>'
+                . '></option>'
                 . PHP_EOL;
 
         foreach ($categoryTree as $category)
@@ -65,7 +65,7 @@ abstract class CategoryBoxHelperAbstract
         $categoryBox = '<label for="' . $name . '">' . $label . '</label>'
                 . PHP_EOL
                 . '<select id="' . $name
-                . '" name="' . $name . '" class="form-control">'
+                . '" name="' . $name . '" class="form-control"' . ($required ? ' required' : '') . '>'
                 . PHP_EOL
                 . $categoryBox
                 . PHP_EOL
