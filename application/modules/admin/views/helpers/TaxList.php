@@ -6,6 +6,8 @@
 
 /**
  * Description of Admin_View_Helper_TaxList
+ * 
+ * @deprecated since version >1.0
  *
  * @author fabrice
  */
@@ -14,7 +16,7 @@ class Admin_View_Helper_TaxList
 
     /**
      *
-     * @param Tax[] $taxList
+     * @param Tax[] $taxes
      * @param string $caption
      *
      * @return string
@@ -28,7 +30,7 @@ class Admin_View_Helper_TaxList
         foreach ($taxes as $tax)
         {
             /* @var $tax Tax */
-            $taxList .= '<tr><td>' . $tax->name . '</td><td>' . $tax->ratio
+            $taxList .= '<tr><td><a id="' . $tax->id . '">' . $tax->name . '</a></td><td>' . $tax->ratio
                     . '%</td><td>' . $tax->description . '</td></tr>' . PHP_EOL;
         }
 

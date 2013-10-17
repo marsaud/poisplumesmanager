@@ -2,12 +2,12 @@
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View_Helper');
 ?>
 <div class="leftpart col-md-4">
-    <form method="post" action="<?php echo $this->baseUrl('admin/tax/create'); ?>" id="createtaxform" class="createform adminform">
+    <form method="post" action="<?php echo $this->baseUrl('admin/tax/create'); ?>" id="createtaxform">
         <fieldset>
             <legend>Créer une taxe</legend>
             <div class="form-group">
                 <label for="name">Nom de la taxe</label>
-                <input type="text" name="name" id="name" autocomplete="off" class="form-control"/>
+                <input type="text" name="name" id="name" autocomplete="off" class="form-control" required/>
             </div>
             <div class="form-group">
                 <label for="ratio">Ratio (%)</label>
@@ -17,16 +17,20 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View
                 <label for="desc">Description de la taxe</label>
                 <textarea id="desc" name="desc" placeholder="facultatif" class="form-control"></textarea>
             </div>
-            <input type="submit" class="btn btn-primary" value="Créer"/>
+            <button type="submit" class="btn btn-primary">Créer</button>
         </fieldset>
     </form>
-    <form method="post" action="<?php echo $this->baseUrl('admin/tax/update'); ?>" id="updatetaxform" class="updateform adminform">
+    <form method="post" action="<?php echo $this->baseUrl('admin/tax/update'); ?>" id="updatetaxform">
         <fieldset>
             <legend>Modifier une taxe</legend>
             <div class="form-group">
-                <?php
-                echo $this->taxBox('modid', $this->taxes, 'Nom de la taxe à modifier');
-                ?>
+                <label for="modid">Nom de la taxe à modifier</label>
+                <select id="modid" name="modid" class="form-control" required>
+                    <option></option>
+                    <?php
+                    echo $this->taxOptions($this->taxes);
+                    ?>
+                </select>
             </div>
             <div class="form-group">
                 <label for="modratio">Ratio (%)</label>
@@ -36,14 +40,20 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View
                 <label for="moddesc">Description de la taxe</label>
                 <textarea id="moddesc" name="moddesc" placeholder="facultatif" class="form-control"></textarea>
             </div>
-            <input type="submit" class="btn btn-primary" value="Modifier"/>
+            <button type="submit" class="btn btn-primary">Modifier</button>
         </fieldset>
     </form>
 </div>
 <div id="taxlist" class="rightpart col-md-8">
-    <?php
-    echo $this->taxList($this->taxes, 'Taxes existantes');
-    ?>
+    <table class="table table-striped">
+        <caption>Taxes existantes</caption>
+        <tr>
+            <th>Nom</th><th>Ratio</th><th>Description</th>
+        </tr>
+        <?php
+        echo $this->taxRows($this->taxes);
+        ?>
+    </table>
 </div>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/tax.js'); ?>"></script>
 <script type="text/javascript">
