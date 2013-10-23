@@ -2,21 +2,26 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <?php
-        $this->headLink()->appendStylesheet($this->baseUrl('bootstrap-3.0.0-dist/dist/css/bootstrap.min.css'));
+        echo $this->headMeta();
+        $this->headLink()->offsetSetStylesheet(1, $this->baseUrl('bootstrap-3.0.0-dist/dist/css/bootstrap.min.css'));
         echo $this->headLink();
         ?>
         <title>CAISSE</title>
     </head>
     <body>
+        <?php
+        echo $this->action('main-menu', 'index', 'default');
+        echo $this->placeholder('nav');
+        echo $this->layout()->content;
+        ?>
         <script src="<?php echo $this->baseUrl('js/jquery.js'); ?>"></script>
         <script src="<?php echo $this->baseUrl('js/prototype.js'); ?>"></script>
         <script src="<?php echo $this->baseUrl('js/lib/tools.js'); ?>"></script>
-        <?php
-        echo $this->action('main-menu', 'index', 'default');
-        echo $this->layout()->content;
-        ?>
         <script src="<?php echo $this->baseUrl('bootstrap-3.0.0-dist/dist/js/bootstrap.min.js'); ?>"></script>
+        <?php
+        echo $this->placeholder('scripts');
+        ?>
     </body>
 </html>

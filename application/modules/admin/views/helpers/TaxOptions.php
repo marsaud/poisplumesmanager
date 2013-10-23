@@ -23,7 +23,7 @@ class Admin_View_Helper_TaxOptions
 
         foreach ($taxes as $tax):
             ?>
-            <option value="<?php echo $tax->id; ?>"><?php echo $tax->name . ' - ' . $tax->ratio; ?>%</option>
+            <option value="<?php echo $tax->id; ?>"><?php echo $tax->name . ' : ' . $tax->ratio; ?>%</option>
             <?php
         endforeach;
 

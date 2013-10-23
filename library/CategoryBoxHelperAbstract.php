@@ -6,6 +6,8 @@
 
 /**
  * Description of CategoryBox
+ * 
+ * @deprecated since version >1.0
  *
  * @author fabrice
  */
@@ -54,7 +56,7 @@ abstract class CategoryBoxHelperAbstract
                             . '"'
                             . ($selectedCategory === $subCategory->reference ?
                                     ' selected="selected"' : '')
-                            . '>--> '
+                            . '>&gt; '
                             . $subCategory->name
                             . '</option>'
                             . PHP_EOL;

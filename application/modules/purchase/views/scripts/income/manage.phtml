@@ -1,20 +1,23 @@
 <?php
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
-?>
-<?php
+$this->headLink()->offsetSetStylesheet(10, $this->baseUrl('/css/purchase.css'));
+$this->placeholder('nav')->set($this->action('menu', 'index', 'purchase'));
+
 echo $this->action('create-form', 'income', 'purchase');
 ?>
 <hr/>
 <?php
 echo $this->action('display-form', 'income', 'purchase');
-?>
-<?php echo $this->trigCalendar(); ?>
-<?php
+
+echo $this->trigCalendar();
+
 echo $this->action('display', 'income', 'purchase');
-?>
+
+$this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/js/purchase/income.js'); ?>"></script>
 <script type="text/javascript">
     <!--
     incomeInit();
     //-->
 </script>
+<?php $this->placeholder('scripts')->captureEnd();

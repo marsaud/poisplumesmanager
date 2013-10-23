@@ -1,6 +1,10 @@
 <?php
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
+$this->headLink()->offsetSetStylesheet(10, $this->baseUrl('/css/purchase.css'));
+$this->placeholder('nav')->set($this->action('menu', 'index', 'purchase'));
 
 echo $this->action('update-form', 'manage', 'purchase', array('purchaseid' => $this->purchaseid));
 
+$this->placeholder('scripts')->captureStart();
 echo $this->trigCalendar();
+$this->placeholder('scripts')->captureEnd();

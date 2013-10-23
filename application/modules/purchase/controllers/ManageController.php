@@ -12,6 +12,7 @@
  */
 class Purchase_ManageController extends PurchaseControllerAbstract
 {
+
     /**
      * Creates from a submission and forwards to default action
      */
@@ -29,8 +30,17 @@ class Purchase_ManageController extends PurchaseControllerAbstract
             $purchase->priceTTC = $_POST['purchasettc'];
             $purchase->tax = $_POST['purchasetax'];
 
-            $purchaseManager = $this->purchaseManager;
-            $purchaseManager->create($purchase);
+            $this->db->beginTransaction();
+            try
+            {
+                $this->purchaseManager->create($purchase);
+                $this->db->commit();
+            }
+            catch (Exception $exc)
+            {
+                $this->db->rollBack();
+                throw $exc;
+            }
 
             $_POST = array();
 
@@ -52,9 +62,21 @@ class Purchase_ManageController extends PurchaseControllerAbstract
         $purchase->priceHT = $_POST['purchaseht'];
         $purchase->priceTTC = $_POST['purchasettc'];
         $purchase->tax = $_POST['purchasetax'];
-        
-        $this->purchaseManager->update($purchase);
-        
+
+        $this->db->beginTransaction();
+        try
+        {
+            $this->purchaseManager->update($purchase);
+            $this->db->commit();
+        }
+        catch (Exception $exc)
+        {
+            $this->db->rollBack();
+            throw $exc;
+        }
+
+        $_POST = array();
+
         $this->_forward('manage', 'index', 'purchase');
     }
 
@@ -64,10 +86,22 @@ class Purchase_ManageController extends PurchaseControllerAbstract
     public function deleteAction()
     {
         $purchaseManager = $this->purchaseManager;
-        
-        $purchase = $purchaseManager->get($this->getRequest()->getParam('purchaseid'));
-        $purchaseManager->delete($purchase);
-        
+
+        $this->db->commit();
+        try
+        {
+            $purchase = $purchaseManager->get($this->getRequest()->getParam('purchaseid'));
+            $purchaseManager->delete($purchase);
+            $this->db->commit();
+        }
+        catch (Exception $exc)
+        {
+            $this->db->rollBack();
+            throw $exc;
+        }
+
+        $_POST = array();
+
         $this->_forward('manage', 'index', 'purchase');
     }
 
@@ -84,8 +118,7 @@ class Purchase_ManageController extends PurchaseControllerAbstract
      */
     public function updateFormAction()
     {
-        $purchase = $this->purchaseManager->get($this->getRequest()->getParam('purchaseid'));
-        $this->view->purchase = $purchase;
+        $this->view->purchase = $this->purchaseManager->get($this->getRequest()->getParam('purchaseid'));
     }
 
 }

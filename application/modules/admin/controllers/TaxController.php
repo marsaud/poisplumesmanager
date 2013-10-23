@@ -80,7 +80,7 @@ class Admin_TaxController extends Zend_Controller_Action
         /* @var $request Zend_Controller_Request_Http */
         if (!$request->isXmlHttpRequest())
         {
-            throw new RuntimeException();
+            throw new RuntimeException('Wrong Request Context');
         }
 
         $id = $request->getParam('id');

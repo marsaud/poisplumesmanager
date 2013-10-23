@@ -1,112 +1,64 @@
 function articleInit()
 {
-    var articleBox = $('modref');
-    articleBox.observe('change', requestForArticle)
-    var updateForm = $('updatearticleform');
-    updateForm.observe('submit', checkUpdateArticle);
+    jQuery('#modref').change(requestForArticle);
+    jQuery('#updatearticleform').submit(checkUpdateArticle);
 }
 
 function requestForArticle()
 {
-    var articleBox = $('modref');
-    var ref = $F(articleBox);
-
-    if (ref == '')
+    var ref = jQuery(this).val();
+    
+    if ('' === ref)
     {
         defaultUpdateArticleForm();
     }
     else
     {
-
-        new Ajax.Request('/admin/article/get/format/json/ref/' + ref,
-        {
-            onSuccess: function (response){
-                updateUpdateArticleForm(response);
-            },
-            onFailure: function() {
-                alert('ERROR');
+        jQuery.ajax({
+            url: '/admin/article/get/format/json/ref/' + ref,
+            type: "GET",
+            dataType: "json",
+            success: updateUpdateArticleForm,
+            error: function(xhr, status) {
+                alert('ERROR ' + status);
             }
-        }
-        );
+        });
     }
 }
 
 function defaultUpdateArticleForm()
 {
-    $('modname').setValue('');
-    $('moddesc').setValue('(r.a.s.)');
-    $('modpriceht').setValue('');
-    $('modtva').setValue(0);
-    $('modstock').setValue(null);
-    $('modunit').setValue('');
-    // cleanCheckBoxes('modcat');
-    cleanMultiSelect('modcat');
-    cleanMultiSelect('modpromo');
-}
-
-function cleanCheckBoxes(id)
-{
-    var fieldset = $(id);
-    var checkBoxes = $A(fieldset.getElementsByTagName('input'));
-    checkBoxes.each(function (item){
-        item.setValue(null);
-    });
-}
-
-function cleanMultiSelect(id)
-{
-    var options = $A($(id).options);
-    options.each(function(option){
-        option.selected = false;
-    }
-    );
+    jQuery('#modname').val('');
+    jQuery('#modpriceht').val('');
+    jQuery('#modtva').val(0);
+    jQuery('#modstock').val(null);
+    jQuery('#modunit').val('');
+    jQuery('#modcat').val([]);
+    jQuery('#modpromo').val([]);
 }
 
 function updateUpdateArticleForm(response)
 {
-    var article = eval(response.responseJSON);
-
-    if (article != null)
+    if (null !== response)
     {
-        $('modname').setValue(article.name);
-        $('moddesc').setValue(article.description);
-        $('modpriceht').setValue(article.priceht);
-        $('modtva').setValue(article.tax);
-        if (article.stock == '1')
+        jQuery('#modname').val(response.name);
+        jQuery('#moddesc').val(response.description);
+        jQuery('#modpriceht').val(response.priceht);
+        jQuery('#modtva').val(response.tax);
+        
+        if ('1' === response.stock)
         {
-            $('modstock').setValue('on');
+            jQuery('#modstock').prop('checked', true);
         }
         else
         {
-            $('modstock').setValue(null);
+            jQuery('#modstock').prop('checked', false);
         }
-        $('modunit').setValue(article.unit);
+        jQuery('#modunit').val(response.unit);
+        jQuery('#modcat').val(response.categories);
+        jQuery('#modpromo').val(response.promos);
 
-        cleanMultiSelect('modcat');
-        var categories = $A(article.categories);
-        var catOptions = $A($('modcat').options);
-        catOptions.each(function(option){
-            categories.each(function (categorie){
-                if (option.value == categorie)
-                {
-                    option.selected = true;
-                }
-            });
-        });
-
-        cleanMultiSelect('modpromo');
-        var promos = $A(article.promos);
-        var promoOptions = $A($('modpromo').options);
-        promoOptions.each(function(option){
-            promos.each(function (promo){
-                if (option.value == promo)
-                {
-                    option.selected = true;
-                }
-            });
-        });
-
-        $('modprovider').setValue(article.provider);
+        jQuery('#modprovider').val(response.provider);
     }
     else
     {
@@ -116,12 +68,9 @@ function updateUpdateArticleForm(response)
 
 function checkUpdateArticle(event)
 {
-    var articleBox = $('modref');
-    var ref = $F(articleBox);
-
-    if (ref == '')
+    if ('' === jQuery('#modref').val())
     {
         alert('Choisissez l\'article à modifier');
-        event.stop();
+        event.preventDefault();
     }
 }

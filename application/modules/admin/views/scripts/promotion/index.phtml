@@ -1,7 +1,7 @@
 <?php
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View_Helper');
+$this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
 ?>
-<!--h1>Gestion des promotions</h1-->
 <div class="leftpart col-md-4">
     <form method="post" action="<?php echo $this->baseUrl('admin/promotion/create'); ?>" id="createpromoform" class="createform adminform">
         <fieldset>
@@ -46,7 +46,9 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View
     echo $this->promoList($this->promos, 'Promotions existantes');
     ?>
 </div>
+<?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/promotion.js'); ?>"></script>
 <script type="text/javascript">
     promoInit();
 </script>
+<?php $this->placeholder('scripts')->captureEnd(); ?>

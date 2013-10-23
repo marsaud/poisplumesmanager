@@ -7,6 +7,8 @@
 /**
  * Description of Admin_View_Helper_ArticleBox
  *
+ * @deprecated since version >1.0
+ * 
  * @author fabrice
  */
 class Admin_View_Helper_ArticleBox

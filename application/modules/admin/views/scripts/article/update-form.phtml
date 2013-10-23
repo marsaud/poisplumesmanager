@@ -1,0 +1,61 @@
+<form method="post" action="<?php echo $this->baseUrl('admin/article/update'); ?>" id="updatearticleform" class="updateform adminform">
+    <fieldset>
+        <legend>Modifier un article</legend>
+        <div class="form-group">
+            <label for="modref">Référence de l'article à modifier</label>
+            <select id="modref" name="modref" class="form-control" required>
+                <option></option>
+                <?php echo $this->articleOptions($this->articleList); ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="modname">Nom de l'article</label>
+            <input id="modname" type="text" name="modname" autocomplete="off" class="form-control" required/>
+        </div>
+        <div class="form-group">
+            <label for="moddesc">Description de l'article</label>
+            <textarea id="moddesc" name="moddesc" placeholder="facultatif" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="modpriceht">Prix TTC</label>
+            <input id="modpriceht" type="number" step=0.01 name="modpriceht" autocomplete="off" class="form-control" required/>
+        </div>
+        <div class="form-group">
+            <label for="modtva">T.V.A</label>
+            <select id="modtva" name="modtva" class="form-control" required>
+                <option></option>
+                <?php echo $this->taxOptions($this->taxList); ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="modpromo">Promotions appliquées à l'article</label>
+            <select id="modpromo" name="modpromo" class="form-control">
+                <option></option>
+                <?php echo $this->promoOptions($this->promoList); ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="modcat">Catégories auxquelles appartient l'article</label>
+            <select multiple="multiple" size="10" id="modcat" name="modcat[]" class="form-control">
+                <?php echo $this->categoryOptions($this->categoryTree); ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="modprovider">Fournisseur (optionel)</label>
+            <select id="modprovider" name="modprovider" class="form-control">
+                <option></option>
+                <?php echo $this->providerOptions($this->providerList); ?>
+            </select>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input id="modstock" type="checkbox" name="modstock" value="off"/> Géré en stock
+            </label>
+        </div>
+        <div class="form-group">
+            <label for="modunit">Unité de quantité</label>
+            <input type="text" name="modunit" id="modunit" placeholder="optionel" autocomplete="off" class="form-control"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Modifier</button>
+    </fieldset>
+</form>

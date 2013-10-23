@@ -6,6 +6,8 @@
 
 /**
  * Description of Admin_View_Helper_ArticleList
+ * 
+ * @deprecated since version >1.0
  *
  * @author fabrice
  */
@@ -32,21 +34,25 @@ class Admin_View_Helper_ArticleList extends Zend_View_Helper_Abstract
             $categoryList = '';
             if (!empty($article->categories))
             {
+                $categoryList .= '<ul>';
                 foreach ($article->categories as $category)
                 {
                     /* @var $category Category */
-                    $categoryList .= '* ' . $category->name . '<br/>';
+                    $categoryList .= '<li>' . $category->name . '</li>';
                 }
+                $categoryList .= '</ul>';
             }
 
             $promoList = '';
             if (count($article->promos) > 0)
             {
+                $promoList .= '<ul>';
                 foreach ($article->promos as $promo)
                 {
                     /* @var $promo Promotion */
-                    $promoList .= '* ' . $promo->name . ' : ' . $promo->ratio . '%<br />';
+                    $promoList .= '<li>' . $promo->name . ' : ' . $promo->ratio . '%</li>';
                 }
+                $promoList .= '</ul>';
             }
 
             $articleList .= '<tr><td>' . $article->reference . '</td><td>'

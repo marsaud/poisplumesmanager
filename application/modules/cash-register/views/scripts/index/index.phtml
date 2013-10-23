@@ -1,5 +1,6 @@
 <?php
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegister_View_Helper');
+$this->headLink()->offsetSetStylesheet(10, $this->baseUrl('/css/cash-register.css'));
 ?>
 <div id="choice" class="col-md-8">
     <div id="categorypad" class="touchpad">
@@ -29,7 +30,9 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegist
         </fieldset>
     </form>
 </div>
+<?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/cash-register/front-end.js'); ?>"></script>
 <script type="text/javascript">
     frontEndInit();
 </script>
+<?php $this->placeholder('scripts')->captureEnd(); ?>

@@ -1,7 +1,7 @@
 <?php
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View_Helper');
+$this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
 ?>
-<!--h1>Gestion des catégories</h1-->
 <div>
     <div class="col-lg-4">
         <form method="post" action="<?php echo $this->baseUrl('admin/category/create'); ?>" id="createcategoryform">
@@ -64,7 +64,9 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View
         ?>
     </div>
 </div>
+<?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/category.js'); ?>"></script>
 <script type="text/javascript">
     jQuery(document).ready(categoryInit);
 </script>
+<?php $this->placeholder('scripts')->captureEnd(); ?>

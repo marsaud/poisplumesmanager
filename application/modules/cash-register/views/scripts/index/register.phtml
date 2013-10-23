@@ -1,3 +1,3 @@
-<?php echo $this->headMeta()->appendHttpEquiv('Refresh', '3;URL=' . $this->baseUrl('cash-register')); ?>
-<p>OK</p>
-<p>Redirection dans 3 secondes.</p>
+<?php $this->headMeta()->appendHttpEquiv('Refresh', '3;URL=' . $this->baseUrl('cash-register')); ?>
+<p class="alert alert-success">Paiement enregistré</p>
+<p class="alert alert-info">Redirection dans 3 secondes.</p>

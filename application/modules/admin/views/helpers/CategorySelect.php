@@ -7,6 +7,8 @@
 /**
  * Description of Admin_View_Helper_CategorySelect
  *
+ * @deprecated since version >1.0
+ * 
  * @author fabrice
  */
 class Admin_View_Helper_CategorySelect
@@ -47,7 +49,7 @@ class Admin_View_Helper_CategorySelect
                     /* @var $subCategory Category */
                     $categorySelect .= '<option value="'
                             . $subCategory->reference
-                            . '">--> '
+                            . '">&gt; '
                             . $subCategory->name
                             . '</option>'
                             . PHP_EOL;

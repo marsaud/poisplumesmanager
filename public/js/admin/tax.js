@@ -6,7 +6,7 @@ function taxInit()
 
 function requestForTax()
 {
-    var id = jQuery('#modid').val();
+    var id = jQuery(this).val();
 
     if (0 == id)
     {

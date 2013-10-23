@@ -1,0 +1,58 @@
+<form method="post" action="<?php echo $this->baseUrl('admin/article/create'); ?>" id="createarticleform" class="createform adminform">
+    <fieldset>
+        <legend>Créer un article</legend>
+        <div class="form-group">
+            <label for="ref">Référence de l'article</label>
+            <input id="ref" type="text" name="ref" autocomplete="off" class="form-control" required/>
+        </div>
+        <div class="form-group">
+            <label for="name">Nom de l'article</label>
+            <input id="name" type="text" name="name" autocomplete="off" class="form-control" required/>
+        </div>
+        <div class="form-group">
+            <label for="desc">Description de l'article</label>
+            <textarea id="desc" name="desc" placeholder="facultatif" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="priceht">Prix TTC</label>
+            <input id="priceht" type="number" step=0.01 name="priceht" autocomplete="off" class="form-control" required/>
+        </div>
+        <div class="form-group">
+            <label for="tva">T.V.A</label>
+            <select id="tva" name="tva" class="form-control" required>
+                <option></option>
+                <?php echo $this->taxOptions($this->taxList); ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="promo">Promotions appliquées à l'article</label>
+            <select id="promo" name="promo" class="form-control">
+                <option></option>
+                <?php echo $this->promoOptions($this->promoList); ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="cat">Catégories auxquelles appartient l'article</label>
+            <select multiple="multiple" size="10" id="cat" name="cat[]" class="form-control">
+                <?php echo $this->categoryOptions($this->categoryTree); ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="provider">Fournisseur (optionel)</label>
+            <select id="provider" name="provider" class="form-control">
+                <option></option>
+                <?php echo $this->providerOptions($this->providerList); ?>
+            </select>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input id="stock" type="checkbox" name="stock" value="off"/> Géré en stock
+            </label>
+        </div>
+        <div class="form-group">
+            <label for="unit">Unité de quantité</label>
+            <input type="text" name="unit" id="unit" autocomplete="off" placeholder="optionel" class="form-control"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Créer</button>
+    </fieldset>
+</form>

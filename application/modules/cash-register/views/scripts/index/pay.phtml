@@ -1,3 +1,6 @@
+<?php
+$this->headLink()->appendStylesheet($this->baseUrl('/css/cash-register.css'));
+?>
 <div class="col-md-12">
     <h3>Ticket : <?php echo $this->hash; ?></h3>
     <pre><?php echo $this->soldArticles($this->soldArticles); ?>
@@ -61,7 +64,9 @@ TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
         </div>
     </form>
 </div>
+<?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/cash-register/pay.js'); ?>"></script>
 <script type="text/javascript">
     payInit();
 </script>
+<?php $this->placeholder('scripts')->captureEnd(); ?>

@@ -17,7 +17,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $frontController = $this->bootstrap('frontcontroller')
                 ->getResource('frontcontroller');
         
-        $frontController->registerPlugin(new LayoutManagerPlugin());
+        // $frontController->registerPlugin(new LayoutManagerPlugin());
     }
 
     protected function _initView()

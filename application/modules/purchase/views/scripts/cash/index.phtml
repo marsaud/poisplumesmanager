@@ -1,17 +1,17 @@
 <?php
 $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Purchase_View_Helper');
-?>
-<?php
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
-?>
-<?php
+$this->headLink()->offsetSetStylesheet(10, $this->baseUrl('/css/purchase.css'));
+$this->placeholder('nav')->set($this->action('menu', 'index', 'purchase'));
+
 echo $this->action('insert-form', 'cash', 'purchase');
 ?>
 <hr/>
 <?php
 echo $this->action('display-form', 'cash', 'purchase');
-?>
-<?php echo $this->trigCalendar(); ?>
-<?php
+
+$this->placeholder('scripts')->captureStart();
+echo $this->trigCalendar(); 
+$this->placeholder('scripts')->captureEnd();
+
 echo $this->action('display', 'cash', 'purchase');
-?>

@@ -13,50 +13,84 @@ class Admin_ArticleController extends AdminControllerAbstract
 
     public function indexAction()
     {
-        $this->view->taxList = $this->taxMapper->getTaxes();
-        $this->view->categoryTree = $this->categoryMapper->getCategoryTree();
-        $this->view->providerList = $this->providerMapper->getProviders();
-        $this->view->promoList = $this->promotionMapper->getPromotions();
-        $this->view->articleList = $this->articleMapper->getArticles();
+        $taxList = $this->taxMapper->getTaxes();
+        $categoryTree = $this->categoryMapper->getCategoryTree();
+        $providerList = $this->providerMapper->getProviders();
+        $promoList = $this->promotionMapper->getPromotions();
+        $articleList = $this->articleMapper->getArticles();
+
+        $this->view->articleList = $articleList;
+
+        $this->view->placeholder('forms')->create = $this->view->action(
+                'create-form', 'article', 'admin', array(
+            'taxList' => $taxList,
+            'promoList' => $promoList,
+            'categoryTree' => $categoryTree,
+            'providerList' => $providerList
+        ));
+
+        $this->view->placeholder('forms')->update = $this->view->action('update-form', 'article', 'admin', array(
+            'taxList' => $taxList,
+            'promoList' => $promoList,
+            'categoryTree' => $categoryTree,
+            'providerList' => $providerList,
+            'articleList' => $articleList
+        ));
+    }
+
+    public function createFormAction()
+    {
+        $this->view->taxList = $this->getRequest()->getParam('taxList');
+        $this->view->promoList = $this->getRequest()->getParam('promoList');
+        $this->view->categoryTree = $this->getRequest()->getParam('categoryTree');
+        $this->view->providerList = $this->getRequest()->getParam('providerList');
+    }
+
+    public function updateFormAction()
+    {
+        $this->view->taxList = $this->getRequest()->getParam('taxList');
+        $this->view->promoList = $this->getRequest()->getParam('promoList');
+        $this->view->categoryTree = $this->getRequest()->getParam('categoryTree');
+        $this->view->providerList = $this->getRequest()->getParam('providerList');
+        $this->view->articleList = $this->getRequest()->getParam('articleList');
     }
 
     public function createAction()
     {
-        if (isset($_POST))
+        $request = $this->getRequest();
+        /* @var $request Zend_Controller_Request_Http */
+
+        if ($request->isPost())
         {
             $article = new Article();
 
-            $article->reference = $_POST['ref'];
-            $article->name = $_POST['name'];
-            $article->description = $_POST['desc'];
-            $article->price = $_POST['priceht'];
-            $article->stock = isset($_POST['stock']);
+            $article->reference = $request->ref;
+            $article->name = $request->name;
+            $article->description = $request->desc;
+            $article->price = $request->priceht;
+            $article->stock = isset($request->stock);
             $article->stockedQuantity = 0;
 
             if ($article->stock)
             {
-                $article->unit = $_POST['unit'];
+                $article->unit = $request->unit;
             }
 
-            $article->tax = $this->taxMapper->find($_POST['tva']);
+            $article->tax = $this->taxMapper->find($request->tva);
 
-            if ($_POST['provider'] != 0)
+            if ($request->provider != 0)
             {
-                $article->provider = $this->providerMapper->find($_POST['provider']);
+                $article->provider = $this->providerMapper->find($request->provider);
             }
 
-            if (isset($_POST['cat']))
+            if (isset($request->cat))
             {
-                foreach ($_POST['cat'] as $ref)
-                {
-                    $category = $this->categoryMapper->find($ref);
-                    $article->categories[] = $category;
-                }
+                $this->_loadCategories($request->cat, $article);
             }
 
-            if ($_POST['promo'] != '')
+            if ($request->promo != '')
             {
-                $promo = $this->promotionMapper->find($_POST['promo']);
+                $promo = $this->promotionMapper->find($request->promo);
                 $article->promos[] = $promo;
             }
 
@@ -78,29 +112,32 @@ class Admin_ArticleController extends AdminControllerAbstract
 
     public function updateAction()
     {
-        if (isset($_POST))
-        {
-            $article = $this->articleMapper->find($_POST['modref']);
+        $request = $this->getRequest();
+        /* @var $request Zend_Controller_Request_Http */
 
-            $article->name = $_POST['modname'];
-            $article->description = $_POST['moddesc'];
-            $article->price = $_POST['modpriceht'];
-            $article->stock = isset($_POST['modstock']);
+        if ($request->isPost())
+        {
+            $article = $this->articleMapper->find($request->modref);
+
+            $article->name = $request->modname;
+            $article->description = $request->moddesc;
+            $article->price = $request->modpriceht;
+            $article->stock = isset($request->modstock);
 
             if ($article->stock)
             {
-                $article->unit = $_POST['modunit'];
+                $article->unit = $request->modunit;
             }
             else
             {
                 $article->stockedQuantity = 0;
             }
 
-            $article->tax = $this->taxMapper->find($_POST['modtva']);
+            $article->tax = $this->taxMapper->find($request->modtva);
 
-            if ($_POST['modprovider'] != 0)
+            if ($request->modprovider != 0)
             {
-                $article->provider = $this->providerMapper->find($_POST['modprovider']);
+                $article->provider = $this->providerMapper->find($request->modprovider);
             }
             else
             {
@@ -108,19 +145,15 @@ class Admin_ArticleController extends AdminControllerAbstract
             }
 
             $article->freeCategories();
-            if (isset($_POST['modcat']))
+            if (isset($request->modcat))
             {
-                foreach ($_POST['modcat'] as $ref)
-                {
-                    $category = $this->categoryMapper->find($ref);
-                    $article->categories[] = $category;
-                }
+                $this->_loadCategories($request->modcat, $article);
             }
 
             $article->freePromotions();
-            if ($_POST['modpromo'] != '')
+            if ($request->modpromo != '')
             {
-                $promo = $this->promotionMapper->find($_POST['modpromo']);
+                $promo = $this->promotionMapper->find($request->modpromo);
                 $article->promos[] = $promo;
             }
 
@@ -138,6 +171,24 @@ class Admin_ArticleController extends AdminControllerAbstract
         }
 
         $this->_forward('index');
+    }
+
+    /**
+     * 
+     * @param integer[] $categories
+     * @param Article $article
+     * 
+     * @return Article
+     */
+    protected function _loadCategories($categoryRefs, $article)
+    {
+        foreach ($categoryRefs as $ref)
+        {
+            $category = $this->categoryMapper->find($ref);
+            $article->categories[] = $category;
+        }
+        
+        return $article;
     }
 
     public function getAction()
@@ -188,4 +239,3 @@ class Admin_ArticleController extends AdminControllerAbstract
     }
 
 }
-

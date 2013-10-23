@@ -1,5 +1,7 @@
 <?php
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
+$this->headLink()->offsetSetStylesheet(10, $this->baseUrl('/css/purchase.css'));
+$this->placeholder('nav')->set($this->action('menu', 'index', 'purchase'));
 ?>
 <div class="col-md-12">
     <?php
@@ -8,6 +10,7 @@ $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Help
     echo $this->action('display', 'index', 'purchase');
     ?>
 </div>
+<?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/purchase/purchase.js'); ?>"></script>
 <script>
     <!--
@@ -16,3 +19,4 @@ $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Help
 </script>
 <?php
 echo $this->trigCalendar();
+$this->placeholder('scripts')->captureEnd();
