@@ -263,61 +263,60 @@ function selectForBill(event)
 {
     hideTotalPrice();
     triggerTotalUpdate();
-    
-    var element = jQuery(this).parent('.article');
-    var target = jQuery('#billList div[ref=' + element.getAttribute('ref') + ']');
+
+    var element = jQuery(this);
+    var target = jQuery('#billList div[ref=' + element.attr('ref') + ']');
 
     if (0 == target.length)
     {
         target = element.clone();
         target.on('click', unselectForBill);
-        jQuery('#billList').append(target)
+        jQuery('#billList').append(target);
     }
     else
     {
-        target = target.eq(0); // @todo USEFULL ?
+        // target = target.eq(0); // @todo USEFULL ?
     }
 
-//    var inputData = $A(target.getElementsByClassName('inputdata'))[0];
     var inputData = target.find('.inputdata');
-//    var faceValue = $A(target.getElementsByClassName('facevalue'))[0];
     var faceValue = target.find('.facevalue');
 
-    var inputText = faceValue.textContent;
+    var inputText = faceValue.text();
     var qtyBuffer = 0;
-    // var input = $A(inputData.getElementsByTagName('input'));
 
-    var quantityInput = $A(inputData.getElementsByClassName('qty'))[0];
-    var promoidInput = $A(inputData.getElementsByClassName('promoid'))[0];
+    // var quantityInput = $A(inputData.getElementsByClassName('qty'))[0]; 
+    var quantityInput = inputData.find('.qty');
+    // var promoidInput = $A(inputData.getElementsByClassName('promoid'))[0];
+    var promoidInput = inputData.find('.promoid');
 
-    qtyBuffer = parseInt($F(quantityInput)) + parseInt(qty);
-    quantityInput.setValue(qtyBuffer);
-    inputText = target.getAttribute('name') + ' x' + $F(quantityInput);
+    qtyBuffer = parseInt(quantityInput.val()) + parseInt(qty);
+    quantityInput.val(qtyBuffer);
+    inputText = target.attr('name') + ' x' + quantityInput.val();
 
     if (removePromo)
     {
-        promoidInput.setValue('');
-        target.setAttribute('promoratio', '0');
+        promoidInput.val('');
+        target.attr('promoratio', '0');
         inputText += '<br />';
     }
     else if (promo != null)
     {
-        promoidInput.setValue(promo['id']);
-        target.setAttribute('promoratio', promo['ratio']);
+        promoidInput.val(promo['id']);
+        target.attr('promoratio', promo['ratio']);
         inputText += '<br />' + promo['ratio'] + '%';
     }
-    else if ($F(promoidInput) != '')
+    else if ('' != promoidInput.val())
     {
-        inputText += '<br />' + target.getAttribute('promoratio') + '%';
+        inputText += '<br />' + target.attr('promoratio') + '%';
     }
     else
     {
         inputText += '<br />';
     }
 
-    inputText += '<br />' + currency(promotedPrice(target.getAttribute('saleprice'), target.getAttribute('promoratio')) * qtyBuffer) + ' €'; // todo On a un débordement par arrondi
+    inputText += '<br />' + currency(promotedPrice(target.attr('saleprice'), target.attr('promoratio')) * qtyBuffer) + ' €'; // todo On a un débordement par arrondi
 
-    faceValue.update(inputText);
+    faceValue.html(inputText);
 
     cleanQuantity();
     cleanPromos();
@@ -363,7 +362,7 @@ function hideTotalPrice()
 
 function triggerTotalUpdate()
 {
-    if (totalUpdateTimer != null)
+    if (null != totalUpdateTimer)
     {
         clearTimeout(totalUpdateTimer);
     }
