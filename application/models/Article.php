@@ -129,7 +129,7 @@ class Article
     }
     
     /**
-     * Prox TTC
+     * Prix TTC
      * 
      * @return float
      */
