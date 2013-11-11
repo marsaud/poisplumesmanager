@@ -146,7 +146,7 @@ function togglePromoPad()
 function selectCategory(event)
 {
     var category = jQuery(this).attr('ref');
-    if (categoryTreeCash[category] != null)
+    if (null != categoryTreeCash[category])
     {
         _updateSubCategoryPad(category, categoryTreeCash[category]);
     }
@@ -172,7 +172,7 @@ function selectCategory(event)
 function selectSubCategory(event)
 {
     var category = jQuery(this).attr('ref');
-    if (null !== categoryTreeCash[category])
+    if (null != categoryTreeCash[category])
     {
         jQuery('#subcategorypad').html(categoryTreeCash[category]);
     }
@@ -262,7 +262,7 @@ function _updateArticlePad(articles)
 function selectForBill(event)
 {
     hideTotalPrice();
-    triggerTotalUpdate();
+    stopTotalUpdate();
 
     var element = jQuery(this);
     var target = jQuery('#billList div[ref=' + element.attr('ref') + ']');
@@ -275,7 +275,7 @@ function selectForBill(event)
     }
     else
     {
-        // target = target.eq(0); // @todo USEFULL ?
+        ;
     }
 
     var inputData = target.find('.inputdata');
@@ -284,9 +284,7 @@ function selectForBill(event)
     var inputText = faceValue.text();
     var qtyBuffer = 0;
 
-    // var quantityInput = $A(inputData.getElementsByClassName('qty'))[0]; 
     var quantityInput = inputData.find('.qty');
-    // var promoidInput = $A(inputData.getElementsByClassName('promoid'))[0];
     var promoidInput = inputData.find('.promoid');
 
     qtyBuffer = parseInt(quantityInput.val()) + parseInt(qty);
@@ -320,6 +318,8 @@ function selectForBill(event)
 
     cleanQuantity();
     cleanPromos();
+    
+    triggerTotalUpdate();
 }
 
 /**
@@ -328,31 +328,30 @@ function selectForBill(event)
 function unselectForBill(event)
 {
     hideTotalPrice();
+    stopTotalUpdate();
+    jQuery(this).remove();
     triggerTotalUpdate();
-
-    var element = $(event.findElement('div[class="article button btn btn-success"]'));
-    element.stopObserving();
-    element.remove();
 }
 
 function updateTotalPrice()
 {
     var totalPrice = 0;
-    var articles = $A($('billList').getElementsByClassName('article'));
-    articles.each(function(item) {
-        var saleprice = parseFloat(item.getAttribute('saleprice'));
-        var promoratio = parseFloat(item.getAttribute('promoratio'));
+    
+    jQuery('#billList .article').each(function(index){
+        var item = jQuery(this);
+        var promoratio = parseFloat(item.attr('promoratio'));
         if (isNaN(promoratio))
         {
             promoratio = 0;
         }
-        var inputData = $A(item.getElementsByClassName('inputdata'))[0];
-        var quantity = $F($A(inputData.getElementsByClassName('qty'))[0]);
-
+        
+        var quantity = item.find('.inputdata').find('.qty').val();
+        var saleprice = parseFloat(item.attr('saleprice'));
+        
         totalPrice += promotedPrice(saleprice, promoratio) * quantity;
     });
 
-    $('total').setValue(currency(totalPrice) + ' €');
+    jQuery('#total').val(currency(totalPrice) + ' €');
 }
 
 function hideTotalPrice()
@@ -362,10 +361,14 @@ function hideTotalPrice()
 
 function triggerTotalUpdate()
 {
+    stopTotalUpdate();
+    totalUpdateTimer = setTimeout(updateTotalPrice, 200);
+}
+
+function stopTotalUpdate()
+{
     if (null != totalUpdateTimer)
     {
         clearTimeout(totalUpdateTimer);
     }
-
-    totalUpdateTimer = setTimeout(updateTotalPrice, 200);
 }

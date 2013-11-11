@@ -70,7 +70,7 @@ function promotedPrice(price, ratio)
 function _priceValue(price)
 {
     price = parseFloat(price) * 100;
-    price = price.round() / 100;
+    price = Math.round(price) / 100;
 
     return price;
 }

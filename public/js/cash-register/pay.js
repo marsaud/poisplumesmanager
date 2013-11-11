@@ -3,137 +3,89 @@
  * and open the template in the editor.
  */
 
-/**
- * A global timer for total price refereshing
- */
-var updateReturnedTimer = null;
-var countButtons = 0;
-
 function payInit()
 {
     disableValidation();
-    var buttons = $A(['cb', 'chq', 'chr', 'mon']);
-    buttons.each(function(item) {
-        var button = $(item);
-        _selectPaymentMode(button);
-        button.observe('click', selectPaymentMode);
-        var given = $(item + 'given');
-        given.observe('keypress', disableValidation);
-    });
-    $('ok').observe('click', updatePaymentForm);
+
+    jQuery('#valuefields button').on('click', selectPaymentMode);
+    jQuery('form input').on('keypress', disableValidation);
+    jQuery('#ok').on('click', updatePaymentForm);
 }
 
 function selectPaymentMode(event)
 {
-    var eventSource = $(event.findElement());
-    if (eventSource.getAttribute('active') == 'active')
+    var valueBlock = jQuery(this).parent().next();
+    valueBlock.toggle();
+    if (!valueBlock.is(':visible'))
     {
-        eventSource.removeAttribute('active');
+        valueBlock.find('input').val(0);
     }
-    else
-    {
-        eventSource.setAttribute('active', 'active');
-    }
-    disableValidation();
-    _selectPaymentMode(eventSource);
-}
-
-function _selectPaymentMode(button)
-{
-    var paymentMode = button.getAttribute('id');
-    var activated = (button.getAttribute('active') == 'active');
-
-    activated ? _activateFields(paymentMode) : _desactivateFields(paymentMode);
-
     _helpTotal();
-}
-
-function _activateFields(mode)
-{
-    var fields = $A($('paymentForm').getElementsByClassName(mode + 'fields'));
-    fields.each(function(item) {
-        if ($(item).hasClassName('invisible'))
-        {
-            $(item).removeClassName('invisible');
-            countButtons++;
-        }
-    });
-}
-
-function _desactivateFields(mode)
-{
-    var fields = $A($('paymentForm').getElementsByClassName(mode + 'fields'));
-    fields.each(function(item) {
-        if (!$(item).hasClassName('invisible'))
-        {
-            $(item).addClassName('invisible');
-            countButtons--;
-        }
-        var inputs = $A(item.getElementsByTagName('input'));
-        inputs.each(function(input) {
-            input.setValue(0);
-        });
-    });
+    disableValidation();
 }
 
 function updatePaymentForm()
 {
     var totalGiven = 0;
+    var inputs = jQuery('#valuefields input');
 
-    var paymentModes = $A(['mon', 'cb', 'chq', 'chr']);
-    paymentModes.each(function(item) {
-        var amount = $F($(item + 'given'));
-        if (isNaN(amount) || amount == '')
+    inputs.each(function(index) {
+        var item = jQuery(this);
+        if (isNaN(item.val()))
         {
-            amount = 0;
+            item.val(0);
         }
 
-        amount = currency(amount);
-        $(item + 'given').setValue(amount);
+        if (!item.is('#monreturned'))
+        {
+            totalGiven += parseFloat(item.val());
+        }
 
-        totalGiven += parseFloat(amount);
-    }
-    );
+        item.val(currency(item.val()));
+    });
 
-    var total = currency($F($('total')));
+    var total = currency(jQuery('#total').val());
     if (isNaN(total))
     {
         alert('Total sale price is corrupted. Please retip article list.');
     }
-
-    var returned = totalGiven - parseFloat(total);
-    returned = Math.round(100 * returned) / 100;
-    if (returned < 0)
+    else
     {
-        returned = 0;
+        if (totalGiven < total)
+        {
+            alert('Insufficent payment');
+        }
+        else
+        {
+
+            var returned = Math.round(100 * (totalGiven - parseFloat(total))) / 100;
+            if (returned < 0)
+            {
+                returned = 0;
+            }
+
+            jQuery('#monreturned').val(currency(returned));
+
+            enableValidation();
+        }
     }
-
-    $('monreturned').setValue(currency(returned));
-
-    enableValidation();
 }
 
 function disableValidation()
 {
-    $('validate').setAttribute('disabled', 'disabled');
+    jQuery('#validate').attr('disabled', 'disabled').removeClass('btn-success');
 }
 
 function enableValidation()
 {
-    $('validate').removeAttribute('disabled');
+    jQuery('#validate').removeAttr('disabled').addClass('btn-success');
 }
 
 function _helpTotal()
 {
-    if (countButtons == 1)
+    var valueFields = jQuery('#valuefields').find('input:visible');
+    if (1 == valueFields.length)
     {
-        var modes = $A(['cb', 'chq', 'chr']);
-        modes.each(function(item) {
-            if ($(item).getAttribute('active') == 'active')
-            {
-                $(item + 'given').setValue(currency($F($('total'))));
-            }
-        }
-        );
+        valueFields.val(jQuery('#total').val());
     }
 }
