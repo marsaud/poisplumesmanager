@@ -87,7 +87,7 @@ class Purchase_ManageController extends PurchaseControllerAbstract
     {
         $purchaseManager = $this->purchaseManager;
 
-        $this->db->commit();
+        $this->db->beginTransaction();
         try
         {
             $purchase = $purchaseManager->get($this->getRequest()->getParam('purchaseid'));
