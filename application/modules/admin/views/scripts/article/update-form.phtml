@@ -3,14 +3,14 @@
         <legend>Modifier un article</legend>
         <div class="form-group">
             <label for="modref">Référence de l'article à modifier</label>
-            <select id="modref" name="modref" class="form-control" required>
+            <select id="modref" name="modref" required class="form-control">
                 <option></option>
                 <?php echo $this->articleOptions($this->articleList); ?>
             </select>
         </div>
         <div class="form-group">
             <label for="modname">Nom de l'article</label>
-            <input id="modname" type="text" name="modname" autocomplete="off" class="form-control" required/>
+            <input id="modname" name="modname" type="text" required autocomplete="off" placeholder="obligatoire" class="form-control"/>
         </div>
         <div class="form-group">
             <label for="moddesc">Description de l'article</label>
@@ -18,11 +18,11 @@
         </div>
         <div class="form-group">
             <label for="modpriceht">Prix TTC</label>
-            <input id="modpriceht" type="number" step=0.01 name="modpriceht" autocomplete="off" class="form-control" required/>
+            <input id="modpriceht" name="modpriceht" type="number" step=0.01 required autocomplete="off" class="form-control"/>
         </div>
         <div class="form-group">
             <label for="modtva">T.V.A</label>
-            <select id="modtva" name="modtva" class="form-control" required>
+            <select id="modtva" name="modtva" required class="form-control">
                 <option></option>
                 <?php echo $this->taxOptions($this->taxList); ?>
             </select>
@@ -36,7 +36,7 @@
         </div>
         <div class="form-group">
             <label for="modcat">Catégories auxquelles appartient l'article</label>
-            <select multiple="multiple" size="10" id="modcat" name="modcat[]" class="form-control">
+            <select id="modcat" name="modcat[]" multiple="multiple" size="10" class="form-control">
                 <?php echo $this->categoryOptions($this->categoryTree); ?>
             </select>
         </div>
@@ -49,12 +49,12 @@
         </div>
         <div class="checkbox">
             <label>
-                <input id="modstock" type="checkbox" name="modstock" value="off"/> Géré en stock
+                <input id="modstock" name="modstock" type="checkbox"/> Géré en stock
             </label>
         </div>
         <div class="form-group">
             <label for="modunit">Unité de quantité</label>
-            <input type="text" name="modunit" id="modunit" placeholder="optionel" autocomplete="off" class="form-control"/>
+            <input name="modunit" id="modunit" type="text" placeholder="optionel" autocomplete="off" class="form-control"/>
         </div>
         <button type="submit" class="btn btn-primary">Modifier</button>
     </fieldset>

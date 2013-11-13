@@ -1,7 +1,7 @@
 <?php
 $this->headLink()->appendStylesheet($this->baseUrl('/css/cash-register.css'));
 ?>
-<div class="col-md-12">
+<div class="col-lg-12">
     <h3>Ticket : <?php echo $this->hash; ?></h3>
     <pre><?php echo $this->soldArticles($this->soldArticles); ?>
 
@@ -10,7 +10,7 @@ TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
         <?php echo $this->taxBreakDown($this->totalTax, $this->totalRawPrice); ?>
     </pre>
 </div>
-<div class="col-md-6">
+<div class="col-lg-6">
     <form id="paymentForm" class="form-horizontal" method="post" action="<?php echo $this->baseUrl('cash-register/index/register'); ?>" autocomplete="off">
         <input id="total" type="hidden" name="total" value="<?php echo $this->totalSalePrice; ?>"/>
         <input id="hash" type="hidden" name="hash" value="<?php echo $this->hash; ?>"/>

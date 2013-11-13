@@ -1,49 +1,43 @@
 function promoInit()
 {
-    var promoBox = $('modid');
-    promoBox.observe('change', requestForPromo)
-    var updateForm = $('updatepromoform');
-    updateForm.observe('submit', checkUpdatePromo);
+    jQuery('#modid').on('change', requestForPromo);
+    jQuery('#updatepromoform').on('submit', checkUpdatePromo);
 }
 
 function requestForPromo()
 {
-    var promoBox = $('modid');
-    var id = $F(promoBox);
+    var id = jQuery('#modid').val();
 
-    if (id == 0)
+    if ('' == id)
     {
         defaultUpdatePromoForm();
-    }else
+    }
+    else
     {
-
-        new Ajax.Request('/admin/promotion/get/format/json/id/' + id,
-        {
-            onSuccess: function (response){
-                updateUpdatePromoForm(response);
-            },
-            onFailure: function() {
-                alert('ERROR');
+        jQuery.ajax({
+            url: '/admin/promotion/get/format/json/id/' + id,
+            type: "GET",
+            dataType: "json",
+            success: updateUpdatePromoForm,
+            error: function(xhr, status) {
+                alert('ERROR ' + status);
             }
-        }
-        );
+        });
     }
 }
 
 function defaultUpdatePromoForm()
 {
-    $('modratio').setValue('');
-    $('moddesc').setValue('(r.a.s.)');
+    jQuery('#modratio').val('');
+    jQuery('#moddesc').val('');
 }
 
 function updateUpdatePromoForm(response)
 {
-    var promo = eval(response.responseJSON);
-
-    if (promo != null)
+    if (null != response)
     {
-        $('modratio').setValue(promo.ratio);
-        $('moddesc').setValue(promo.description);
+        jQuery('#modratio').val(response.ratio);
+        jQuery('#moddesc').val(response.description);
     }
     else
     {
@@ -53,12 +47,9 @@ function updateUpdatePromoForm(response)
 
 function checkUpdatePromo(event)
 {
-    var promoBox = $('modid');
-    var id = $F(promoBox);
-
-    if (id == 0)
+    if ('' == jQuery('#modid').val())
     {
         alert('Choisissez la promotion à modifier');
-        event.stop();
+        event.preventDefault();
     }
 }

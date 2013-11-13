@@ -31,13 +31,13 @@ function _processDecimals(decimals)
 
 //function testCurrency()
 //{
-//    alert(currency('0'));
-//    alert(currency('1'));
-//    alert(currency('1.00003'));
-//    alert(currency('1234'));
-//    alert(currency('1234.1'));
-//    alert(currency('1234.12'));
-//    alert(currency('1234.123'));
+//    console.log(currency('0'));
+//    console.log(currency('1'));
+//    console.log(currency('1.00003'));
+//    console.log(currency('1234'));
+//    console.log(currency('1234.1'));
+//    console.log(currency('1234.12'));
+//    console.log(currency('1234.123'));
 //}
 
 function promotedPrice(price, ratio)
@@ -56,15 +56,15 @@ function promotedPrice(price, ratio)
 
 //function testPromotedPrice()
 //{
-//    alert(promotedPrice(0, -50));
-//    alert(promotedPrice(0, 50));
-//    alert(promotedPrice(0, 0));
-//    alert(promotedPrice(10, -50));
-//    alert(promotedPrice(10, 50));
-//    alert(promotedPrice(10, 0));
-//    alert(promotedPrice(100, -30));
-//    alert(promotedPrice(100, 30));
-//    alert(promotedPrice(100, 0));
+//    console.log(promotedPrice(0, -50));
+//    console.log(promotedPrice(0, 50));
+//    console.log(promotedPrice(0, 0));
+//    console.log(promotedPrice(10, -50));
+//    console.log(promotedPrice(10, 50));
+//    console.log(promotedPrice(10, 0));
+//    console.log(promotedPrice(100, -30));
+//    console.log(promotedPrice(100, 30));
+//    console.log(promotedPrice(100, 0));
 //}
 
 function _priceValue(price)

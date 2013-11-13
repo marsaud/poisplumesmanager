@@ -2,13 +2,13 @@
 $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
 $this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
 ?>
-<div class="leftpart col-md-4">
+<div class="leftpart col-lg-4">
     <?php
     echo $this->placeholder('forms')->create;
     echo $this->placeholder('forms')->update;
     ?>
 </div>
-<div id="articlelist" class="rightpart col-md-8">
+<div id="articlelist" class="rightpart col-lg-8">
     <table class="table table-striped">
         <caption>Liste des articles</caption>
         <tr>

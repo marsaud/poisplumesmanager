@@ -1,7 +1,8 @@
 <?php
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
+$this->placeholder('nav')->set($this->action('menu', 'index', 'report'));
 ?>
-<div class="col-md-4">
+<div class="col-lg-4">
     <form method="post" class="form-inline" action="<?php echo $this->baseUrl('report/index/cart'); ?>">
         <fieldset>
             <label for="date">Date de référence</label>
@@ -11,10 +12,13 @@ $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Help
             <input type="submit" class="btn btn-primary" value="Valider" />
         </fieldset>
     </form>
-    <table class="table">
-        <?php
-        if (!empty($this->report))
-        {
+    <?php
+    if (!empty($this->report))
+    {
+        ?>
+        <hr/>
+        <table class="table">
+            <?php
             $line = array_shift($this->report);
             ?>
             <tr>
@@ -46,8 +50,11 @@ $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Help
                 </tr>
                 <?php
             }
-        }
-        ?>
-    </table>
+            ?>
+        </table>
+        <?php
+    }
+    ?>
 </div>
-<?php echo $this->trigCalendar(); ?>
+<?php
+echo $this->trigCalendar();

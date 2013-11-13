@@ -1,52 +1,45 @@
 function categoryInit()
 {
-    var categoryBox = $('modcategoryref');
-    categoryBox.observe('change', requestForCategory)
-    var updateForm = $('updatecategoryform');
-    updateForm.observe('submit', checkUpdateCategory);
+    jQuery('#modcategoryref').on('change', requestForCategory);
+    jQuery('#updatecategoryform').on('submit', checkUpdateCategory);
 }
 
 function requestForCategory()
 {
-    var categoryBox = $('modcategoryref');
-    var ref = $F(categoryBox);
+    var ref = jQuery('#modcategoryref').val();
 
-    if (ref == '')
+    if ('' == ref)
     {
         defaultUpdateCategoryForm();
     }
     else
     {
-
-        new Ajax.Request('/admin/category/get/format/json/ref/' + ref,
-        {
-            onSuccess: function (response){
-                updateUpdateCategoryForm(response);
-            },
-            onFailure: function() {
-                alert('ERROR');
+        jQuery.ajax({
+            url: '/admin/category/get/format/json/ref/' + ref,
+            type: "GET",
+            dataType: "json",
+            success: updateUpdateCategoryForm,
+            error: function(xhr, status) {
+                alert('ERROR ' + status);
             }
-        }
-        );
+        });
     }
 }
 
 function defaultUpdateCategoryForm()
 {
-    $('modcategoryname').setValue('');
-    $('modcategorydesc').setValue('(r.a.s.)');
-    $('modparentcategory').setValue('');
+    jQuery('#modcategoryname').val('');
+    jQuery('#modcategorydesc').val('');
+    jQuery('#modparentcategory').val('');
 }
 
 function updateUpdateCategoryForm(response)
 {
-    var category = eval(response.responseJSON);
-
-    if (category != null)
+    if (null != response)
     {
-        $('modcategoryname').setValue(category.name);
-        $('modcategorydesc').setValue(category.description);
-        $('modparentcategory').setValue(category.parentReference);
+        jQuery('#modcategoryname').val(response.name);
+        jQuery('#modcategorydesc').val(response.description);
+        jQuery('#modparentcategory').val(response.parentReference);
     }
     else
     {
@@ -56,12 +49,9 @@ function updateUpdateCategoryForm(response)
 
 function checkUpdateCategory(event)
 {
-    var categoryBox = $('modcategoryref');
-    var ref = $F(categoryBox);
-
-    if (ref == '')
+    if ('' == jQuery('#modcategoryref').val())
     {
         alert('Choisissez la catégorie à modifier');
-        event.stop();
+        event.preventDefault();
     }
 }
