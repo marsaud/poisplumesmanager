@@ -132,7 +132,7 @@ function cleanPromos()
  */
 function togglePromoPad()
 {
-    if (promo == null)
+    if (null == promo)
     {
         jQuery('#promoPad').toggle();
     }
@@ -197,7 +197,7 @@ function selectSubCategory(event)
  */
 function updateSubCategoryPad(response, category)
 {
-    if (response != null)
+    if (null != response)
     {
         categoryTreeCash[category] = response;
         _updateSubCategoryPad(category, response);
@@ -213,7 +213,7 @@ function _updateSubCategoryPad(category, subCategories)
     jQuery('#subcategorypad').html(subCategories);
     jQuery('#subcategorypad').find('.category').on('click', selectSubCategory);
 
-    if (articlesCash[category] != null)
+    if (null != articlesCash[category])
     {
         _updateArticlePad(articlesCash[category])
     }
@@ -239,7 +239,7 @@ function _updateSubCategoryPad(category, subCategories)
  */
 function updateArticlePad(response, category)
 {
-    if (response != null)
+    if (null != response)
     {
         articlesCash[category] = response;
         _updateArticlePad(response);
@@ -297,7 +297,7 @@ function selectForBill(event)
         target.attr('promoratio', '0');
         inputText += '<br />';
     }
-    else if (promo != null)
+    else if (null != promo)
     {
         promoidInput.val(promo['id']);
         target.attr('promoratio', promo['ratio']);

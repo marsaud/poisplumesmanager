@@ -11,7 +11,7 @@ function currency(price)
 
 function _processDecimals(decimals)
 {
-    if (typeof decimals == 'undefined')
+    if ('undefined' == typeof decimals)
     {
         decimals = '00';
     }

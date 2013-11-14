@@ -53,7 +53,9 @@ $this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
 <?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/provider.js'); ?>"></script>
 <script type="text/javascript">
+    <!--
     jQuery(document).ready(providerInit);
+//-->
 </script>
 <?php
 $this->placeholder('scripts')->captureEnd();

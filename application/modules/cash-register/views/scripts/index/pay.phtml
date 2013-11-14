@@ -79,6 +79,9 @@ TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
 <?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/cash-register/pay.js'); ?>"></script>
 <script type="text/javascript">
+    <!--
     jQuery(document).ready(payInit);
+//-->
 </script>
-<?php $this->placeholder('scripts')->captureEnd();
+<?php
+$this->placeholder('scripts')->captureEnd();

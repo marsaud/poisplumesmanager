@@ -1,7 +1,11 @@
 <?php
+
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
 ?>
 <?php
+
 echo $this->action('update-form', 'income', 'purchase', array('incomeid' => $this->incomeid));
 ?>
-<?php echo $this->trigCalendar(); ?>
+<?php
+
+echo $this->trigCalendar();

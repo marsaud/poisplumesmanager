@@ -33,7 +33,9 @@ $this->headLink()->offsetSetStylesheet(10, $this->baseUrl('/css/cash-register.cs
 <?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/cash-register/front-end.js'); ?>"></script>
 <script type="text/javascript">
+    <!--
     jQuery(document).ready(frontEndInit);
+//-->
 </script>
 <?php
 $this->placeholder('scripts')->captureEnd();
