@@ -28,45 +28,19 @@ var totalUpdateTimer = null;
  */
 function frontEndInit()
 {
-    var modificatorPad = $('quantity');
-    var mButtons = $A(modificatorPad.getElementsByTagName('input'));
-    mButtons.map(Element.extend);
-    mButtons.each(function (item){
-        $(item).observe('click', toggleQuantity);
-    });
+    jQuery('#quantity').find('input').on('click', toggleQuantity);
+    jQuery('#categorypad').find('.category').on('click', selectCategory);
+    jQuery('#subcategorypad').find('.category').on('click', selectSubCategory);
+    jQuery('#articlepad').find('.article').on('click', selectForBill);
 
-    var categoryPad = $('categorypad');
-    var cButtons = $A(categoryPad.getElementsByClassName('category'));
-    cButtons.map(Element.extend);
-    cButtons.each(function (item){
-        $(item).observe('click', selectCategory);
-    });
+    var promoPad = jQuery('#promoPad');
+    promoPad.find('input').on('click', togglePromo);
+    promoPad.hide();
 
-    var subCategoryPad = $('subcategorypad');
-    var scButtons = $A(subCategoryPad.getElementsByClassName('category'));
-    scButtons.map(Element.extend);
-    scButtons.each(function (item){
-        $(item).observe('click', selectSubCategory);
-    });
+    jQuery('#promoToggle').on('click', togglePromoPad);
+    jQuery('#promoRemove').on('click', togglePromoRemove);
 
-    var articlePad = $('articlepad');
-    var buttons = $A(articlePad.getElementsByClassName('article'));
-    buttons.map(Element.extend);
-    buttons.each(function (item){
-        $(item).observe('click', selectForBill);
-    });
-
-    var promoPad = $('promoPad');
-    var pButtons = $A(promoPad.getElementsByTagName('input'));
-    pButtons.map(Element.extend);
-    pButtons.each(function (item){
-        $(item).observe('click', togglePromo);
-    });
-    promoPad.toggle();
-    $('promoToggle').observe('click', togglePromoPad);
-    $('promoRemove').observe('click', togglePromoRemove);
-
-    $('total').setValue(currency(0) + ' €');
+    jQuery('#total').val(currency(0) + ' €');
 }
 
 /**
@@ -74,18 +48,18 @@ function frontEndInit()
  */
 function toggleQuantity(event)
 {
-    var element = event.element();
+    var element = jQuery(this);
 
-    if (element.hasClassName('highlight'))
+    if (element.is('.highlight'))
     {
         qty = 1;
-        element.removeClassName('highlight');
+        element.removeClass('highlight');
     }
     else
     {
         cleanQuantity();
-        qty = element.getAttribute('qty');
-        element.addClassName('highlight');
+        qty = element.attr('qty');
+        element.addClass('highlight');
     }
 }
 
@@ -94,20 +68,20 @@ function toggleQuantity(event)
  */
 function togglePromo(event)
 {
-    var element = event.element();
+    var element = jQuery(this);
 
-    if (element.hasClassName('highlight'))
+    if (element.is('.highlight'))
     {
         promo = null;
-        element.removeClassName('highlight');
+        element.removeClass('highlight');
     }
     else
     {
         cleanPromos();
         promo = {};
-        promo['id'] = element.getAttribute('promoid');
-        promo['ratio'] = element.getAttribute('promoratio');
-        element.addClassName('highlight');
+        promo['id'] = element.attr('promoid');
+        promo['ratio'] = element.attr('promoratio');
+        element.addClass('highlight');
     }
 }
 
@@ -116,18 +90,18 @@ function togglePromo(event)
  */
 function togglePromoRemove(event)
 {
-    var element = event.element();
+    var element = jQuery(this);
 
-    if (element.hasClassName('highlight'))
+    if (element.hasClass('highlight'))
     {
         removePromo = false;
-        element.removeClassName('highlight');
+        element.removeClass('highlight');
     }
     else
     {
         cleanPromos();
         removePromo = true;
-        element.addClassName('highlight');
+        element.addClass('highlight');
     }
 }
 
@@ -137,12 +111,7 @@ function togglePromoRemove(event)
 function cleanQuantity()
 {
     qty = 1;
-    var modificatorPad = $('quantity');
-    var mButtons = $A(modificatorPad.getElementsByTagName('input'));
-    mButtons.map(Element.extend);
-    mButtons.each(function (item){
-        $(item).removeClassName('highlight');
-    });
+    jQuery('#quantity').find('input').removeClass('highlight');
 }
 
 /**
@@ -151,14 +120,9 @@ function cleanQuantity()
 function cleanPromos()
 {
     promo = null;
-    var promoPad = $('promoPad');
-    var pButtons = $A(promoPad.getElementsByTagName('input'));
-    pButtons.map(Element.extend);
-    pButtons.each(function (item){
-        $(item).removeClassName('highlight');
-    });
+    jQuery('#promoPad').find('input').removeClass('highlight');
     removePromo = false;
-    $('promoRemove').removeClassName('highlight');
+    jQuery('#promoRemove').removeClass('highlight');
 }
 
 /**
@@ -168,9 +132,9 @@ function cleanPromos()
  */
 function togglePromoPad()
 {
-    if (promo == null)
+    if (null == promo)
     {
-        $('promoPad').toggle();
+        jQuery('#promoPad').toggle();
     }
 }
 
@@ -181,21 +145,22 @@ function togglePromoPad()
  */
 function selectCategory(event)
 {
-    var element = event.element();
-    var category = element.getAttribute('ref');
-    if (categoryTreeCash[category] != null)
+    var category = jQuery(this).attr('ref');
+    if (null != categoryTreeCash[category])
     {
         _updateSubCategoryPad(category, categoryTreeCash[category]);
     }
     else
     {
-        new Ajax.Request('/cash-register/index/get-categories/category/' + category,
-        {
-            onSuccess: function (response){
+        jQuery.ajax({
+            url: '/cash-register/index/get-categories/category/' + category,
+            type: "GET",
+            dataType: "html",
+            success: function(response) {
                 updateSubCategoryPad(response, category);
             },
-            onFailure: function() {
-                alert('ERROR');
+            error: function(xhr, status) {
+                alert('ERROR ' + status);
             }
         });
     }
@@ -206,21 +171,22 @@ function selectCategory(event)
  */
 function selectSubCategory(event)
 {
-    var element = event.element();
-    var category = element.getAttribute('ref');
-    if (categoryTreeCash[category] != null)
+    var category = jQuery(this).attr('ref');
+    if (null != categoryTreeCash[category])
     {
-        $('subcategorypad').update(categoryTreeCash[category]);
+        jQuery('#subcategorypad').html(categoryTreeCash[category]);
     }
     else
     {
-        new Ajax.Request('/cash-register/index/get-articles/category/' + category,
-        {
-            onSuccess: function (response){
+        jQuery.ajax({
+            url: '/cash-register/index/get-articles/category/' + category,
+            type: "GET",
+            dataType: "html",
+            success: function(response) {
                 updateArticlePad(response);
             },
-            onFailure: function() {
-                alert('ERROR');
+            error: function(xhr, status) {
+                alert('ERROR ' + status);
             }
         });
     }
@@ -231,12 +197,10 @@ function selectSubCategory(event)
  */
 function updateSubCategoryPad(response, category)
 {
-    var subCategories = response.responseText;
-    categoryTreeCash[category] = subCategories;
-
-    if (subCategories != null)
+    if (null != response)
     {
-        _updateSubCategoryPad(category, subCategories);
+        categoryTreeCash[category] = response;
+        _updateSubCategoryPad(category, response);
     }
     else
     {
@@ -246,28 +210,24 @@ function updateSubCategoryPad(response, category)
 
 function _updateSubCategoryPad(category, subCategories)
 {
-    var subCategoryPad = $('subcategorypad');
-    subCategoryPad.update(subCategories);
+    jQuery('#subcategorypad').html(subCategories);
+    jQuery('#subcategorypad').find('.category').on('click', selectSubCategory);
 
-    var scButtons = $A(subCategoryPad.getElementsByClassName('category'));
-    scButtons.map(Element.extend);
-    scButtons.each(function (item){
-        $(item).observe('click', selectSubCategory);
-    });
-
-    if (articlesCash[category] != null)
+    if (null != articlesCash[category])
     {
         _updateArticlePad(articlesCash[category])
     }
     else
     {
-        new Ajax.Request('/cash-register/index/get-articles/category/' + category,
-        {
-            onSuccess: function (response){
+        jQuery.ajax({
+            url: '/cash-register/index/get-articles/category/' + category,
+            type: "GET",
+            dataType: "html",
+            success: function(response) {
                 updateArticlePad(response, category);
             },
-            onFailure: function() {
-                alert('ERROR');
+            error: function(xhr, status) {
+                alert('ERROR ' + status);
             }
         });
     }
@@ -279,12 +239,10 @@ function _updateSubCategoryPad(category, subCategories)
  */
 function updateArticlePad(response, category)
 {
-    var articles = response.responseText;
-    articlesCash[category] = articles;
-
-    if (articles != null)
+    if (null != response)
     {
-        _updateArticlePad(articles);
+        articlesCash[category] = response;
+        _updateArticlePad(response);
     }
     else
     {
@@ -294,14 +252,8 @@ function updateArticlePad(response, category)
 
 function _updateArticlePad(articles)
 {
-    var articlePad = $('articlepad');
-    articlePad.update(articles);
-
-    var buttons = $A(articlePad.getElementsByClassName('article'));
-    buttons.map(Element.extend);
-    buttons.each(function (item){
-        $(item).observe('click', selectForBill);
-    });
+    jQuery('#articlepad').html(articles);
+    jQuery('#articlepad').find('.article').on('click', selectForBill);
 }
 
 /**
@@ -310,64 +262,64 @@ function _updateArticlePad(articles)
 function selectForBill(event)
 {
     hideTotalPrice();
-    triggerTotalUpdate();
+    stopTotalUpdate();
 
-    var element = $(event.findElement('div[class="article button btn btn-success"]'));
-    var target = $$('#billList div[ref=' + element.getAttribute('ref') + ']');
+    var element = jQuery(this);
+    var target = jQuery('#billList div[ref=' + element.attr('ref') + ']');
 
-    if (target.size() == 0)
+    if (0 == target.length)
     {
-        target = element.clone(true);
-        target.observe('click', unselectForBill);
-        var bill = $('billList');
-        bill.appendChild(target);
+        target = element.clone();
+        target.on('click', unselectForBill);
+        jQuery('#billList').append(target);
     }
     else
     {
-        target = $(target[0]);
+        ;
     }
 
-    var inputData = $A(target.getElementsByClassName('inputdata'))[0];
-    var faceValue = $A(target.getElementsByClassName('facevalue'))[0];
+    var inputData = target.find('.inputdata');
+    var faceValue = target.find('.facevalue');
 
-    var inputText = faceValue.textContent;
+    var inputText = faceValue.text();
     var qtyBuffer = 0;
-    // var input = $A(inputData.getElementsByTagName('input'));
 
-    var quantityInput = $A(inputData.getElementsByClassName('qty'))[0];
-    var promoidInput = $A(inputData.getElementsByClassName('promoid'))[0];
+    var quantityInput = inputData.find('.qty');
+    var promoidInput = inputData.find('.promoid');
 
-    qtyBuffer = parseInt($F(quantityInput)) + parseInt(qty);
-    quantityInput.setValue(qtyBuffer);
-    inputText = target.getAttribute('name') + ' x' + $F(quantityInput);
+    qtyBuffer = parseInt(quantityInput.val()) + parseInt(qty);
+    quantityInput.val(qtyBuffer);
+    inputText = target.attr('name') + ' x' + quantityInput.val();
 
     if (removePromo)
     {
-        promoidInput.setValue('');
-        target.setAttribute('promoratio', '0');
+        promoidInput.val('');
+        target.attr('promoratio', '0');
         inputText += '<br />';
     }
-    else if (promo != null)
+    else if (null != promo)
     {
-        promoidInput.setValue(promo['id']);
-        target.setAttribute('promoratio', promo['ratio']);
+        promoidInput.val(promo['id']);
+        target.attr('promoratio', promo['ratio']);
         inputText += '<br />' + promo['ratio'] + '%';
     }
-    else if ($F(promoidInput) != '')
+    else if ('' != promoidInput.val())
     {
-        inputText += '<br />' + target.getAttribute('promoratio') + '%';
+        inputText += '<br />' + target.attr('promoratio') + '%';
     }
     else
     {
         inputText += '<br />';
     }
 
-    inputText += '<br />' + currency(promotedPrice(target.getAttribute('saleprice'), target.getAttribute('promoratio')) * qtyBuffer) + ' €'; // todo On a un débordement par arrondi
+    inputText += '<br />' + currency(promotedPrice(target.attr('saleprice'), target.attr('promoratio')) * qtyBuffer) + ' €'; // todo On a un débordement par arrondi
 
-    faceValue.update(inputText);
+    faceValue.html(inputText);
 
     cleanQuantity();
     cleanPromos();
+    
+    triggerTotalUpdate();
 }
 
 /**
@@ -376,44 +328,47 @@ function selectForBill(event)
 function unselectForBill(event)
 {
     hideTotalPrice();
+    stopTotalUpdate();
+    jQuery(this).remove();
     triggerTotalUpdate();
-
-    var element = $(event.findElement('div[class="article button btn btn-success"]'));
-    element.stopObserving();
-    element.remove();
 }
 
 function updateTotalPrice()
 {
     var totalPrice = 0;
-    var articles = $A($('billList').getElementsByClassName('article'));
-    articles.each(function (item){
-        var saleprice = parseFloat(item.getAttribute('saleprice'));
-        var promoratio = parseFloat(item.getAttribute('promoratio'));
+    
+    jQuery('#billList .article').each(function(index){
+        var item = jQuery(this);
+        var promoratio = parseFloat(item.attr('promoratio'));
         if (isNaN(promoratio))
         {
             promoratio = 0;
         }
-        var inputData = $A(item.getElementsByClassName('inputdata'))[0];
-        var quantity = $F($A(inputData.getElementsByClassName('qty'))[0]);
-
+        
+        var quantity = item.find('.inputdata').find('.qty').val();
+        var saleprice = parseFloat(item.attr('saleprice'));
+        
         totalPrice += promotedPrice(saleprice, promoratio) * quantity;
     });
 
-    $('total').setValue(currency(totalPrice) + ' €');
+    jQuery('#total').val(currency(totalPrice) + ' €');
 }
 
 function hideTotalPrice()
 {
-    $('total').setValue('...');
+    jQuery('#total').val('...');
 }
 
 function triggerTotalUpdate()
 {
-    if (totalUpdateTimer != null)
+    stopTotalUpdate();
+    totalUpdateTimer = setTimeout(updateTotalPrice, 200);
+}
+
+function stopTotalUpdate()
+{
+    if (null != totalUpdateTimer)
     {
         clearTimeout(totalUpdateTimer);
     }
-
-    totalUpdateTimer = setTimeout(updateTotalPrice, 200);
 }

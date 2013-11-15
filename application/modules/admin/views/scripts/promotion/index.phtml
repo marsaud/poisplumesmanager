@@ -2,46 +2,48 @@
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View_Helper');
 $this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
 ?>
-<div class="leftpart col-md-4">
+<div class="leftpart col-lg-4">
     <form method="post" action="<?php echo $this->baseUrl('admin/promotion/create'); ?>" id="createpromoform" class="createform adminform">
         <fieldset>
             <legend>Créer une promotion</legend>
             <div class="form-group">
                 <label for="name">Nom de la promotion</label>
-                <input type="text" name="name" id="name" autocomplete="off" class="form-control"/>
+                <input id="name" name="name" type="text" required autocomplete="off" class="form-control"/>
             </div>
             <div class="form-group">
                 <label for="ratio">Ratio (%)</label>
-                <input type="number" step=0.01 max="0" min="-100" name="ratio" id="ratio" autocomplete="off" class="form-control" value="0"/>
+                <input id="ratio" name="ratio" type="number" step=0.01 max="0" min="-100" required value="0" autocomplete="off" class="form-control"/>
             </div>
             <div class="form-group">
                 <label for="desc">Description de la promotion</label>
                 <textarea id="desc" name="desc" placeholder="facultatif" class="form-control"></textarea>
             </div>
-            <input type="submit" class="btn btn-primary" value="Créer"/>
+            <button type="submit" class="btn btn-primary">Créer</button>
         </fieldset>
     </form>
     <form method="post" action="<?php echo $this->baseUrl('admin/promotion/update'); ?>" id="updatepromoform" class="updateform adminform">
         <fieldset>
             <legend>Modifier une promotion</legend>
             <div class="form-group">
-                <?php
-                echo $this->promoBox('modid', $this->promos, 'Nom de la promotion à modifier');
-                ?>
+                <label for="modid">Nom de la promotion à modifier</label>
+                <select id="modid" name="modid" required class="form-control">
+                    <option></option>
+                    <?php echo $this->promoOptions($this->promos); ?>
+                </select>
             </div>
             <div class="form-group">
                 <label for="modratio">Ratio (%)</label>
-                <input type="number" step=0.01  max="0" min="-100" name="modratio" id="modratio" autocomplete="off" class="form-control"/>
+                <input id="modratio" name="modratio" type="number" step=0.01 max="0" min="-100" autocomplete="off" class="form-control"/>
             </div>
             <div class="form-group">
                 <label for="moddesc">Description de la promotion</label>
                 <textarea id="moddesc" name="moddesc" placeholder="facultatif" class="form-control"></textarea>
             </div>
-            <input type="submit" class="btn btn-primary" value="Modifier"/>
+            <button type="submit" class="btn btn-primary">Modifier</button>
         </fieldset>
     </form>
 </div>
-<div id="promolist" class="rightpart col-md-8">
+<div id="promolist" class="rightpart col-lg-8">
     <?php
     echo $this->promoList($this->promos, 'Promotions existantes');
     ?>
@@ -49,6 +51,9 @@ $this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
 <?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/promotion.js'); ?>"></script>
 <script type="text/javascript">
-    promoInit();
+    <!--
+    jQuery(document).ready(promoInit);
+//-->
 </script>
-<?php $this->placeholder('scripts')->captureEnd(); ?>
+<?php
+$this->placeholder('scripts')->captureEnd();

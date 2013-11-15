@@ -1,49 +1,43 @@
 function providerInit()
 {
-    var providerBox = $('modid');
-    providerBox.observe('change', requestForProvider)
-    var updateForm = $('updateproviderform');
-    updateForm.observe('submit', checkUpdateProvider);
+    jQuery('#modid').on('change', requestForProvider);
+    jQuery('#updateproviderform').on('submit', checkUpdateProvider);
 }
 
 function requestForProvider()
 {
-    var providerBox = $('modid');
-    var id = $F(providerBox);
+    var id = jQuery('#modid').val();
 
-    if (id == 0)
+    if ('' == id)
     {
         defaultUpdateProviderForm();
     }
     else
     {
-        new Ajax.Request('/admin/provider/get/format/json/id/' + id,
-        {
-            onSuccess: function (response){
-                updateUpdateProviderForm(response);
-            },
-            onFailure: function() {
-                alert('ERROR');
+        jQuery.ajax({
+            url: '/admin/provider/get/format/json/id/' + id,
+            type: "GET",
+            dataType: "json",
+            success: updateUpdateProviderForm,
+            error: function(xhr, status) {
+                alert('ERROR ' + status);
             }
-        }
-        );
+        });
     }
 }
 
 function defaultUpdateProviderForm()
 {
-    $('modinfo').setValue('(r.a.s.)');
-    $('modcomment').setValue('(r.a.s.)');
+    jQuery('#modinfo').val('');
+    jQuery('#modcomment').val('');
 }
 
 function updateUpdateProviderForm(response)
 {
-    var provider = eval(response.responseJSON);
-
-    if (provider != null)
+    if (null != response)
     {
-        $('modinfo').setValue(provider.info);
-        $('modcomment').setValue(provider.comment);
+        jQuery('#modinfo').val(response.info);
+        jQuery('#modcomment').val(response.comment);
     }
     else
     {
@@ -53,12 +47,9 @@ function updateUpdateProviderForm(response)
 
 function checkUpdateProvider(event)
 {
-    var providerBox = $('modid');
-    var id = $F(providerBox);
-
-    if (id == 0)
+    if ('' == jQuery('#modid').val())
     {
         alert('Choisissez le fournisseur à modifier');
-        event.stop();
+        event.preventDefault();
     }
 }

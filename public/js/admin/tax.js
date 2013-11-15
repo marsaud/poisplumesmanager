@@ -1,7 +1,7 @@
 function taxInit()
 {
-    jQuery('#modid').change(requestForTax);
-    jQuery('#updatetaxform').submit(checkUpdateTax);
+    jQuery('#modid').on('change', requestForTax);
+    jQuery('#updatetaxform').on('submit',checkUpdateTax);
 }
 
 function requestForTax()

@@ -3,10 +3,13 @@ $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Help
 $this->headLink()->offsetSetStylesheet(10, $this->baseUrl('/css/purchase.css'));
 $this->placeholder('nav')->set($this->action('menu', 'index', 'purchase'));
 ?>
-<div class="col-md-12">
+<div class="col-lg-12">
     <?php
     echo $this->action('create-form', 'manage', 'purchase');
     echo $this->action('display-form', 'index', 'purchase');
+    ?>
+    <hr/>
+    <?php
     echo $this->action('display', 'index', 'purchase');
     ?>
 </div>
@@ -14,8 +17,8 @@ $this->placeholder('nav')->set($this->action('menu', 'index', 'purchase'));
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/purchase/purchase.js'); ?>"></script>
 <script>
     <!--
-    purchaseInit();
-    //-->
+    jQuery(document).ready(purchaseInit);
+//-->
 </script>
 <?php
 echo $this->trigCalendar();

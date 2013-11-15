@@ -9,22 +9,22 @@ $this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
                 <legend>Créer une catégorie</legend>
                 <div class="form-group">
                     <label for="categoryref">Référence de la catégorie</label>
-                    <input id="categoryref" type="text" name="categoryref" autocomplete="off" class="form-control" required/>
+                    <input id="categoryref" name="categoryref" type="text" required autocomplete="off" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <label for="categoryname">Nom de la catégorie</label>
-                    <input id="categoryname" type="text" name="categoryname" autocomplete="off" class="form-control" required/>
+                    <input id="categoryname" name="categoryname" type="text" required autocomplete="off" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <label for="categorydesc">Description de la catégorie</label>
                     <textarea id="categorydesc" name="categorydesc" placeholder="facultatif" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
-                    <?php
-                    echo $this->categoryBox(
-                            'parentcategory', $this->categoryTree, 'Catégorie parente (optionel)', true
-                    );
-                    ?>
+                    <label for="parentcategory">Catégorie parente (optionel)</label>
+                    <select id="parentcategory" name="parentcategory" class="form-control">
+                        <option></option>
+                        <?php echo $this->categoryOptions($this->categoryTree, true); ?>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Créer</button>
             </fieldset>
@@ -33,26 +33,26 @@ $this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
             <fieldset>
                 <legend>Modifier une catégorie</legend>
                 <div class="form-group">
-                    <?php
-                    echo $this->categoryBox(
-                            'modcategoryref', $this->categoryTree, 'Catégorie à modifier', false, NULL, true
-                    );
-                    ?>
+                    <label for="modcategoryref">Catégorie à modifier</label>
+                    <select id="modcategoryref" name="modcategoryref" required class="form-control">
+                        <option></option>
+                        <?php echo $this->categoryOptions($this->categoryTree, false); ?>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="modcategoryname">Nom de la catégorie</label>
-                    <input id="modcategoryname" type="text" name="modcategoryname" autocomplete="off" class="form-control" required/>
+                    <input id="modcategoryname" name="modcategoryname" type="text" required autocomplete="off" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <label for="modcategorydesc">Description de la catégorie</label>
                     <textarea id="modcategorydesc" name="modcategorydesc" placeholder="facultatif" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
-                    <?php
-                    echo $this->categoryBox(
-                            'modparentcategory', $this->categoryTree, 'Catégorie parente (optionel)', true
-                    );
-                    ?>
+                    <label for="modparentcategory">Catégorie parente (optionel)</label>
+                    <select id="modparentcategory" name="modparentcategory" class="form-control">
+                        <option></option>
+                        <?php echo $this->categoryOptions($this->categoryTree, true); ?>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Modifier</button>
             </fieldset>
@@ -67,6 +67,9 @@ $this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
 <?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/category.js'); ?>"></script>
 <script type="text/javascript">
+    <!--
     jQuery(document).ready(categoryInit);
+//-->
 </script>
-<?php $this->placeholder('scripts')->captureEnd(); ?>
+<?php
+$this->placeholder('scripts')->captureEnd();

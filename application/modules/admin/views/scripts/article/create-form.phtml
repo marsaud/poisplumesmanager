@@ -3,11 +3,11 @@
         <legend>Créer un article</legend>
         <div class="form-group">
             <label for="ref">Référence de l'article</label>
-            <input id="ref" type="text" name="ref" autocomplete="off" class="form-control" required/>
+            <input id="ref" name="ref" type="text" required autocomplete="off" class="form-control"/>
         </div>
         <div class="form-group">
             <label for="name">Nom de l'article</label>
-            <input id="name" type="text" name="name" autocomplete="off" class="form-control" required/>
+            <input id="name" name="name" type="text" required autocomplete="off" class="form-control"/>
         </div>
         <div class="form-group">
             <label for="desc">Description de l'article</label>
@@ -15,7 +15,7 @@
         </div>
         <div class="form-group">
             <label for="priceht">Prix TTC</label>
-            <input id="priceht" type="number" step=0.01 name="priceht" autocomplete="off" class="form-control" required/>
+            <input id="priceht" name="priceht" type="number" required step=0.01 min=0 autocomplete="off" class="form-control"/>
         </div>
         <div class="form-group">
             <label for="tva">T.V.A</label>
@@ -33,7 +33,7 @@
         </div>
         <div class="form-group">
             <label for="cat">Catégories auxquelles appartient l'article</label>
-            <select multiple="multiple" size="10" id="cat" name="cat[]" class="form-control">
+            <select id="cat" name="cat[]" multiple="multiple" size="10" class="form-control">
                 <?php echo $this->categoryOptions($this->categoryTree); ?>
             </select>
         </div>
@@ -46,12 +46,12 @@
         </div>
         <div class="checkbox">
             <label>
-                <input id="stock" type="checkbox" name="stock" value="off"/> Géré en stock
+                <input id="stock" type="checkbox" name="stock"/> Géré en stock
             </label>
         </div>
         <div class="form-group">
             <label for="unit">Unité de quantité</label>
-            <input type="text" name="unit" id="unit" autocomplete="off" placeholder="optionel" class="form-control"/>
+            <input id="unit" name="unit" type="text" autocomplete="off" placeholder="optionel" class="form-control"/>
         </div>
         <button type="submit" class="btn btn-primary">Créer</button>
     </fieldset>

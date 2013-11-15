@@ -1,7 +1,8 @@
 <?php
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
+$this->placeholder('nav')->set($this->action('menu', 'index', 'report'));
 ?>
-<div class="col-md-4">
+<div class="col-lg-4">
     <form method="post" class="form-inline" action="<?php echo $this->baseUrl('report/index/margin'); ?>">
         <fieldset>
             <label for="date">Date de référence</label>
@@ -11,16 +12,13 @@ $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Help
             <input type="submit" value="Valider" class="btn btn-primary"/>
         </fieldset>
     </form>
-    <table class="table">
-        <?php
-        if ($this->margin !== null)
-        {
-            ?>
+    <?php if ($this->margin !== null) : ?>
+        <hr/>
+        <table class="table">
             <tr><th>Taux de marge</th></tr>
             <tr><td class="numeric-cell"><?php echo $this->margin; ?> %</td></tr>
-            <?php
-        }
-        ?>
-    </table>
+        </table>
+    <?php endif; ?>
 </div>
-<?php echo $this->trigCalendar(); ?>
+<?php
+echo $this->trigCalendar();

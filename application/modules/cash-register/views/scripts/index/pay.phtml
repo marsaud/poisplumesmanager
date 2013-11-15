@@ -1,7 +1,7 @@
 <?php
 $this->headLink()->appendStylesheet($this->baseUrl('/css/cash-register.css'));
 ?>
-<div class="col-md-12">
+<div class="col-lg-12">
     <h3>Ticket : <?php echo $this->hash; ?></h3>
     <pre><?php echo $this->soldArticles($this->soldArticles); ?>
 
@@ -10,63 +10,78 @@ TOTAL <?php echo $this->currency($this->totalSalePrice); ?>
         <?php echo $this->taxBreakDown($this->totalTax, $this->totalRawPrice); ?>
     </pre>
 </div>
-<div class="col-md-6">
+<div class="col-lg-6">
     <form id="paymentForm" class="form-horizontal" method="post" action="<?php echo $this->baseUrl('cash-register/index/register'); ?>" autocomplete="off">
         <input id="total" type="hidden" name="total" value="<?php echo $this->totalSalePrice; ?>"/>
         <input id="hash" type="hidden" name="hash" value="<?php echo $this->hash; ?>"/>
-        <div class="form-group">
-            <div class="col-lg-3">
-                <input type="button" name="cb" id="cb" class="btn btn-primary form-control" value="Carte bancaire"/>
+        <fieldset id="valuefields">
+            <div class="form-group">
+                <div class="col-lg-3">
+                    <button type="button" name="cb" id="cb" class="btn btn-primary form-control">Carte bancaire</button>
+                </div>
+                <div style="display: none;">
+                    <label for="cbgiven" class="cbfields col-lg-1">Perçu</label>
+                    <div class="cbfields col-lg-7">
+                        <input id="cbgiven" class="form-control" type="number" step=0.01 name="cbgiven" value="0" />
+                    </div>
+                </div>
             </div>
-            <label for="cbgiven" class="cbfields invisible col-lg-1">Perçu</label>
-            <div class="cbfields invisible col-lg-7">
-                <input id="cbgiven" class="form-control" type="number" step=0.01 name="cbgiven" value="0" />
+            <div class="form-group">
+                <div class="col-lg-3">
+                    <button type="button" name="chq" id="chq" class="btn btn-primary form-control">Chèque bancaire</button>
+                </div>
+                <div style="display: none;">
+                    <label for="chqgiven" class="chqfields col-lg-1">Perçu</label>
+                    <div class="chqfields col-lg-7">
+                        <input id="chqgiven" class="form-control" type="number" step=0.01 name="chqgiven" value="0"/>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-lg-3">
-                <input type="button" name="chq" id="chq" class="btn btn-primary form-control" value="Chèque bancaire"/>
+            <div class="form-group">
+                <div class="col-lg-3">
+                    <button type="button" name="chr" id="chr" class="btn btn-primary form-control">Chèque restaurant</button>
+                </div>
+                <div style="display: none;">
+                    <label for="chrgiven" class="chrfields col-lg-1">Perçu</label>
+                    <div class="chrfields col-lg-7">
+                        <input id="chrgiven" class="form-control" type="number" step=0.01 name="chrgiven" value="0"/>
+                    </div>
+                </div>
             </div>
-            <label for="chqgiven" class="chqfields invisible col-lg-1">Perçu</label>
-            <div class="chqfields invisible col-lg-7">
-                <input id="chqgiven" class="form-control" type="number" step=0.01 name="chqgiven" value="0"/>
+            <div class="form-group">
+                <div class="col-lg-3">
+                    <button type="button" name="mon" id="mon" class="btn btn-primary form-control">Espèces</button>
+                </div>
+                <div style="display: none;">
+                    <label for="mongiven" class="monfields col-lg-1">Perçu</label>
+                    <div class="monfields col-lg-3">
+                        <input id="mongiven" class="form-control" type="number" step=0.01 name="mongiven" value="0"/>
+                    </div>
+                    <label for="monreturned" class="monfields col-lg-1">Rendu</label>
+                    <div class="monfields col-lg-3">
+                        <input id="monreturned" class="form-control" type="number" step=0.01 name="monreturned" readonly="readonly" value="0"/>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-lg-3">
-                <input type="button" name="chr" id="chr" class="btn btn-primary form-control" value="Chèque restaurant"/>
+        </fieldset>
+        <fieldset>
+            <div class="form-group">
+                <div class="col-lg-3">
+                    <button type="button" id="ok" class="btn btn-info form-control">Ok</button>
+                </div>
+                <div class="col-lg-3">
+                    <button type="submit" id="validate" class="btn btn-success form-control"/>Valider</button>
+                </div>
             </div>
-            <label for="chrgiven" class="chrfields invisible col-lg-1">Perçu</label>
-            <div class="chrfields invisible col-lg-7">
-                <input id="chrgiven" class="form-control" type="number" step=0.01 name="chrgiven" value="0"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-lg-3">
-                <input type="button" name="mon" id="mon" class="btn btn-primary form-control" value="Espèces"/>
-            </div>
-            <label for="given" class="monfields invisible col-lg-1">Perçu</label>
-            <div class="monfields invisible col-lg-3">
-                <input id="mongiven" class="form-control" type="number" step=0.01 name="mongiven" value="0"/>
-            </div>
-            <label for="returned" class="monfields invisible col-lg-1">A rendre</label>
-            <div class="monfields invisible col-lg-3">
-                <input id="monreturned" class="form-control" type="text" name="monreturned" readonly="readonly" value="0"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-lg-3">
-                <input type="button" value="Ok" id="ok" class="btn btn-info form-control"/>
-            </div>
-            <div class="col-lg-3">
-                <input type="submit" value="Valider" id="validate" class="btn btn-success form-control"/>
-            </div>
-        </div>
+        </fieldset>
     </form>
 </div>
 <?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/cash-register/pay.js'); ?>"></script>
 <script type="text/javascript">
-    payInit();
+    <!--
+    jQuery(document).ready(payInit);
+//-->
 </script>
-<?php $this->placeholder('scripts')->captureEnd(); ?>
+<?php
+$this->placeholder('scripts')->captureEnd();

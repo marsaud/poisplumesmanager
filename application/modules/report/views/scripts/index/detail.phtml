@@ -1,7 +1,8 @@
 <?php
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper');
+$this->placeholder('nav')->set($this->action('menu', 'index', 'report'));
 ?>
-<div class="col-md-8">
+<div class="col-lg-12">
     <form class="form-inline" method="post" action="<?php echo $this->baseUrl('report/index/detail'); ?>">
         <fieldset>
             <legend>Période affichée</legend>
@@ -18,42 +19,45 @@ $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Help
     </form>
     <?php
     $lines = explode(PHP_EOL, $this->content);
-    if (count($lines) > 2 && !empty($lines[1])): ?>
+    if (count($lines) > 2 && !empty($lines[1])):
+        ?>
+        <hr/>
         <p>
-            <a href="<?php echo $this->baseUrl('report/index/csv/startfulldate/' . $this->startfulldate . '/endfulldate/' . $this->endfulldate)?>" class="btn btn-info">
+            <a href="<?php echo $this->baseUrl('report/index/csv/startfulldate/' . $this->startfulldate . '/endfulldate/' . $this->endfulldate) ?>" class="btn btn-info">
                 Télécharger
             </a>
         </p>
-        <?php endif; ?>
-    <table class="table table-bordered table-hover">
-        <?php
-        $line1 = array_shift($lines);
-        echo '<tr>';
+        <table class="table table-bordered table-hover">
+            <?php
+            $line1 = array_shift($lines);
+            echo '<tr>';
 
-        $cells = explode(';', $line1);
-        foreach ($cells as $cell)
-        {
-            echo '<th>' . $cell . '</th>';
-        }
-
-        echo '</tr>';
-
-        foreach ($lines as $csvLine)
-        {
-            if (!empty($csvLine))
+            $cells = explode(';', $line1);
+            foreach ($cells as $cell)
             {
-                echo '<tr>';
-
-                $cells = explode(';', $csvLine);
-                foreach ($cells as $cell)
-                {
-                    echo '<td>' . $cell . '</td>';
-                }
-
-                echo '</tr>';
+                echo '<th>' . $cell . '</th>';
             }
-        }
-        ?>
-    </table>
+
+            echo '</tr>';
+
+            foreach ($lines as $csvLine)
+            {
+                if (!empty($csvLine))
+                {
+                    echo '<tr>';
+
+                    $cells = explode(';', $csvLine);
+                    foreach ($cells as $cell)
+                    {
+                        echo '<td>' . $cell . '</td>';
+                    }
+
+                    echo '</tr>';
+                }
+            }
+            ?>
+        </table>
+    <?php endif; ?>
 </div>
-<?php echo $this->trigCalendar(); ?>
+<?php
+echo $this->trigCalendar();

@@ -2,13 +2,13 @@
 $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
 $this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
 ?>
-<div class="leftpart col-md-4">
+<div class="leftpart col-lg-4">
     <form method="post" action="<?php echo $this->baseUrl('admin/provider/create'); ?>" id="createproviderform" class="createform adminform">
         <fieldset>
             <legend>Créer un founisseur</legend>
             <div class="form-group">
                 <label for="name">Nom</label>
-                <input type="text" name="name" id="name" autocomplete="off" class="form-control"/>
+                <input type="text" name="name" id="name" required autocomplete="off" class="form-control"/>
             </div>
             <div class="form-group">
                 <label for="info">Informations et coordonnées</label>
@@ -18,18 +18,20 @@ $this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
                 <label for="comment">Commentaires</label>
                 <textarea name="comment" id="comment" placeholder="Notes libres" class="form-control"></textarea>
             </div>
-            <input type="submit" class="btn btn-primary" value="Créer"/>
+            <button type="submit" class="btn btn-primary">Créer</button>
         </fieldset>
     </form>
     <form method="post" action="<?php echo $this->baseUrl('admin/provider/update'); ?>" id="updateproviderform" class="updateform adminform">
         <fieldset>
             <legend>Modifier un fournisseur</legend>
             <div class="form-group">
-                <?php
-                echo $this->providerBox(
-                        'modid', $this->providerList, 'Nom du fournisseur à modifier'
-                );
-                ?>
+                <label for="modid">Nom du fournisseur à modifier</label>
+                <select name="modid" id="modid" required class="form-control">
+                    <option></option>
+                    <?php
+                    echo $this->providerOptions($this->providerList);
+                    ?>
+                </select>
             </div>
             <div class="form-group">
                 <label for="modinfo">Informations et coordonnées</label>
@@ -39,11 +41,11 @@ $this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
                 <label for="modcomment">Commentaires</label>
                 <textarea name="modcomment" id="modcomment" placeholder="Notes libres" class="form-control"></textarea>
             </div>
-            <input type="submit" class="btn btn-primary" value="Modifier"/>
+            <button type="submit" class="btn btn-primary">Modifier</button>
         </fieldset>
     </form>
 </div>
-<div id="providerlist" class="rightpart col-md-8">
+<div id="providerlist" class="rightpart col-lg-8">
     <?php
     echo $this->providerList($this->providerList, 'Fournisseurs existants');
     ?>
@@ -51,6 +53,9 @@ $this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
 <?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/provider.js'); ?>"></script>
 <script type="text/javascript">
-    providerInit();
+    <!--
+    jQuery(document).ready(providerInit);
+//-->
 </script>
-<?php $this->placeholder('scripts')->captureEnd(); ?>
+<?php
+$this->placeholder('scripts')->captureEnd();

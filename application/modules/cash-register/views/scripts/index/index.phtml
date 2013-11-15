@@ -2,14 +2,14 @@
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegister_View_Helper');
 $this->headLink()->offsetSetStylesheet(10, $this->baseUrl('/css/cash-register.css'));
 ?>
-<div id="choice" class="col-md-8">
+<div id="choice" class="col-lg-8">
     <div id="categorypad" class="touchpad">
         <?php echo $this->categoryPad($this->categoryTree); ?>
     </div>
     <div id="subcategorypad" class="touchpad"></div>
     <div id="articlepad" class="touchpad"></div>
 </div>
-<div id="billing" class="col-md-4">
+<div id="billing" class="col-lg-4">
     <div id="modificators">
         <div id="quantity" style="display: none;">
             <input type="button" qty="2" value="x2"/><input type="button" qty="3" value="x3"/><input type="button" qty="4" value="x4"/><input type="button" qty="5" value="x5"/>
@@ -33,6 +33,9 @@ $this->headLink()->offsetSetStylesheet(10, $this->baseUrl('/css/cash-register.cs
 <?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/cash-register/front-end.js'); ?>"></script>
 <script type="text/javascript">
-    frontEndInit();
+    <!--
+    jQuery(document).ready(frontEndInit);
+//-->
 </script>
-<?php $this->placeholder('scripts')->captureEnd(); ?>
+<?php
+$this->placeholder('scripts')->captureEnd();
