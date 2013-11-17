@@ -41,3 +41,16 @@ foreach ($paths as $directory)
 
     closedir($dir);
 }
+
+function _getDb()
+{
+    $db = new Zend_Db_Adapter_Pdo_Mysql(array(
+        'host' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'dbname' => 'poisplumesmanagerqual'
+    ));
+    
+    return $db;
+    
+}

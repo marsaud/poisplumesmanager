@@ -11,6 +11,8 @@
  */
 class ArticleMapper
 {
+    
+    const MINIMUM_SEARCH_SIZE = 4;
 
     /**
      *
@@ -314,8 +316,8 @@ class ArticleMapper
         $bind['unit'] = $article->unit;
 //        } else
 //        {
-            $bind['qty'] = $article->stockedQuantity;
-            $bind['unit'] = $article->unit;
+        $bind['qty'] = $article->stockedQuantity;
+        $bind['unit'] = $article->unit;
 //        }
 
         try
@@ -350,12 +352,35 @@ class ArticleMapper
                     'article_ref' => $article->reference
                 ));
             }
-
         }
         catch (Exception $exc)
         {
             throw $exc;
         }
+    }
+
+    /**
+     * 
+     * @param string $search
+     */
+    public function search($search)
+    {
+        if (strlen($search) < self::MINIMUM_SEARCH_SIZE)
+        {
+            throw new Exception('Search results may be too heavy');
+        }
+        
+        $select = $this->_db->select()
+                ->from('article', array('ref', 'name'))
+                ->where('ref like ?', new Zend_Db_Expr("'%$search%'"))
+                ->orWhere('name like ?', new Zend_Db_Expr("'%$search%'"))
+                ->order('ref ASC');
+        
+        $query = $select->query();
+        
+        $results = $query->fetchAll(Zend_Db::FETCH_OBJ);
+        
+        return $results;
     }
 
 }

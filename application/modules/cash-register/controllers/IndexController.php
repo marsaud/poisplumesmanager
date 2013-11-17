@@ -110,7 +110,7 @@ class CashRegister_IndexController extends AbstractControllerAbstract
         /* @var $request Zend_Controller_Request_Http */
         if (!$request->isXmlHttpRequest())
         {
-            throw new RuntimeException();
+            throw new RuntimeException('XmlHttpRequest expected');
         }
 
         $categoryRef = $request->getParam('category');
@@ -119,6 +119,26 @@ class CashRegister_IndexController extends AbstractControllerAbstract
         {
             $articles = $this->articleMapper->getArticles($categoryRef);
             $this->view->content = $this->view->articlePad($articles);
+        }
+    }
+    
+    public function getArticleAction()
+    {
+        $this->_helper->getHelper('layout')->disableLayout();
+        $request = $this->getRequest();
+
+        /* @var $request Zend_Controller_Request_Http */
+//        if (!$request->isXmlHttpRequest())
+//        {
+//            throw new RuntimeException('XmlHttpRequest expected');
+//        }
+
+        $ref = $request->getParam('ref');
+
+        if (NULL != $ref)
+        {
+            $article = $this->articleMapper->find($ref);
+            $this->view->content = $this->view->articlePad(array($article));
         }
     }
 
@@ -130,7 +150,7 @@ class CashRegister_IndexController extends AbstractControllerAbstract
         /* @var $request Zend_Controller_Request_Http */
         if (!$request->isXmlHttpRequest())
         {
-            throw new RuntimeException();
+            throw new RuntimeException('XmlHttpRequest expected');
         }
 
         $categoryRef = $request->getParam('category');
@@ -193,6 +213,26 @@ class CashRegister_IndexController extends AbstractControllerAbstract
             throw $exc;
         }
 
+    }
+    
+    public function getSearchAction()
+    {
+        $this->_helper->getHelper('layout')->disableLayout();
+        $request = $this->getRequest();
+
+        /* @var $request Zend_Controller_Request_Http */
+        if (!$request->isXmlHttpRequest())
+        {
+            throw new RuntimeException('XmlHttpRequest expected');
+        }
+
+        $search = $request->getParam('search');
+
+        if (NULL != $search)
+        {
+            $answers = $this->articleMapper->search($search);
+            $this->view->content = $this->view->searchDrop($answers);
+        }
     }
 
 }

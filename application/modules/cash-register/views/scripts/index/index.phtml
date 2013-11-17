@@ -3,6 +3,18 @@ $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'CashRegist
 $this->headLink()->offsetSetStylesheet(10, $this->baseUrl('/css/cash-register.css'));
 ?>
 <div id="choice" class="col-lg-8">
+    <div class="row">
+        <div class="col-lg-8">
+            <div id="search" class="dropdown">
+                <input id="drop1" class="dropdown-toggle form-control" data-toggle="dropdown"/>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="drop1"></ul>
+            </div>
+        </div>
+        <div id="search-article" class="col-lg-4">
+
+        </div>
+    </div>
+    <hr/>
     <div id="categorypad" class="touchpad">
         <?php echo $this->categoryPad($this->categoryTree); ?>
     </div>
@@ -15,7 +27,7 @@ $this->headLink()->offsetSetStylesheet(10, $this->baseUrl('/css/cash-register.cs
             <input type="button" qty="2" value="x2"/><input type="button" qty="3" value="x3"/><input type="button" qty="4" value="x4"/><input type="button" qty="5" value="x5"/>
         </div>
         <div id="promo">
-            <input id="promoToggle" type="button" value="Promotions" class="button btn btn-default"/><input id="promoRemove" type="button" value="Sans promotion" class="button btn btn-default"/>
+            <button id="promoToggle" type="button" class="button btn btn-default">Promotions</button><button id="promoRemove" type="button" class="button btn btn-default">Sans promotion</button>
             <div id="promoPad">
                 <?php echo $this->promoPad($this->promoList); ?>
             </div>
@@ -34,7 +46,9 @@ $this->headLink()->offsetSetStylesheet(10, $this->baseUrl('/css/cash-register.cs
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/cash-register/front-end.js'); ?>"></script>
 <script type="text/javascript">
     <!--
-    jQuery(document).ready(frontEndInit);
+    jQuery(document).ready(function() {
+        frontEndInit('<?php echo $this->baseUrl('images/ajax-loading.gif'); ?>', <?php echo ArticleMapper::MINIMUM_SEARCH_SIZE; ?>);
+    });
 //-->
 </script>
 <?php

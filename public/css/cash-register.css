@@ -65,6 +65,10 @@ h6 {
     vertical-align: text-top;*/
 }
 
+#search-article .button {
+    width: 100%;
+}
+
 #billing .button, #total {
     width: 32%;
 }
@@ -72,13 +76,6 @@ h6 {
 .highlight {
     font-size: 1.2em;
     font-weight: bold;
-}
-
-.btn-primary {
-    /*background-color: #0d9090;*/
-}
-.btn-success {
-    /*background-color: #a0759c*/
 }
 
 /*

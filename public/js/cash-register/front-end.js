@@ -23,11 +23,20 @@ var articlesCash = {};
  */
 var totalUpdateTimer = null;
 
+var searchTimer;
+
+var loaderImageUrl;
+
+var searchMinLength;
+
 /**
  * Init the cash-register pad at load or reload
  */
-function frontEndInit()
+function frontEndInit(myLoaderImageUrl, mySearchMinLength)
 {
+    loaderImageUrl = myLoaderImageUrl;
+    searchMinLength = mySearchMinLength;
+    
     jQuery('#quantity').find('input').on('click', toggleQuantity);
     jQuery('#categorypad').find('.category').on('click', selectCategory);
     jQuery('#subcategorypad').find('.category').on('click', selectSubCategory);
@@ -41,6 +50,8 @@ function frontEndInit()
     jQuery('#promoRemove').on('click', togglePromoRemove);
 
     jQuery('#total').val(currency(0) + ' €');
+    jQuery('#search input').on('keyup', watchSearch);
+    jQuery('#search').on('show.bs.dropdown', checkSearchShow);
 }
 
 /**
@@ -318,7 +329,7 @@ function selectForBill(event)
 
     cleanQuantity();
     cleanPromos();
-    
+
     triggerTotalUpdate();
 }
 
@@ -336,18 +347,18 @@ function unselectForBill(event)
 function updateTotalPrice()
 {
     var totalPrice = 0;
-    
-    jQuery('#billList .article').each(function(index){
+
+    jQuery('#billList .article').each(function(index) {
         var item = jQuery(this);
         var promoratio = parseFloat(item.attr('promoratio'));
         if (isNaN(promoratio))
         {
             promoratio = 0;
         }
-        
+
         var quantity = item.find('.inputdata').find('.qty').val();
         var saleprice = parseFloat(item.attr('saleprice'));
-        
+
         totalPrice += promotedPrice(saleprice, promoratio) * quantity;
     });
 
@@ -370,5 +381,121 @@ function stopTotalUpdate()
     if (null != totalUpdateTimer)
     {
         clearTimeout(totalUpdateTimer);
+    }
+}
+
+function watchSearch(event)
+{
+    console.log('watchSearch');
+    var input = jQuery(this);
+    var search = input.val();
+
+    if ((search.length) >= searchMinLength)
+    {
+        startSearchTimer(search);
+        if (!jQuery('#search ul').is(':visible'))
+        {
+            input.dropdown('toggle');
+        }
+    }
+    else
+    {
+        jQuery('#search ul').empty();
+        if (jQuery('#search ul').is(':visible'))
+        {
+            input.dropdown('toggle');
+        }
+    }
+}
+
+function startSearchTimer(search)
+{
+    console.log('startSearchTimer');
+    if (searchTimer !== null)
+    {
+        clearTimeout(searchTimer);
+    }
+
+    if ((search.length) >= searchMinLength)
+    {
+        jQuery('#search ul').empty();
+        searchTimer = setTimeout(function() {
+            requestSearch(search);
+        },
+                700);
+    }
+}
+
+function requestSearch(search)
+{
+    console.log('requestSearch');
+    jQuery('#search ul').html('<img src="' + loaderImageUrl + '"/>');
+    if ((search.length) >= searchMinLength)
+    {
+        jQuery.ajax({
+            url: '/cash-register/index/get-search/search/' + search,
+            type: "GET",
+            dataType: "html",
+            success: function(response) {
+                updateSearchDrop(response);
+            },
+            error: function(xhr, status) {
+                alert('ERROR ' + status);
+            }
+        });
+    }
+}
+
+function updateSearchDrop(response)
+{
+    console.log('updateSearchDrop');
+    if (null != response)
+    {
+        jQuery('#search ul').html(response);
+        jQuery('#search li a').on('click', requestArticle);
+    }
+    else
+    {
+        alert('No HTML response');
+    }
+}
+
+function requestArticle(event)
+{
+    var ref = jQuery(this).attr('ref');
+    
+    jQuery.ajax({
+            url: '/cash-register/index/get-article/ref/' + ref,
+            type: "GET",
+            dataType: "html",
+            success: function(response) {
+                updateSearchArticle(response);
+            },
+            error: function(xhr, status) {
+                alert('ERROR ' + status);
+            }
+        });
+}
+
+function updateSearchArticle(response)
+{
+    if (null != response)
+    {
+        jQuery('#search-article').html(response);
+        jQuery('#search-article').find('.article').on('click', selectForBill);
+    }
+    else
+    {
+        alert('No HTML response');
+    }
+}
+
+function checkSearchShow(event)
+{
+    console.log('checkSearchShow');
+    
+    if (jQuery(this).find('input').val().length < searchMinLength)
+    {
+        event.preventDefault();
     }
 }
