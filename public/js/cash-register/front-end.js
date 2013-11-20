@@ -292,15 +292,12 @@ function selectForBill(event)
     var inputData = target.find('.inputdata');
     var faceValue = target.find('.facevalue');
 
-    var inputText = faceValue.text();
-    var qtyBuffer = 0;
-
     var quantityInput = inputData.find('.qty');
     var promoidInput = inputData.find('.promoid');
 
-    qtyBuffer = parseInt(quantityInput.val()) + parseInt(qty);
+    var qtyBuffer = parseInt(quantityInput.val()) + parseInt(qty);
     quantityInput.val(qtyBuffer);
-    inputText = target.attr('name') + ' x' + quantityInput.val();
+    var inputText = quantityInput.val() + 'x ' + target.attr('name');
 
     if (removePromo)
     {
