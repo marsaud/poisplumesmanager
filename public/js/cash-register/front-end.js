@@ -276,7 +276,7 @@ function selectForBill(event)
     stopTotalUpdate();
 
     var element = jQuery(this);
-    var target = jQuery('#billList div[ref=' + element.attr('ref') + ']');
+    var target = jQuery('#billList div[ref="' + element.attr('ref') + '"]');
 
     if (0 == target.length)
     {
