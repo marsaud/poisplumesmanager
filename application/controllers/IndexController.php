@@ -17,15 +17,5 @@ class IndexController extends Zend_Controller_Action
     {
         $this->view->moduleName = $this->getFrontController()->getRequest()->getModuleName();
     }
-    
-    /**
-     * @todo A footer to recall the exploitation environment in front-end
-     */
-    public function footerAction()
-    {
-        /* @var $bootstrap Zend_Application_Bootstrap_Bootstrap */
-        $bootstrap = $this->getInvokeArg('bootstrap');
-        $this->view->dbhost;
-    }
-}
 
+}

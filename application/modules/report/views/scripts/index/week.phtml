@@ -42,4 +42,4 @@ $this->placeholder('nav')->set($this->action('menu', 'index', 'report'));
     <?php endif; ?>
 </div>
 <?php
-echo $this->trigCalendar();
+$this->placeholder('scripts')->set($this->trigCalendar());

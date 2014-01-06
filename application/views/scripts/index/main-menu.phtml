@@ -1,26 +1,26 @@
-<div id="mainmenu" class="menu navbar navbar-inverse">
+<div id="mainmenu" class="navbar navbar-inverse">
     <ul class="nav navbar-nav">
-        <li<?php echo ($this->moduleName == 'admin' ? ' class="active"' : ''); ?>>
+        <li class="<?php echo ($this->moduleName == 'admin' ? 'active' : ''); ?>">
             <a href="<?php echo $this->baseUrl('admin'); ?>">
                 Administration
             </a>
         </li>
-        <!--li<?php echo ($this->moduleName == 'stock' ? ' class="active"' : ''); ?>>
+        <!--li class="<?php echo ($this->moduleName == 'stock' ? 'active' : ''); ?>">
             <a href="<?php echo $this->baseUrl('stock'); ?>">
                 Stock
             </a>
         </li-->
-        <li<?php echo ($this->moduleName == 'cash-register' ? ' class="active"' : ''); ?>>
+        <li class="<?php echo ($this->moduleName == 'cash-register' ? 'active' : ''); ?>">
             <a href="<?php echo $this->baseUrl('cash-register'); ?>">
                 Caisse
             </a>
         </li>
-        <li<?php echo ($this->moduleName == 'report' ? ' class="active"' : ''); ?>>
+        <li class="<?php echo ($this->moduleName == 'report' ? 'active' : ''); ?>">
             <a href="<?php echo $this->baseUrl('report'); ?>">
                 Etats
             </a>
         </li>
-        <li<?php echo ($this->moduleName == 'purchase' ? ' class="active"' : ''); ?>>
+        <li class="<?php echo ($this->moduleName == 'purchase' ? 'active' : ''); ?>">
             <a href="<?php echo $this->baseUrl('purchase'); ?>">
                 Gestion
             </a>
