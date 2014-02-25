@@ -35,6 +35,7 @@ class Article
     public $description;
 
     /**
+     * The full price seen by the customer
      *
      * @var float
      */
@@ -127,9 +128,9 @@ class Article
         $promo = $this->onePromo;
         return $promo ? $promo->apply($price) : $price;
     }
-    
+
     /**
-     * Prix TTC
+     * Prix TTC catalogue
      * 
      * @return float
      */
@@ -147,11 +148,6 @@ class Article
     {
         switch ($name)
         {
-            case 'promos':
-
-                throw new LogicException('PromotionContainer cannot be set.');
-                break;
-
             case 'quantity':
                 /**
                  * Retro-compatibility with a previous version of this class that has been
@@ -160,9 +156,11 @@ class Article
                 $this->soldQuantity = $value;
                 break;
 
+            case 'promos':
+                throw new LogicException('PromotionContainer cannot be set.');
+
             default:
                 throw new OutOfRangeException('No ' . $name . ' write property');
-                break;
         }
     }
 
@@ -171,32 +169,28 @@ class Article
         switch ($name)
         {
             case 'promos':
-
                 return $this->_promos;
-                break;
 
             case 'onePromo':
                 $this->_promos->rewind();
                 return $this->_promos->current();
-                break;
 
             case 'quantity':
                 return $this->soldQuantity;
-                break;
 
             default:
                 throw new OutOfRangeException('No ' . $name . ' read property');
-                break;
-        };
+        }
     }
 
     public function freeCategories()
     {
         $this->categories = array();
     }
-    
+
     public function freePromotions()
     {
         $this->_promos = new ArticlePromotionContainer();
     }
+
 }

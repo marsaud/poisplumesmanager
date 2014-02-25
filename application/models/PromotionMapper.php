@@ -34,6 +34,7 @@ class PromotionMapper
 
         $query = $select->query();
 
+        /* @var $promotions Promotion[] */
         $promotions = array();
         while ($row = $query->fetch(Zend_Db::FETCH_OBJ))
         {
@@ -59,10 +60,10 @@ class PromotionMapper
     {
         $select = $this->_db->select()
             ->from('promo')
-            ->where('id = ?', $id, Zend_Db::PARAM_INT);
+            ->where('id = ?', $id, Zend_Db::BIGINT_TYPE);
 
         $query = $select->query();
-        if ($query->rowCount() == 1)
+        if (1 == $query->rowCount())
         {
             $row = $query->fetch(Zend_Db::FETCH_OBJ);
             $promo = new Promotion();
@@ -82,7 +83,7 @@ class PromotionMapper
 
     public function insert(Promotion $promotion)
     {
-        if ($promotion->id !== NULL)
+        if (NULL !== $promotion->id)
         {
             throw new RuntimeException();
         }
@@ -100,10 +101,10 @@ class PromotionMapper
     {
         $select = $this->_db->select()
             ->from('promo', 'id')
-            ->where('id = ?', $promotion->id, Zend_Db::PARAM_INT);
+            ->where('id = ?', $promotion->id, Zend_Db::BIGINT_TYPE);
 
         $query = $select->query();
-        if ($query->rowCount() !== 1)
+        if (1 !== $query->rowCount())
         {
             throw new RuntimeException();
         }

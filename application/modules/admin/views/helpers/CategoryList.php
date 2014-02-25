@@ -1,7 +1,7 @@
 <?php
 
 /**
- *
+ * @todo replace with categoryRows
  */
 
 /**

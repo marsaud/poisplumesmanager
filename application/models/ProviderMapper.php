@@ -31,6 +31,7 @@ class ProviderMapper
 
         $query = $select->query();
 
+        /* @var $providers Provider[] */
         $providers = array();
         while ($row = $query->fetch(Zend_Db::FETCH_OBJ))
         {
@@ -57,11 +58,11 @@ class ProviderMapper
     {
         $select = $this->_db->select()
             ->from('provider')
-            ->where('id = ?', $id, Zend_Db::PARAM_INT);
+            ->where('id = ?', $id, Zend_Db::BIGINT_TYPE);
 
         $query = $select->query();
 
-        if ($query->rowCount() == 1)
+        if (1 == $query->rowCount())
         {
             $row = $query->fetch(Zend_Db::FETCH_OBJ);
             $provider = new Provider();
@@ -81,7 +82,7 @@ class ProviderMapper
 
     public function insert(Provider $provider)
     {
-        if ($provider->id !== NULL)
+        if (NULL !== $provider->id)
         {
             throw new RuntimeException();
         }
@@ -99,10 +100,10 @@ class ProviderMapper
     {
         $select = $this->_db->select()
             ->from('provider', 'id')
-            ->where('id = ?', $provider->id, Zend_Db::PARAM_INT);
+            ->where('id = ?', $provider->id, Zend_Db::BIGINT_TYPE);
 
         $query = $select->query();
-        if ($query->rowCount() !== 1)
+        if (1 !== $query->rowCount())
         {
             throw new RuntimeException();
         }

@@ -13,6 +13,9 @@
 class CategoryMapper
 {
 
+    const WITH_SUB_CATEGORIES = true;
+    const WITHOUT_SUB_CATEGORIES = false;
+
     /**
      *
      * @var Zend_Db_Adapter_Pdo_Abstract
@@ -61,16 +64,19 @@ class CategoryMapper
     /**
      *
      * @param string $reference
+     * @param boolean $withSubCategories
+     * 
      * @return Category|null
      */
-    public function find($reference)
+    public function find($reference
+    , $withSubCategories = self::WITH_SUB_CATEGORIES)
     {
         $select = $this->_db->select()
                 ->from('category', array('ref', 'name', 'desc'))
                 ->where('ref = ?', $reference);
 
         $query = $select->query();
-        if ($query->rowCount() == 1)
+        if (1 == $query->rowCount())
         {
             $row = $query->fetch(Zend_Db::FETCH_OBJ);
 
@@ -79,7 +85,10 @@ class CategoryMapper
             $category->name = $row->name;
             $category->description = $row->desc;
 
-            $this->_loadSubCategories($category);
+            if (self::WITH_SUB_CATEGORIES === $withSubCategories)
+            {
+                $this->_loadSubCategories($category);
+            }
 
             return $category;
         }
@@ -116,27 +125,29 @@ class CategoryMapper
     /**
      *
      * @param Category $category
+     * @param boolean $withSubCategories
      *
      * @return Category
      *
      * @throws RuntimeException
      */
-    public function findParent(Category $category)
+    public function findParent(Category $category
+    , $withSubCategories = self::WITH_SUB_CATEGORIES)
     {
         $select = $this->_db->select()
                 ->from('category', 'category_ref')
                 ->where('ref = ?', $category->reference);
 
         $query = $select->query();
-        if ($query->rowCount() != 1)
+        if (1 !== $query->rowCount())
         {
             throw new RuntimeException();
         }
 
         $ref = $query->fetchColumn(0);
-        if ($ref != NULL)
+        if (NULL !== $ref)
         {
-            return $this->find($ref);
+            return $this->find($ref, $withSubCategories);
         }
         else
         {
@@ -161,17 +172,16 @@ class CategoryMapper
             'desc' => $category->description
         );
 
-        if ($parentReference !== NULL)
+        if (NULL !== $parentReference)
         {
-            $select = $this->_db
-                    ->select()
-                    ->from('category', 'ref')
-                    ->where('ref = ?', $parentReference);
-
-            $query = $select->query();
-            if ($query->rowCount() !== 1)
+            $parent = $this->find(
+                    $parentReference, self::WITHOUT_SUB_CATEGORIES
+            );
+            if (NULL !== $parent)
             {
-                throw new RuntimeException();
+                throw new RuntimeException(
+                "Unknown parent category '$parentReference'"
+                );
             }
 
             $bind['category_ref'] = $parentReference;
@@ -198,20 +208,19 @@ class CategoryMapper
 
         $where['ref = ?'] = $category->reference;
 
-        if ($parentReference !== NULL)
+        if (NULL !== $parentReference)
         {
-            $select = $this->_db
-                    ->select()
-                    ->from('category', 'ref')
-                    ->where('ref = ?', $parentReference);
-
-            $query = $select->query();
-            if ($query->rowCount() !== 1)
+            $parent = $this->find(
+                    $parentReference, self::WITHOUT_SUB_CATEGORIES
+            );
+            if (NULL !== $parent)
             {
-                throw new RuntimeException('Unknown parent category');
+                throw new RuntimeException(
+                "Unknown parent category '$parentReference'"
+                );
             }
+            $bind['category_ref'] = $parentReference;
         }
-        $bind['category_ref'] = $parentReference;
 
         $this->_db->update('category', $bind, $where);
     }

@@ -34,7 +34,7 @@ class Category implements ArrayAccess, IteratorAggregate, Countable
 
     /**
      *
-     * @var Category[]
+     * @var ArrayObject Category[]
      */
     protected $_subCategories;
 
@@ -103,6 +103,7 @@ class Category implements ArrayAccess, IteratorAggregate, Countable
 
     public function __set($name, $value)
     {
+        unset($name, $value);
         throw new OutOfRangeException();
     }
 

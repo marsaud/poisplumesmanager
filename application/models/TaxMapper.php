@@ -35,6 +35,7 @@ class TaxMapper
 
         $query = $select->query();
 
+        /* @var $taxes Tax[] */
         $taxes = array();
         while ($row = $query->fetch(Zend_Db::FETCH_OBJ))
         {
@@ -60,10 +61,10 @@ class TaxMapper
     {
         $select = $this->_db->select()
             ->from('tax')
-            ->where('id = ?', $id, Zend_Db::PARAM_INT);
-
+            ->where('id = ?', $id, Zend_Db::BIGINT_TYPE);
+        
         $query = $select->query();
-        if ($query->rowCount() == 1)
+        if (1 == $query->rowCount())
         {
             $row = $query->fetch(Zend_Db::FETCH_OBJ);
             $tax = new Tax();
@@ -83,7 +84,7 @@ class TaxMapper
 
     public function insert(Tax $tax)
     {
-        if ($tax->id !== NULL)
+        if (NULL !== $tax->id)
         {
             throw new RuntimeException();
         }
@@ -101,10 +102,10 @@ class TaxMapper
     {
         $select = $this->_db->select()
             ->from('tax', 'id')
-            ->where('id = ?', $tax->id, Zend_Db::PARAM_INT);
+            ->where('id = ?', $tax->id, Zend_Db::BIGINT_TYPE);
 
         $query = $select->query();
-        if ($query->rowCount() !== 1)
+        if (1 !== $query->rowCount())
         {
             throw new RuntimeException();
         }

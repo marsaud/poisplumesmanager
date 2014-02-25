@@ -99,13 +99,15 @@ abstract class AbstractControllerAbstract extends Zend_Controller_Action
         'articleMapper',
         'cartTrailer',
         'categoryMapper',
-        'operationManager',
         'operationMapper',
         'paymentMapper',
         'promotionMapper',
         'providerMapper',
         'stockManager',
         'taxMapper'
+    );
+    protected $_plains = array(
+        'operationManager'
     );
 
     /**
@@ -129,19 +131,27 @@ abstract class AbstractControllerAbstract extends Zend_Controller_Action
 
             return $this->_db;
         }
-
-        if (!in_array($name, $this->_models))
+        elseif (!in_array($name, array_merge($this->_models, $this->_plains)))
         {
             throw new OutOfRangeException("No read property : '$name'");
         }
-
-        if (NULL === $this->{'_' . $name})
+        else
         {
-            $className = ucfirst($name);
-            $this->{'_' . $name} = new $className($this->db);
-        }
+            if (NULL === $this->{'_' . $name})
+            {
+                $className = ucfirst($name);
+                if (in_array($name, $this->_models))
+                {
+                    $this->{'_' . $name} = new $className($this->db);
+                }
+                else
+                {
+                    $this->{'_' . $name} = new $className();
+                }
+            }
 
-        return $this->{'_' . $name};
+            return $this->{'_' . $name};
+        }
     }
 
 }

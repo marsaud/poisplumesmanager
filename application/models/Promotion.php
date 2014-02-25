@@ -10,4 +10,6 @@
  * @author fabrice
  */
 class Promotion extends ModifierAbstract
-{}
+{
+    
+}

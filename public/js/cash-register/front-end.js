@@ -36,7 +36,7 @@ function frontEndInit(myLoaderImageUrl, mySearchMinLength)
 {
     loaderImageUrl = myLoaderImageUrl;
     searchMinLength = mySearchMinLength;
-    
+
     jQuery('#quantity').find('input').on('click', toggleQuantity);
     jQuery('#categorypad').find('.category').on('click', selectCategory);
     jQuery('#subcategorypad').find('.category').on('click', selectSubCategory);
@@ -320,7 +320,7 @@ function selectForBill(event)
         inputText += '<br />';
     }
 
-    inputText += '<br />' + currency(promotedPrice(target.attr('saleprice'), target.attr('promoratio')) * qtyBuffer) + ' €'; // todo On a un débordement par arrondi
+    inputText += '<br />' + currency(_priceValue(promotedPrice(target.attr('saleprice'), target.attr('promoratio')) * qtyBuffer)) + ' €'; // todo On a un débordement par arrondi
 
     faceValue.html(inputText);
 
@@ -356,7 +356,7 @@ function updateTotalPrice()
         var quantity = item.find('.inputdata').find('.qty').val();
         var saleprice = parseFloat(item.attr('saleprice'));
 
-        totalPrice += promotedPrice(saleprice, promoratio) * quantity;
+        totalPrice += _priceValue(promotedPrice(saleprice, promoratio) * quantity);
     });
 
     jQuery('#total').val(currency(totalPrice) + ' €');
@@ -460,18 +460,18 @@ function updateSearchDrop(response)
 function requestArticle(event)
 {
     var ref = jQuery(this).attr('ref');
-    
+
     jQuery.ajax({
-            url: '/cash-register/index/get-article/ref/' + ref,
-            type: "GET",
-            dataType: "html",
-            success: function(response) {
-                updateSearchArticle(response);
-            },
-            error: function(xhr, status) {
-                alert('ERROR ' + status);
-            }
-        });
+        url: '/cash-register/index/get-article/ref/' + ref,
+        type: "GET",
+        dataType: "html",
+        success: function(response) {
+            updateSearchArticle(response);
+        },
+        error: function(xhr, status) {
+            alert('ERROR ' + status);
+        }
+    });
 }
 
 function updateSearchArticle(response)
@@ -490,7 +490,7 @@ function updateSearchArticle(response)
 function checkSearchShow(event)
 {
     console.log('checkSearchShow');
-    
+
     if (jQuery(this).find('input').val().length < searchMinLength)
     {
         event.preventDefault();

@@ -175,7 +175,7 @@ class Admin_ArticleController extends AdminControllerAbstract
 
     /**
      * 
-     * @param integer[] $categories
+     * @param integer[] $categoryRefs
      * @param Article $article
      * 
      * @return Article

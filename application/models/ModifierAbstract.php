@@ -36,31 +36,31 @@ abstract class ModifierAbstract
      */
     public $description;
 
-        public function evaluate($price)
+    public function evaluate($rawPrice)
     {
-        return round(($price * $this->ratio / 100), 2);
+        return round(($rawPrice * $this->ratio / 100), 2);
     }
-    
+
     /**
      *
-     * @param float $price
+     * @param float $rawPrice
      *
      * @return float
      */
-    public function apply($price)
+    public function apply($rawPrice)
     {
-        return $price + $this->evaluate($price);
+        return $rawPrice + $this->evaluate($rawPrice);
     }
-    
+
     /**
      *
-     * @param float $price
+     * @param float $modifiedPrice
      *
      * @return float
      */
-    public function remove($price)
+    public function remove($modifiedPrice)
     {
-        return round($price / (1 + ($this->ratio / 100)), 2);
+        return round($modifiedPrice / (1 + ($this->ratio / 100)), 2);
     }
 
 }

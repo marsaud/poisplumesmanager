@@ -11,22 +11,4 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         return $currency;
     }
 
-    protected function _initPlugins()
-    {
-        /* @var $frontController Zend_Controller_Front */
-        $frontController = $this->bootstrap('frontcontroller')
-                ->getResource('frontcontroller');
-        
-        // $frontController->registerPlugin(new LayoutManagerPlugin());
-    }
-
-    protected function _initView()
-    {
-        $view = new Zend_View();
-        // $view->headLink()->appendStylesheet($view->baseUrl('/css/style.css'));
-
-        return $view;
-    }
-
 }
-

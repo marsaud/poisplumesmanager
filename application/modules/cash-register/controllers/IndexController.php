@@ -79,8 +79,7 @@ class CashRegister_IndexController extends AbstractControllerAbstract
         $totalSalePrice = 0;
         $totalTax = array();
 
-        $operationManager = new OperationManager();
-        $operationManager->compute($soldArticles, $totalRawPrice, $totalTax, $totalSalePrice);
+        $this->operationManager->compute($soldArticles, $totalRawPrice, $totalTax, $totalSalePrice);
 
         $this->view->hash = $hash;
         $this->view->soldArticles = $soldArticles;

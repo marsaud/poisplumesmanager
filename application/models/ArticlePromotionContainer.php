@@ -26,7 +26,7 @@ final class ArticlePromotionContainer implements ArrayAccess, Iterator, Countabl
 
     /**
      * 
-     * @param mixed $offset
+     * @param integer $offset
      * 
      * @return boolean
      */
@@ -38,7 +38,7 @@ final class ArticlePromotionContainer implements ArrayAccess, Iterator, Countabl
 
     /**
      * 
-     * @param mixed $offset
+     * @param integer $offset
      * 
      * @return Promotion
      */
@@ -50,7 +50,7 @@ final class ArticlePromotionContainer implements ArrayAccess, Iterator, Countabl
 
     /**
      * 
-     * @param mixed $offset Only NULL accepted.
+     * @param NULL $offset Only NULL accepted.
      * @param Promotion $value
      * 
      * @return void
@@ -59,7 +59,7 @@ final class ArticlePromotionContainer implements ArrayAccess, Iterator, Countabl
      */
     public function offsetSet($offset, $value)
     {
-        if ($offset !== NULL)
+        if (NULL !== $offset)
         {
             throw new LogicException(
                     'ArticlePromotionContainer manages keys automatically. '
@@ -84,7 +84,7 @@ final class ArticlePromotionContainer implements ArrayAccess, Iterator, Countabl
 
     /**
      * 
-     * @param Promotion|mixed $offset
+     * @param Promotion|integer $offset
      * 
      * @return void
      * 
@@ -112,7 +112,7 @@ final class ArticlePromotionContainer implements ArrayAccess, Iterator, Countabl
             }
         }
 
-        throw new OutOfRangeException('Item to remove has not be found');
+        throw new OutOfRangeException('Item to remove was not found');
     }
 
     /**
@@ -158,7 +158,7 @@ final class ArticlePromotionContainer implements ArrayAccess, Iterator, Countabl
         /**
          * Valid due to set encapsulated rules.
          */
-        return $this->key() !== NULL;
+        return (NULL !== $this->key());
     }
 
     public function count()

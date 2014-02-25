@@ -13,6 +13,9 @@ class ArticleMapper
 {
     
     const MINIMUM_SEARCH_SIZE = 4;
+    
+    const STOCK_MANAGED_ONLY = true;
+    const ALL = false;
 
     /**
      *
@@ -37,6 +40,12 @@ class ArticleMapper
      * @var ProviderMapper
      */
     protected $_providerModel;
+    
+    /**
+     *
+     * @var TaxMapper
+     */
+    protected $_taxModel;
 
     public function __construct(Zend_Db_Adapter_Pdo_Abstract $db)
     {
@@ -45,11 +54,11 @@ class ArticleMapper
 
     /**
      * @param string $categoryRef
-     * @param boolean $stockManagementOnly
+     * @param boolean $mode
      * 
      * @return Article[]
      */
-    public function getArticles($categoryRef = NULL, $stockManagmentOnly = false)
+    public function getArticles($categoryRef = NULL, $mode = self::ALL)
     {
         $select = $this->_db->select()
                 ->from(array('a' => 'article'))
@@ -68,16 +77,17 @@ class ArticleMapper
                 )
                 ->order(array('ref ASC', 'category_ref ASC'));
 
-        if ($categoryRef !== NULL)
+        if (NULL !== $categoryRef)
         {
             $select->where('ca.category_ref = ?', $categoryRef);
         }
 
-        if ($stockManagmentOnly)
+        if (self::STOCK_MANAGED_ONLY === $mode)
         {
-            $select->where('stocked = ?', true, Zend_Db::PARAM_BOOL);
+            $select->where('stocked = ?', true);
         }
 
+        /* @var $articles Article[] */
         $articles = array();
         $query = $select->query();
         if ($query->rowCount() > 0)
@@ -93,19 +103,15 @@ class ArticleMapper
                     $article->description = $row->description;
                     $article->price = $row->priceht;
                     $article->stock = $row->stocked;
-//                    if ($article->stock)
-//                    {
                     $article->unit = $row->unit;
                     $article->stockedQuantity = $row->qty;
-//                    }
 
-                    $taxModel = new TaxMapper($this->_db);
-                    $article->tax = $taxModel->find($row->tax_id);
+                    $article->tax = $this->_getTaxModel()->find($row->tax_id);
 
                     $articles[] = $article;
                 }
 
-                if ($row->provider_id != NULL)
+                if (NULL !== $row->provider_id)
                 {
                     $provider = $this->_getProviderModel()->find(
                             $row->provider_id
@@ -113,13 +119,13 @@ class ArticleMapper
                     $article->provider = $provider;
                 }
 
-                if ($row->promo_id != NULL)
+                if (NULL !== $row->promo_id)
                 {
                     $promo = $this->_getPromotionModel()->find($row->promo_id);
                     $article->promos[] = $promo;
                 }
 
-                if ($row->category_ref != NULL)
+                if (NULL !== $row->category_ref)
                 {
                     $category = $this->_getCategoryModel()->find(
                             $row->category_ref
@@ -160,6 +166,7 @@ class ArticleMapper
         $query = $select->query();
         if ($query->rowCount() > 0)
         {
+            $article = NULL;
             while ($row = $query->fetch(Zend_Db::FETCH_OBJ))
             {
                 if (!isset($article))
@@ -170,17 +177,13 @@ class ArticleMapper
                     $article->description = $row->description;
                     $article->price = $row->priceht;
                     $article->stock = $row->stocked;
-//                    if ($article->stock)
-//                    {
                     $article->unit = $row->unit;
                     $article->stockedQuantity = $row->qty;
-//                    }
 
-                    $taxModel = new TaxMapper($this->_db);
-                    $article->tax = $taxModel->find($row->tax_id);
+                    $article->tax = $this->_getTaxModel()->find($row->tax_id);
                 }
 
-                if ($row->category_ref != NULL)
+                if (NULL !== $row->category_ref)
                 {
                     $category = $this->_getCategoryModel()->find(
                             $row->category_ref
@@ -188,13 +191,13 @@ class ArticleMapper
                     $article->categories[] = $category;
                 }
 
-                if ($row->promo_id != NULL)
+                if (NULL !== $row->promo_id)
                 {
                     $promo = $this->_getPromotionModel()->find($row->promo_id);
                     $article->promos[] = $promo;
                 }
 
-                if ($row->provider_id != NULL)
+                if (NULL !== $row->provider_id)
                 {
                     $provider = $this->_getProviderModel()->find(
                             $row->provider_id
@@ -252,6 +255,16 @@ class ArticleMapper
 
         return $this->_promoModel;
     }
+    
+    protected function _getTaxModel()
+    {
+        if (NULL === $this->_taxModel)
+        {
+            $this->_taxModel = new TaxMapper($this->_db);
+        }
+        
+        return $this->_taxModel;
+    }
 
     public function create(Article $article)
     {
@@ -262,13 +275,9 @@ class ArticleMapper
             'tax_id' => $article->tax->id,
             'priceht' => $article->getFrontPrice(),
             'stocked' => $article->stock,
+            'qty' => 0,
+            'unit' => $article->unit
         );
-
-//        if ($article->stock)
-//        {
-        $bind['qty'] = 0;
-        $bind['unit'] = $article->unit;
-//        }
 
         try
         {
@@ -309,16 +318,9 @@ class ArticleMapper
             'tax_id' => $article->tax->id,
             'priceht' => $article->getFrontPrice(),
             'stocked' => $article->stock,
+            'qty' => $article->stockedQuantity,
+            'unit' => $article->unit
         );
-
-//        if ($article->stock)
-//        {
-        $bind['unit'] = $article->unit;
-//        } else
-//        {
-        $bind['qty'] = $article->stockedQuantity;
-        $bind['unit'] = $article->unit;
-//        }
 
         try
         {
@@ -345,7 +347,7 @@ class ArticleMapper
             }
 
             $this->_db->delete('articleprovider', $whereDelete);
-            if ($article->provider != NULL)
+            if (NULL !== $article->provider)
             {
                 $this->_db->insert('articleprovider', array(
                     'provider_id' => $article->provider->id,
