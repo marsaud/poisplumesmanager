@@ -1,29 +1,27 @@
-<div id="mainmenu" class="navbar navbar-inverse">
-    <ul class="nav navbar-nav">
-        <li class="<?php echo ($this->moduleName == 'admin' ? 'active' : ''); ?>">
-            <a href="<?php echo $this->baseUrl('admin'); ?>">
-                Administration
-            </a>
-        </li>
-        <!--li class="<?php echo ($this->moduleName == 'stock' ? 'active' : ''); ?>">
-            <a href="<?php echo $this->baseUrl('stock'); ?>">
-                Stock
-            </a>
-        </li-->
-        <li class="<?php echo ($this->moduleName == 'cash-register' ? 'active' : ''); ?>">
-            <a href="<?php echo $this->baseUrl('cash-register'); ?>">
-                Caisse
-            </a>
-        </li>
-        <li class="<?php echo ($this->moduleName == 'report' ? 'active' : ''); ?>">
-            <a href="<?php echo $this->baseUrl('report'); ?>">
-                Etats
-            </a>
-        </li>
-        <li class="<?php echo ($this->moduleName == 'purchase' ? 'active' : ''); ?>">
-            <a href="<?php echo $this->baseUrl('purchase'); ?>">
-                Gestion
-            </a>
-        </li>
-    </ul>
-</div>
+<ul class="nav navbar-nav navbar-left">
+    <li class="<?php echo ($this->moduleName == 'admin' ? 'active' : ''); ?>">
+        <a href="<?php echo $this->baseUrl('admin'); ?>">
+            Administration
+        </a>
+    </li>
+    <!--li class="<?php echo ($this->moduleName == 'stock' ? 'active' : ''); ?>">
+        <a href="<?php echo $this->baseUrl('stock'); ?>">
+            Stock
+        </a>
+    </li-->
+    <li class="<?php echo ($this->moduleName == 'cash-register' ? 'active' : ''); ?>">
+        <a href="<?php echo $this->baseUrl('cash-register'); ?>">
+            Caisse
+        </a>
+    </li>
+    <li class="<?php echo ($this->moduleName == 'report' ? 'active' : ''); ?>">
+        <a href="<?php echo $this->baseUrl('report'); ?>">
+            Etats
+        </a>
+    </li>
+    <li class="<?php echo ($this->moduleName == 'purchase' ? 'active' : ''); ?>">
+        <a href="<?php echo $this->baseUrl('purchase'); ?>">
+            Gestion
+        </a>
+    </li>
+</ul>

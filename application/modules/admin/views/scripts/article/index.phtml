@@ -2,14 +2,34 @@
 $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
 $this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
 ?>
-<div class="leftpart col-lg-4">
-    <?php
-    echo $this->placeholder('forms')->create;
-    echo $this->placeholder('forms')->update;
-    ?>
+<div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <button class="btn btn-default" data-toggle="collapse" data-target="#create-article">
+                <span class="sr-only">Toggle Create Article</span>
+                <i class="fa fa-bars"></i>
+            </button>
+            Créer un article
+        </div>
+        <div id="create-article" class="panel-body collapse">
+            <?php echo $this->placeholder('forms')->create; ?>
+        </div>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <button class="btn btn-default" data-toggle="collapse" data-target="#update-article">
+                <span class="sr-only">Toggle Update Article</span>
+                <i class="fa fa-bars"></i>
+            </button>
+            Modifier un article
+        </div>
+        <div id="update-article" class="panel-body collapse">
+            <?php echo $this->placeholder('forms')->update; ?>
+        </div>
+    </div>
 </div>
-<div id="articlelist" class="rightpart col-lg-8">
-    <table class="table table-striped">
+<div id="articlelist">
+    <table class="table table-condensed table-striped table-hover">
         <caption>Liste des articles</caption>
         <tr>
             <th>Référence</th>

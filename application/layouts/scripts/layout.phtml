@@ -5,20 +5,30 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <?php
         echo $this->headMeta();
-        $this->headLink()->offsetSetStylesheet(1, $this->baseUrl('bootstrap-3.0.0-dist/dist/css/bootstrap.min.css'));
+        $this->headLink()->offsetSetStylesheet(1, $this->baseUrl('bootstrap-3.1.1-dist/css/bootstrap.min.css'));
+        $this->headLink()->offsetSetStylesheet(2, $this->baseUrl('font-awesome-4.0.3/css/font-awesome.min.css'));
+        $this->headLink()->offsetSetStylesheet(3, $this->baseUrl('css/style.css'));
         echo $this->headLink();
         ?>
         <title>CAISSE</title>
     </head>
     <body>
-        <?php
-        echo $this->action('main-menu', 'index', 'default');
-        echo $this->placeholder('nav');
-        echo $this->layout()->content;
-        ?>
+        <div class="container-fluid">
+            <nav id="mainmenu" class="navbar navbar-fixed-top navbar-inverse">
+                <div class="container-fluid">
+                    <?php
+                    echo $this->action('main-menu', 'index', 'default');
+                    echo $this->placeholder('nav');
+                    ?>
+                </div>
+            </nav>
+            <?php
+            echo $this->layout()->content;
+            ?>
+        </div>
         <script src="<?php echo $this->baseUrl('js/jquery.js'); ?>"></script>
         <script src="<?php echo $this->baseUrl('js/lib/tools.js'); ?>"></script>
-        <script src="<?php echo $this->baseUrl('bootstrap-3.0.0-dist/dist/js/bootstrap.min.js'); ?>"></script>
+        <script src="<?php echo $this->baseUrl('bootstrap-3.1.1-dist/js/bootstrap.min.js'); ?>"></script>
         <?php
         echo $this->placeholder('scripts');
         ?>
