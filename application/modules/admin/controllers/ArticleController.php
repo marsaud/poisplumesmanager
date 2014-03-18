@@ -8,18 +8,20 @@ class Admin_ArticleController extends AdminControllerAbstract
         $ajaxContext = $this->_helper->getHelper('AjaxContext');
         /* @var $ajaxContext Zend_Controller_Action_Helper_AjaxContext */
         $ajaxContext->addActionContext('get', 'json')
+                ->addActionContext('get-references', 'json')
                 ->initContext();
     }
 
     public function indexAction()
     {
+
         $taxList = $this->taxMapper->getTaxes();
         $categoryTree = $this->categoryMapper->getCategoryTree();
         $providerList = $this->providerMapper->getProviders();
         $promoList = $this->promotionMapper->getPromotions();
-        $articleList = $this->articleMapper->getArticles();
-
-        $this->view->articleList = $articleList;
+        
+        $referenceList = $this->articleMapper->getReferences();
+        $this->view->articleList = $referenceList;
 
         $this->view->placeholder('forms')->create = $this->view->action(
                 'create-form', 'article', 'admin', array(
@@ -34,8 +36,28 @@ class Admin_ArticleController extends AdminControllerAbstract
             'promoList' => $promoList,
             'categoryTree' => $categoryTree,
             'providerList' => $providerList,
-            'articleList' => $articleList
+            'referenceList' => $referenceList
         ));
+
+        if (NULL === ($page = $this->getRequest()->getParam('page')))
+        {
+            $page = 1;
+        }
+
+        if (NULL === ($rowCount = $this->getRequest()->getParam('rows')))
+        {
+            $rowCount = ArticleMapper::DEFAULT_PAGE_ITEM_COUNT;
+        }
+        $paginator = new Zend_Paginator(new ArticlePaginatorAdapter($this->articleMapper));
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setItemCountPerPage($rowCount);
+        
+        $this->view->paginator = $paginator;
+        $this->view->pageCount = $paginator->count();
+        $this->view->pagesInRange = $paginator->getPagesInRange(1, $paginator->count());
+        $this->view->previousPage = ($page > 1) ? ($page - 1) : NULL;
+        $this->view->nextPage = ($page < $paginator->count()) ? ($page + 1) : NULL;
+        $this->view->currentPage = $page;
     }
 
     public function createFormAction()
@@ -52,7 +74,7 @@ class Admin_ArticleController extends AdminControllerAbstract
         $this->view->promoList = $this->getRequest()->getParam('promoList');
         $this->view->categoryTree = $this->getRequest()->getParam('categoryTree');
         $this->view->providerList = $this->getRequest()->getParam('providerList');
-        $this->view->articleList = $this->getRequest()->getParam('articleList');
+        $this->view->referenceList = $this->getRequest()->getParam('referenceList');
     }
 
     public function createAction()
@@ -187,10 +209,22 @@ class Admin_ArticleController extends AdminControllerAbstract
             $category = $this->categoryMapper->find($ref);
             $article->categories[] = $category;
         }
-        
+
         return $article;
     }
 
+    public function getReferencesAction()
+    {
+        $request = $this->getRequest();
+        /* @var $request Zend_Controller_Request_Http */
+        if (!$request->isXmlHttpRequest())
+        {
+            throw new RuntimeException('Wrong Request Context');
+        }
+        
+        $this->view->references = $this->articleMapper->getReferences();
+    }
+    
     public function getAction()
     {
         $request = $this->getRequest();

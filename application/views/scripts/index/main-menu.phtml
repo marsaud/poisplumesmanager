@@ -1,27 +1,41 @@
 <ul class="nav navbar-nav navbar-left">
-    <li class="<?php echo ($this->moduleName == 'admin' ? 'active' : ''); ?>">
-        <a href="<?php echo $this->baseUrl('admin'); ?>">
-            Administration
-        </a>
+    <li class="<?php echo ($this->moduleName == 'cash-register' ? 'active' : ''); ?>">
+        <a href="<?php echo $this->baseUrl('cash-register'); ?>">Caisse</a>
+    </li>
+    <li class="dropdown <?php echo ($this->moduleName == 'admin' ? 'active' : ''); ?>">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu">
+            <li role="presentation"><a role="menuitme" tabindex="-1" href="<?php echo $this->baseUrl('admin/article'); ?>">Articles</a></li>
+            <li role="presentation"><a role="menuitme" tabindex="-1" href="<?php echo $this->baseUrl('admin/promotion'); ?>">Promotions</a></li>
+            <li role="presentation"><a role="menuitme" tabindex="-1" href="<?php echo $this->baseUrl('admin/provider'); ?>">Fournisseurs</a></li>
+            <li role="presentation"><a role="menuitme" tabindex="-1" href="<?php echo $this->baseUrl('admin/category'); ?>">Catégories</a></li>
+            <li role="presentation"><a role="menuitme" tabindex="-1" href="<?php echo $this->baseUrl('admin/tax'); ?>">Taxes</a></li>
+        </ul>
+    </li>
+    <li class="dropdown <?php echo ($this->moduleName == 'report' ? 'active' : ''); ?>">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Etats <b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu">
+            <li role="presentation"><a role="menuitme" tabindex="-1" href="<?php echo $this->baseUrl('report/index/detail'); ?>">Détail des opérations</a></li>
+            <li role="presentation"><a role="menuitme" tabindex="-1" href="<?php echo $this->baseUrl('report/index/week'); ?>">Consolidation hebdomadaire</a></li>
+            <li role="presentation"><a role="menuitme" tabindex="-1" href="<?php echo $this->baseUrl('report/index/month'); ?>">Déclaration mensuelle</a></li>
+            <li role="presentation"><a role="menuitme" tabindex="-1" href="<?php echo $this->baseUrl('report/index/cart'); ?>">Panier moyen</a></li>
+            <li role="presentation"><a role="menuitme" tabindex="-1" href="<?php echo $this->baseUrl('report/index/margin'); ?>">Taux de marge</a></li>
+        </ul>
+    </li>
+    <li class="dropdown <?php echo ($this->moduleName == 'purchase' ? 'active' : ''); ?>">
+        <a href="<?php echo $this->baseUrl('purchase/index/manage'); ?>">Gestion</a>
+        <!--ul class="dropdown-menu" role="menu">
+            <li role="presentation"><a role="menuitme" tabindex="-1" href="<?php echo $this->baseUrl('purchase/index/manage'); ?>">Achats</a></li>
+            <li role="presentation"><a role="menuitme" tabindex="-1" href="<?php echo $this->baseUrl('purchase/cash/index'); ?>">Fond de caisse</a></li>
+            <li role="presentation"><a role="menuitme" tabindex="-1" href="<?php echo $this->baseUrl('purchase/income/index'); ?>">Entrées</a></li>
+        </ul-->
+    </li>
+    <li class="dropdown <?php echo ($this->moduleName == 'dash-board' ? 'active' : ''); ?>">
+        <a href="<?php echo $this->baseUrl('dash-board/index/index'); ?>">Tableaux de bord</a>
+        <!--ul class="dropdown-menu" role="menu">
+        </ul-->
     </li>
     <!--li class="<?php echo ($this->moduleName == 'stock' ? 'active' : ''); ?>">
-        <a href="<?php echo $this->baseUrl('stock'); ?>">
-            Stock
-        </a>
+        <a href="<?php echo $this->baseUrl('stock'); ?>">Stock</a>
     </li-->
-    <li class="<?php echo ($this->moduleName == 'cash-register' ? 'active' : ''); ?>">
-        <a href="<?php echo $this->baseUrl('cash-register'); ?>">
-            Caisse
-        </a>
-    </li>
-    <li class="<?php echo ($this->moduleName == 'report' ? 'active' : ''); ?>">
-        <a href="<?php echo $this->baseUrl('report'); ?>">
-            Etats
-        </a>
-    </li>
-    <li class="<?php echo ($this->moduleName == 'purchase' ? 'active' : ''); ?>">
-        <a href="<?php echo $this->baseUrl('purchase'); ?>">
-            Gestion
-        </a>
-    </li>
 </ul>

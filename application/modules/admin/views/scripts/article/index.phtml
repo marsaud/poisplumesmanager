@@ -2,51 +2,47 @@
 $this->addHelperPath(dirname(__FILE__) . '/../../helpers', 'Admin_View_Helper');
 $this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
 ?>
-<div>
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <button class="btn btn-default" data-toggle="collapse" data-target="#create-article">
-                <span class="sr-only">Toggle Create Article</span>
-                <i class="fa fa-bars"></i>
-            </button>
-            Créer un article
+<div class="row">
+    <div class="col-lg-7">
+        <div>
+            <?php echo $this->paginationControl($this->paginator, 'Elastic', 'paginator.phtml'); ?>
         </div>
-        <div id="create-article" class="panel-body collapse">
-            <?php echo $this->placeholder('forms')->create; ?>
-        </div>
+        <table class="table table-condensed table-striped table-hover">
+            <caption>Liste des articles</caption>
+            <tr>
+                <th>Référence</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Catégories</th>
+                <th>Prix HT</th>
+                <th>TVA</th>
+                <th>Promos</th>
+                <th>Prix TTC</th>
+                <th>Fournisseur</th>
+            </tr>
+            <?php
+            echo $this->articleLines($this->paginator->getCurrentItems()->getArrayCopy());
+            ?>
+        </table>
     </div>
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <button class="btn btn-default" data-toggle="collapse" data-target="#update-article">
-                <span class="sr-only">Toggle Update Article</span>
-                <i class="fa fa-bars"></i>
-            </button>
-            Modifier un article
-        </div>
-        <div id="update-article" class="panel-body collapse">
-            <?php echo $this->placeholder('forms')->update; ?>
+    <div class="col-lg-5">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#create-article" data-toggle="tab">Créer un article</a></li>
+            <li><a href="#update-article" data-toggle="tab">Modifier un article</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="create-article">
+                <br>
+                <?php echo $this->placeholder('forms')->create; ?>
+            </div>
+            <div class="tab-pane" id="update-article">
+                <br>
+                <?php echo $this->placeholder('forms')->update; ?>
+            </div>
         </div>
     </div>
 </div>
-<div id="articlelist">
-    <table class="table table-condensed table-striped table-hover">
-        <caption>Liste des articles</caption>
-        <tr>
-            <th>Référence</th>
-            <th>Nom</th>
-            <th>Description</th>
-            <th>Catégories</th>
-            <th>Prix HT</th>
-            <th>TVA</th>
-            <th>Promos</th>
-            <th>Prix TTC</th>
-            <th>Fournisseur</th>
-        </tr>
-        <?php
-        echo $this->articleLines($this->articleList);
-        ?>
-    </table>
-</div>
+
 <?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/article.js'); ?>"></script>
 <script type="text/javascript">

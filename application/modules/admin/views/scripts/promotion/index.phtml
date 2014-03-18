@@ -2,51 +2,85 @@
 $this->addHelperPath(realpath(dirname(__FILE__) . '/../../helpers'), 'Admin_View_Helper');
 $this->placeholder('nav')->set($this->action('menu', 'index', 'admin'));
 ?>
-<div class="leftpart col-lg-4">
-    <form method="post" action="<?php echo $this->baseUrl('admin/promotion/create'); ?>" id="createpromoform" class="createform adminform">
-        <fieldset>
-            <legend>Créer une promotion</legend>
-            <div class="form-group">
-                <label for="name">Nom de la promotion</label>
-                <input id="name" name="name" type="text" required autocomplete="off" class="form-control"/>
+<div class="row">
+    <div id="promolist" class="rightpart col-lg-7">
+        <?php
+        echo $this->promoList($this->promos, 'Promotions existantes');
+        ?>
+    </div>
+    <div class="leftpart col-lg-5">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#create-promo" data-toggle="tab">Créer une promotion</a></li>
+            <li><a href="#update-promo" data-toggle="tab">Modifier une promotion</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="create-promo">
+                <br />
+                <form method="post" action="<?php echo $this->baseUrl('admin/promotion/create'); ?>" id="createpromoform" class="createform adminform">
+                    <fieldset class="form-horizontal">
+                        <!--legend>Créer une promotion</legend-->
+                        <div class="form-group">
+                            <label for="name" class="col-lg-3 control-label">Nom de la promotion</label>
+                            <div class="col-lg-9">
+                                <input id="name" name="name" type="text" required autocomplete="off" placeholder="obligatoire" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ratio" class="col-lg-3 control-label">Ratio (%)</label>
+                            <div class="col-lg-9">
+                                <input id="ratio" name="ratio" type="number" step=0.01 max="0" min="-100" required value="0" autocomplete="off" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="desc" class="col-lg-3 control-label">Description de la promotion</label>
+                            <div class="col-lg-9">
+                                <textarea id="desc" name="desc" placeholder="facultatif" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-9 col-lg-offset-3">
+                                <button type="submit" class="btn btn-primary">Créer</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="ratio">Ratio (%)</label>
-                <input id="ratio" name="ratio" type="number" step=0.01 max="0" min="-100" required value="0" autocomplete="off" class="form-control"/>
+            <div class="tab-pane" id="update-promo">
+                <br />
+                <form method="post" action="<?php echo $this->baseUrl('admin/promotion/update'); ?>" id="updatepromoform" class="updateform adminform">
+                    <fieldset class="form-horizontal">
+                        <!--legend>Modifier une promotion</legend-->
+                        <div class="form-group">
+                            <label for="modid" class="col-lg-3 control-label">Nom de la promotion à modifier</label>
+                            <div class="col-lg-9">
+                                <select id="modid" name="modid" required class="form-control">
+                                    <option></option>
+                                    <?php echo $this->promoOptions($this->promos); ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="modratio" class="col-lg-3 control-label">Ratio (%)</label>
+                            <div class="col-lg-9">
+                                <input id="modratio" name="modratio" type="number" step=0.01 max="0" min="-100" required autocomplete="off" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="moddesc" class="col-lg-3 control-label">Description de la promotion</label>
+                            <div class="col-lg-9">
+                                <textarea id="moddesc" name="moddesc" placeholder="facultatif" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-9 col-lg-offset-3">
+                                <button type="submit" class="btn btn-primary">Modifier</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="desc">Description de la promotion</label>
-                <textarea id="desc" name="desc" placeholder="facultatif" class="form-control"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Créer</button>
-        </fieldset>
-    </form>
-    <form method="post" action="<?php echo $this->baseUrl('admin/promotion/update'); ?>" id="updatepromoform" class="updateform adminform">
-        <fieldset>
-            <legend>Modifier une promotion</legend>
-            <div class="form-group">
-                <label for="modid">Nom de la promotion à modifier</label>
-                <select id="modid" name="modid" required class="form-control">
-                    <option></option>
-                    <?php echo $this->promoOptions($this->promos); ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="modratio">Ratio (%)</label>
-                <input id="modratio" name="modratio" type="number" step=0.01 max="0" min="-100" autocomplete="off" class="form-control"/>
-            </div>
-            <div class="form-group">
-                <label for="moddesc">Description de la promotion</label>
-                <textarea id="moddesc" name="moddesc" placeholder="facultatif" class="form-control"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Modifier</button>
-        </fieldset>
-    </form>
-</div>
-<div id="promolist" class="rightpart col-lg-8">
-    <?php
-    echo $this->promoList($this->promos, 'Promotions existantes');
-    ?>
+        </div>
+    </div>
 </div>
 <?php $this->placeholder('scripts')->captureStart(); ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/admin/promotion.js'); ?>"></script>

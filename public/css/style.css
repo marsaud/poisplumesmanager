@@ -10,6 +10,18 @@ body {
     padding-top: 70px;
 }
 
+.chart {
+    width : 100%;
+    max-width: 1400px;
+    height: 400px;
+}
+
+.pie {
+    width : 100%;
+    max-width: 1400px;
+    height: 800px;
+}
+
 /*
 .menu a {
     color: black;

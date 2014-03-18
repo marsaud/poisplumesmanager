@@ -383,7 +383,6 @@ function stopTotalUpdate()
 
 function watchSearch(event)
 {
-    console.log('watchSearch');
     var input = jQuery(this);
     var search = input.val();
 
@@ -407,7 +406,6 @@ function watchSearch(event)
 
 function startSearchTimer(search)
 {
-    console.log('startSearchTimer');
     if (searchTimer !== null)
     {
         clearTimeout(searchTimer);
@@ -425,9 +423,8 @@ function startSearchTimer(search)
 
 function requestSearch(search)
 {
-    console.log('requestSearch');
-    jQuery('#search ul').html('<img src="' + loaderImageUrl + '"/>');
-    if ((search.length) >= searchMinLength)
+    jQuery('#search ul').html('<li role="presentation"><i class="fa fa-spinner fa-spin fa-2x"></i></li>');
+    if (search.length >= searchMinLength)
     {
         jQuery.ajax({
             url: '/cash-register/index/get-search/search/' + search,
@@ -445,7 +442,6 @@ function requestSearch(search)
 
 function updateSearchDrop(response)
 {
-    console.log('updateSearchDrop');
     if (null != response)
     {
         jQuery('#search ul').html(response);
@@ -489,8 +485,6 @@ function updateSearchArticle(response)
 
 function checkSearchShow(event)
 {
-    console.log('checkSearchShow');
-
     if (jQuery(this).find('input').val().length < searchMinLength)
     {
         event.preventDefault();

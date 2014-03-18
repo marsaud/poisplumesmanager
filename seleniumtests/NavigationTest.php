@@ -51,11 +51,21 @@ class NavigationTest extends PHPUnit_Extensions_SeleniumTestCase
         $data['main'] = array(
             'main',
             array(
-                'admin',
-                'stock',
+                // 'admin',
+                'admin/category',
+                'admin/article',
+                'admin/promotion',
+                'admin/provider',
+                'admin/tax',
+                // 'stock',
                 'cash-register',
-                'report',
-                'purchase'
+                'report/detail',
+                'report/week',
+                'report/month',
+                'report/cart',
+                'report/margin',
+                'purchase/index/manage',
+                'dash-board/index/index'
             )
         );
 

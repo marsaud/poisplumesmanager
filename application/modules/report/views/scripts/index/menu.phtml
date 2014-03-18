@@ -1,29 +1,7 @@
-<!--div id="reportmenu" class="menu navbar navbar-inverse"-->
-    <ul class="nav navbar-nav navbar-right">
-        <li<?php echo ($this->actionName == 'detail' ? ' class="active"' : '');?>>
-            <a href="<?php echo $this->baseUrl('report/index/detail');?>">
-                Détail des opérations
-            </a>
-        </li>
-        <li<?php echo ($this->actionName == 'week' ? ' class="active"' : '');?>>
-            <a href="<?php echo $this->baseUrl('report/index/week');?>">
-                Consolidation hebdomadaire
-            </a>
-        </li>
-        <li<?php echo ($this->actionName == 'month' ? ' class="active"' : '');?>>
-            <a href="<?php echo $this->baseUrl('report/index/month');?>">
-                Déclaration mensuelle
-            </a>
-        </li>
-        <li<?php echo ($this->actionName == 'cart' ? ' class="active"' : '');?>>
-            <a href="<?php echo $this->baseUrl('report/index/cart');?>">
-                Panier moyen
-            </a>
-        </li>
-        <li<?php echo ($this->actionName == 'margin' ? ' class="active"' : '');?>>
-            <a href="<?php echo $this->baseUrl('report/index/margin');?>">
-                Taux de marge
-            </a>
-        </li>
-    </ul>
-<!--/div-->
+<ul class="nav navbar-nav navbar-right">
+    <li<?php echo ($this->actionName == 'detail' ? ' class="active"' : ''); ?>><a href="<?php echo $this->baseUrl('report/index/detail'); ?>">Détail des opérations</a></li>
+    <li<?php echo ($this->actionName == 'week' ? ' class="active"' : ''); ?>><a href="<?php echo $this->baseUrl('report/index/week'); ?>">Consolidation hebdomadaire</a></li>
+    <li<?php echo ($this->actionName == 'month' ? ' class="active"' : ''); ?>><a href="<?php echo $this->baseUrl('report/index/month'); ?>">Déclaration mensuelle</a></li>
+    <li<?php echo ($this->actionName == 'cart' ? ' class="active"' : ''); ?>><a href="<?php echo $this->baseUrl('report/index/cart'); ?>">Panier moyen</a></li>
+    <li<?php echo ($this->actionName == 'margin' ? ' class="active"' : ''); ?>><a href="<?php echo $this->baseUrl('report/index/margin'); ?>">Taux de marge</a></li>
+</ul>

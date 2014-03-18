@@ -123,6 +123,7 @@ class ReportManager
                     'year' => new Zend_Db_Expr('YEAR(ct.payment_date)'),
                     'month' => new Zend_Db_Expr('MONTH(ct.payment_date)')
                 ))
+                ->where('ct.payed = ?', 1, Zend_Db::INT_TYPE)
                 ->where('MONTH(ct.payment_date) = ?', $date->get(Zend_Date::MONTH))
                 ->where('YEAR(ct.payment_date) = ?', $date->get(Zend_Date::YEAR))
                 ->group('ol.tax_ratio');

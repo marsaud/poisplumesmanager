@@ -13,7 +13,7 @@ class Admin_View_Helper_ArticleOptions
 
     /**
      *
-     * @param Article[] $articles
+     * @param Article[]|stdClass[] $articles
      *
      * @return string
      */

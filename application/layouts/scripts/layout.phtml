@@ -14,21 +14,29 @@
     </head>
     <body>
         <div class="container-fluid">
-            <nav id="mainmenu" class="navbar navbar-fixed-top navbar-inverse">
+            <nav id="mainmenu" class="navbar navbar-fixed-top navbar-default" role="navigation">
                 <div class="container-fluid">
-                    <?php
-                    echo $this->action('main-menu', 'index', 'default');
-                    echo $this->placeholder('nav');
-                    ?>
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <a href="#" class="navbar-brand">Café Pois Plumes</a>
+                    </div>
+                    <div id="main-navbar" class="collapse navbar-collapse">
+                        <?php
+                        echo $this->action('main-menu', 'index', 'default');
+                        echo $this->placeholder('nav');
+                        ?>
+                    </div>
                 </div>
             </nav>
             <?php
             echo $this->layout()->content;
             ?>
         </div>
-        <script src="<?php echo $this->baseUrl('js/jquery.js'); ?>"></script>
-        <script src="<?php echo $this->baseUrl('js/lib/tools.js'); ?>"></script>
+        <script src="<?php echo $this->baseUrl('jquery-2.1.0-dist/jquery.min.js'); ?>"></script>
         <script src="<?php echo $this->baseUrl('bootstrap-3.1.1-dist/js/bootstrap.min.js'); ?>"></script>
+        <script src="<?php echo $this->baseUrl('js/lib/tools.js'); ?>"></script>
         <?php
         echo $this->placeholder('scripts');
         ?>

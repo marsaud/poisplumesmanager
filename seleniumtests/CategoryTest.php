@@ -25,9 +25,9 @@ class CategoryTest extends PHPUnit_Extensions_SeleniumTestCase
     function testAccess()
     {
         $this->open('/');
-        $this->assertElementPresent('css=a[href="/admin"]');
-        $this->click('css=a[href="/admin"]');
-        $this->waitForPageToLoad();
+//        $this->assertElementPresent('css=a[href="/admin"]');
+//        $this->click('css=a[href="/admin"]');
+//        $this->waitForPageToLoad();
         $this->assertElementPresent('css=a[href="/admin/category"]');
         $this->click('css=a[href="/admin/category"]');
         $this->waitForPageToLoad();

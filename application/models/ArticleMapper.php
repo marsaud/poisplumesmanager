@@ -11,11 +11,17 @@
  */
 class ArticleMapper
 {
-    
+
     const MINIMUM_SEARCH_SIZE = 4;
     
+    const ALL_CATEGORIES = NULL;
+    
     const STOCK_MANAGED_ONLY = true;
-    const ALL = false;
+    const ALL_ARTICLES = false;
+    
+    const DEFAULT_OFFSET = 1;
+    const DEFAULT_PAGE_ITEM_COUNT = 15;
+    
 
     /**
      *
@@ -40,7 +46,7 @@ class ArticleMapper
      * @var ProviderMapper
      */
     protected $_providerModel;
-    
+
     /**
      *
      * @var TaxMapper
@@ -52,13 +58,24 @@ class ArticleMapper
         $this->_db = $db;
     }
 
+    public function getReferences()
+    {
+        $select = $this->_db->select()
+                ->from('article', array('reference' => 'ref', 'name'))
+                ;
+        $query = $select->query();
+        $references = $query->fetchAll(Zend_Db::FETCH_OBJ);
+        
+        return $references;
+    }
+    
     /**
      * @param string $categoryRef
      * @param boolean $mode
      * 
      * @return Article[]
      */
-    public function getArticles($categoryRef = NULL, $mode = self::ALL)
+    public function getArticles($categoryRef = self::ALL_CATEGORIES, $mode = self::ALL_ARTICLES, $count = NULL, $offset = self::DEFAULT_OFFSET)
     {
         $select = $this->_db->select()
                 ->from(array('a' => 'article'))
@@ -75,9 +92,15 @@ class ArticleMapper
                         , 'ap.article_ref = a.ref'
                         , array('ap.provider_id')
                 )
-                ->order(array('ref ASC', 'category_ref ASC'));
+                ->order(array('ref ASC', 'category_ref ASC'))
+                ->limit($count, $offset);
 
-        if (NULL !== $categoryRef)
+        if (NULL !== $count)
+        {
+            $select->limit($count, $offset);
+        }
+        
+        if (self::ALL_CATEGORIES !== $categoryRef)
         {
             $select->where('ca.category_ref = ?', $categoryRef);
         }
@@ -255,14 +278,14 @@ class ArticleMapper
 
         return $this->_promoModel;
     }
-    
+
     protected function _getTaxModel()
     {
         if (NULL === $this->_taxModel)
         {
             $this->_taxModel = new TaxMapper($this->_db);
         }
-        
+
         return $this->_taxModel;
     }
 
@@ -371,18 +394,29 @@ class ArticleMapper
         {
             throw new Exception('Search results may be too heavy');
         }
-        
+
         $select = $this->_db->select()
                 ->from('article', array('ref', 'name'))
                 ->where('ref like ?', new Zend_Db_Expr("'%$search%'"))
                 ->orWhere('name like ?', new Zend_Db_Expr("'%$search%'"))
                 ->order('ref ASC');
+
+        $query = $select->query();
+
+        $results = $query->fetchAll(Zend_Db::FETCH_OBJ);
+
+        return $results;
+    }
+    
+    public function count()
+    {
+        $select = $this->_db->select()
+                ->from('article', array('count' => new Zend_Db_Expr('count(ref)')));
         
         $query = $select->query();
+        $count = $query->fetchColumn();
         
-        $results = $query->fetchAll(Zend_Db::FETCH_OBJ);
-        
-        return $results;
+        return $count;
     }
 
 }

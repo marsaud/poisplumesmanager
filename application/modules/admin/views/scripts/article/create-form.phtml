@@ -1,58 +1,84 @@
-<form method="post" action="<?php echo $this->baseUrl('admin/article/create'); ?>" id="createarticleform" class="createform adminform">
-    <fieldset>
+<form method="post" action="<?php echo $this->baseUrl('admin/article/create'); ?>" id="createarticleform" class="createform adminform" role="form">
+    <fieldset class="form-horizontal">
         <!--legend>Créer un article</legend-->
         <div class="form-group">
-            <label for="ref">Référence de l'article</label>
-            <input id="ref" name="ref" type="text" required autocomplete="off" class="form-control"/>
+            <label for="ref" class="col-lg-3 control-label">Référence de l'article</label>
+            <div class="col-lg-9">
+                <input id="ref" name="ref" type="text" required autocomplete="off" placeholder="obligatoire" class="form-control"/>
+            </div>
         </div>
         <div class="form-group">
-            <label for="name">Nom de l'article</label>
-            <input id="name" name="name" type="text" required autocomplete="off" class="form-control"/>
+            <label for="name" class="col-lg-3 control-label">Nom de l'article</label>
+            <div class="col-lg-9">
+                <input id="name" name="name" type="text" required autocomplete="off" placeholder="obligatoire" class="form-control"/>
+            </div>
         </div>
         <div class="form-group">
-            <label for="desc">Description de l'article</label>
-            <textarea id="desc" name="desc" placeholder="facultatif" class="form-control"></textarea>
+            <label for="desc" class="col-lg-3 control-label">Description de l'article</label>
+            <div class="col-lg-9">
+                <textarea id="desc" name="desc" placeholder="facultatif" class="form-control"></textarea>
+            </div>
         </div>
         <div class="form-group">
-            <label for="priceht">Prix TTC</label>
-            <input id="priceht" name="priceht" type="number" required step=0.01 min=0 autocomplete="off" class="form-control"/>
+            <label for="priceht" class="col-lg-3 control-label">Prix TTC</label>
+            <div class="col-lg-9">
+                <input id="priceht" name="priceht" type="number" step=0.01 min=0 required autocomplete="off" placeholder="obligatoire" class="form-control"/>
+            </div>
         </div>
         <div class="form-group">
-            <label for="tva">T.V.A</label>
-            <select id="tva" name="tva" class="form-control" required>
-                <option></option>
-                <?php echo $this->taxOptions($this->taxList); ?>
-            </select>
+            <label for="tva" class="col-lg-3 control-label">T.V.A</label>
+            <div class="col-lg-9">
+                <select id="tva" name="tva" required placeholder="obligatoire" class="form-control">
+                    <option></option>
+                    <?php echo $this->taxOptions($this->taxList); ?>
+                </select>
+            </div>
         </div>
         <div class="form-group">
-            <label for="promo">Promotions appliquées à l'article</label>
-            <select id="promo" name="promo" class="form-control">
-                <option></option>
-                <?php echo $this->promoOptions($this->promoList); ?>
-            </select>
+            <label for="promo" class="col-lg-3 control-label">Promotions appliquées à l'article (optionnel)</label>
+            <div class="col-lg-9">
+                <select id="promo" name="promo" placeholder="optionnel" class="form-control">
+                    <option></option>
+                    <?php echo $this->promoOptions($this->promoList); ?>
+                </select>
+            </div>
         </div>
         <div class="form-group">
-            <label for="cat">Catégories auxquelles appartient l'article</label>
-            <select id="cat" name="cat[]" multiple="multiple" size="10" class="form-control">
-                <?php echo $this->categoryOptions($this->categoryTree); ?>
-            </select>
+            <label for="cat" class="col-lg-3 control-label">Catégories auxquelles appartient l'article</label>
+            <div class="col-lg-9">
+                <select id="cat" name="cat[]" multiple="multiple" size="10" class="form-control">
+                    <?php echo $this->categoryOptions($this->categoryTree); ?>
+                </select>
+            </div>
         </div>
         <div class="form-group">
-            <label for="provider">Fournisseur (optionel)</label>
-            <select id="provider" name="provider" class="form-control">
-                <option></option>
-                <?php echo $this->providerOptions($this->providerList); ?>
-            </select>
-        </div>
-        <div class="checkbox">
-            <label>
-                <input id="stock" type="checkbox" name="stock"/> Géré en stock
-            </label>
+            <label for="provider" class="col-lg-3 control-label">Fournisseur (optionnel)</label>
+            <div class="col-lg-9">
+                <select id="provider" name="provider" placeholder="optionnel" class="form-control">
+                    <option></option>
+                    <?php echo $this->providerOptions($this->providerList); ?>
+                </select>
+            </div>
         </div>
         <div class="form-group">
-            <label for="unit">Unité de quantité</label>
-            <input id="unit" name="unit" type="text" autocomplete="off" placeholder="optionel" class="form-control"/>
+            <div class="col-lg-9 col-lg-offset-3">
+                <div class="checkbox">
+                    <label class="control-label">
+                        Géré en stock <input id="stock" type="checkbox" name="stock"/>
+                    </label>
+                </div>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Créer</button>
+        <div class="form-group">
+            <label for="unit" class="col-lg-3 control-label">Unité de quantité</label>
+            <div class="col-lg-9">
+                <input id="unit" name="unit" type="text" autocomplete="off" placeholder="optionel" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-9 col-lg-offset-3">
+                <button type="submit" class="btn btn-primary">Créer</button>
+            </div>
+        </div>
     </fieldset>
 </form>
