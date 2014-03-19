@@ -1,0 +1,23 @@
+<h4>Chiffre d'affaires par mois</h4>
+<div id="chartTurnOver" class="chart"></div>
+<h4>Ventes par catégories</h4>
+<div id="chartCategorySales" class="pie"></div>
+<h4>Restauration par jour</h4>
+<div id="chartCatering" class="chart"></div>
+<h4>Restauration par heure</h4>
+<div id="chartHourCatering" class="chart"></div>
+<?php $this->placeholder('scripts')->captureStart(); ?>
+<script src="<?php echo $this->baseUrl('amcharts-3.4.5/amcharts.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo $this->baseUrl('amcharts-3.4.5/serial.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo $this->baseUrl('amcharts-3.4.5/pie.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo $this->baseUrl('js/dash-board/dash-board.js'); ?>" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+    AmCharts.ready(turnOverChart('chartTurnOver', <?php echo json_encode($this->turnOverDataLayers) ?>,<?php echo json_encode($this->turnOverData); ?>));
+    AmCharts.ready(cateringChart('chartCatering', <?php echo json_encode($this->cateringData); ?>));
+    AmCharts.ready(cateringHourChart('chartHourCatering', <?php echo json_encode($this->cateringHourData); ?>));
+    AmCharts.ready(categoryPie('chartCategorySales', <?php echo json_encode($this->categoryPieData); ?>));
+//-->
+</script>
+<?php
+$this->placeholder('scripts')->captureEnd();
