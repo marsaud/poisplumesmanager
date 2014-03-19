@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  */
@@ -20,16 +19,13 @@ class CashRegister_View_Helper_CategoryPad
      */
     public function categoryPad(array $categoryList)
     {
-        $categoryPad = '';
-
-        foreach ($categoryList as $category)
-        {
+        ob_start();
+        foreach ($categoryList as $category) :
             /* @var $category Category */
-            $categoryPad .= '<div class="category button btn btn-primary" ref="' . $category->reference . '">'
-                . $category->name . '</div>';
-        }
+            ?><div class="category button btn btn-primary" ref="<?php echo $category->reference; ?>"><?php echo $category->name; ?></div><?php
+        endforeach;
 
-        return $categoryPad;
+        return ob_get_clean();
     }
 
 }
