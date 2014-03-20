@@ -13,15 +13,11 @@ class ArticleMapper
 {
 
     const MINIMUM_SEARCH_SIZE = 4;
-    
     const ALL_CATEGORIES = NULL;
-    
     const STOCK_MANAGED_ONLY = true;
     const ALL_ARTICLES = false;
-    
     const DEFAULT_OFFSET = 1;
     const DEFAULT_PAGE_ITEM_COUNT = 15;
-    
 
     /**
      *
@@ -62,13 +58,13 @@ class ArticleMapper
     {
         $select = $this->_db->select()
                 ->from('article', array('reference' => 'ref', 'name'))
-                ;
+        ;
         $query = $select->query();
         $references = $query->fetchAll(Zend_Db::FETCH_OBJ);
-        
+
         return $references;
     }
-    
+
     /**
      * @param string $categoryRef
      * @param boolean $mode
@@ -93,13 +89,13 @@ class ArticleMapper
                         , array('ap.provider_id')
                 )
                 ->order(array('ref ASC', 'category_ref ASC'))
-                ->limit($count, $offset);
+        ;
 
         if (NULL !== $count)
         {
             $select->limit($count, $offset);
         }
-        
+
         if (self::ALL_CATEGORIES !== $categoryRef)
         {
             $select->where('ca.category_ref = ?', $categoryRef);
@@ -407,15 +403,15 @@ class ArticleMapper
 
         return $results;
     }
-    
+
     public function count()
     {
         $select = $this->_db->select()
                 ->from('article', array('count' => new Zend_Db_Expr('count(ref)')));
-        
+
         $query = $select->query();
         $count = $query->fetchColumn();
-        
+
         return $count;
     }
 
