@@ -46,14 +46,11 @@ class Admin_View_Helper_ArticleLines extends Zend_View_Helper_Abstract
         ?>
         <ul>
             <?php
-            if (!empty($article->categories))
-            {
-                foreach ($article->categories as $category):
-                    ?>
-                    <li><?php echo $category->name; ?></li>
-                    <?php
-                endforeach;
-            }
+            foreach ($article->categories as $category):
+                ?>
+                <li><?php echo $category->name; ?></li>
+                <?php
+            endforeach;
             ?>
         </ul>
         <?php
@@ -66,15 +63,11 @@ class Admin_View_Helper_ArticleLines extends Zend_View_Helper_Abstract
         ?>
         <ul>
             <?php
-            if (count($article->promos) > 0)
-            {
-
-                foreach ($article->promos as $promo):
-                    ?>
-                    <li><?php echo $promo->name . ' : ' . $promo->ratio; ?>%</li>
-                    <?php
-                endforeach;
-            }
+            foreach ($article->promos as $promo):
+                ?>
+                <li><?php echo $promo->name . ' : ' . $promo->ratio; ?>%</li>
+                <?php
+            endforeach;
             ?>
         </ul>
         <?php

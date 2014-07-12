@@ -149,7 +149,7 @@ class ArticleMapper
                     $category = $this->_getCategoryModel()->find(
                             $row->category_ref
                     );
-                    $article->categories[] = $category;
+                    $article->addCategory($category);
                 }
             }
         }
@@ -207,7 +207,7 @@ class ArticleMapper
                     $category = $this->_getCategoryModel()->find(
                             $row->category_ref
                     );
-                    $article->categories[] = $category;
+                    $article->addCategory($category);
                 }
 
                 if (NULL !== $row->promo_id)

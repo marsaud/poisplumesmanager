@@ -207,7 +207,7 @@ class Admin_ArticleController extends AdminControllerAbstract
         foreach ($categoryRefs as $ref)
         {
             $category = $this->categoryMapper->find($ref);
-            $article->categories[] = $category;
+            $article->addCategory($category);
         }
 
         return $article;

@@ -74,7 +74,7 @@ class CategoryMapper
         $select = $this->_db->select()
                 ->from('category', array('ref', 'name', 'desc'))
                 ->where('ref = ?', $reference);
-
+        
         $query = $select->query();
         if (1 == $query->rowCount())
         {

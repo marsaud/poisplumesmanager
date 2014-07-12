@@ -283,8 +283,8 @@ class ReportManager
             $csvLines = implode(';', array(
                         $row->reference,
                         $row->final_price,
-                        $row->quantity,
-                        $row->final_price * $row->quantity
+                        $row->soldQuantity,
+                        $row->final_price * $row->soldQuantity
                     ))
                     . PHP_EOL;
 
@@ -293,8 +293,8 @@ class ReportManager
                 $csvLines .= implode(';', array(
                             $row->reference,
                             $row->final_price,
-                            $row->quantity,
-                            $row->final_price * $row->quantity
+                            $row->soldQuantity,
+                            $row->final_price * $row->soldQuantity
                         ))
                         . PHP_EOL;
             }
