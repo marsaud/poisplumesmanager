@@ -17,7 +17,7 @@ class ArticleMapperTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new ArticleMapper(_getDb());
+        $this->object = new ArticleMapper(PoisPlumesManagerTest::_getDb());
     }
 
     /**

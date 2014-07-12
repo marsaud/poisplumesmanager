@@ -177,7 +177,7 @@ class CategoryMapper
             $parent = $this->find(
                     $parentReference, self::WITHOUT_SUB_CATEGORIES
             );
-            if (NULL !== $parent)
+            if (NULL === $parent)
             {
                 throw new RuntimeException(
                 "Unknown parent category '$parentReference'"

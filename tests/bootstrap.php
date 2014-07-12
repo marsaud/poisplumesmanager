@@ -4,7 +4,7 @@
 defined('APPLICATION_PATH') || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
 
 // Define application environment
-defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'testing'));
+defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'development'));
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
@@ -26,15 +26,12 @@ $paths = array(
 
 foreach ($paths as $directory)
 {
-//    echo $directory . PHP_EOL;
     $dir = opendir($directory);
-//    var_dump($dir);
 
     while (false !== ($file = readdir($dir)))
     {
         if (preg_match('/\.php$/', $file))
         {
-//            echo $directory . '/' . $file . PHP_EOL;
             require_once $directory . '/' . $file;
         }
     }
@@ -50,7 +47,49 @@ function _getDb()
         'password' => '',
         'dbname' => 'poisplumesmanagerqual'
     ));
-    
+
     return $db;
-    
+}
+
+class PoisPlumesManagerTest
+{
+
+    /**
+     *
+     * @var Zend_Application
+     */
+    protected static $_application;
+
+    /**
+     *
+     * @var Zend_Db_Adapter_Pdo_Abstract
+     */
+    protected static $_db;
+
+    /**
+     * 
+     * @return Zend_Application
+     */
+    public static function _getApplication()
+    {
+        if (NULL === self::$_application)
+        {
+            $application = new Zend_Application(APPLICATION_ENV, APPLICATION_PATH . '/configs/application.ini');
+            $application->bootstrap();
+            self::$_application = $application;
+        }
+        return self::$_application;
+    }
+
+    public static function _getDb()
+    {
+        if (NULL === self::$_db)
+        {
+            $db = self::_getApplication()->getBootstrap()->getResource('multidb')->getDb('ppmdb');
+            self::$_db = $db;
+        }
+
+        return self::$_db;
+    }
+
 }

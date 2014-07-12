@@ -125,6 +125,7 @@ abstract class AbstractControllerAbstract extends Zend_Controller_Action
             if (NULL === $this->_db)
             {
                 $this->_db = $this->getInvokeArg('bootstrap')
+                        ->bootstrap('multidb')
                         ->getResource('multidb')
                         ->getDb('ppmdb');
             }

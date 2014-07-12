@@ -15,7 +15,11 @@ require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
  */
 class CategoryTest extends PHPUnit_Extensions_SeleniumTestCase
 {
-
+    /*
+     * Value in microseconds 
+     */
+    const WAIT_AJAX_RESPONSE = 500000;
+    
     function setUp()
     {
         $this->setBrowser("googlechrome C:\Program Files (x86)\Google\Chrome\Application\chrome.exe");
@@ -25,9 +29,7 @@ class CategoryTest extends PHPUnit_Extensions_SeleniumTestCase
     function testAccess()
     {
         $this->open('/');
-//        $this->assertElementPresent('css=a[href="/admin"]');
-//        $this->click('css=a[href="/admin"]');
-//        $this->waitForPageToLoad();
+        
         $this->assertElementPresent('css=a[href="/admin/category"]');
         $this->click('css=a[href="/admin/category"]');
         $this->waitForPageToLoad();
@@ -42,15 +44,16 @@ class CategoryTest extends PHPUnit_Extensions_SeleniumTestCase
     function testCreate()
     {
         $testTokens = array(
-            0 => uniqid(),
-            1 => uniqid(),
-            2 => uniqid()
+            0 => uniqid("", true),
+            1 => uniqid("", true),
+            2 => uniqid("", true)
         );
 
         $this->open('/admin/category');
 
         foreach ($testTokens as $testToken)
         {
+            $this->click('css=a[href="#create-category"]');
             $this->type('identifier=categoryref', 'refC' . $testToken);
             $this->type('identifier=categoryname', 'nameC' . $testToken);
             $this->type('identifier=categorydesc', 'descC' . $testToken);
@@ -74,8 +77,9 @@ class CategoryTest extends PHPUnit_Extensions_SeleniumTestCase
 
         foreach ($testTokens as $testToken)
         {
+            $this->click('css=a[href="#update-category"]');
             $this->select('identifier=modcategoryref', 'value=refC' . $testToken);
-            usleep(500000);
+            usleep(self::WAIT_AJAX_RESPONSE);
             $this->assertElementValueEquals('identifier=modcategoryname', 'nameC' . $testToken);
             $this->assertElementValueEquals('identifier=modcategorydesc', 'descC' . $testToken);
             /* @todo Try to check the parent multiselect */
@@ -86,7 +90,7 @@ class CategoryTest extends PHPUnit_Extensions_SeleniumTestCase
             $this->waitForPageToLoad();
 
             $this->select('identifier=modcategoryref', 'value=refC' . $testToken);
-            usleep(500000);
+            usleep(self::WAIT_AJAX_RESPONSE);
             $this->assertElementValueEquals('identifier=modcategoryname', 'nameM' . $testToken);
             $this->assertElementValueEquals('identifier=modcategorydesc', 'descM' . $testToken);
             /* @todo Try to check the parent multiselect */
@@ -103,6 +107,7 @@ class CategoryTest extends PHPUnit_Extensions_SeleniumTestCase
         $this->open('admin/category');
         foreach ($testTokens as $testToken)
         {
+            $this->click('css=a[href="#create-category"]');
             $this->type('identifier=categoryref', 'refP' . $testToken);
             $this->type('identifier=categoryname', 'nameP' . $testToken);
             $this->type('identifier=categorydesc', 'descP' . $testToken);
@@ -113,6 +118,7 @@ class CategoryTest extends PHPUnit_Extensions_SeleniumTestCase
             $this->assertElementContainsText('identifier=categorylist', 'nameP' . $testToken);
             $this->assertElementContainsText('identifier=categorylist', 'descP' . $testToken);
             
+            $this->click('css=a[href="#create-category"]');
             $this->type('identifier=categoryref', 'refS' . $testToken);
             $this->type('identifier=categoryname', 'nameS' . $testToken);
             $this->type('identifier=categorydesc', 'descS' . $testToken);

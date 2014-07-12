@@ -59,11 +59,11 @@ class NavigationTest extends PHPUnit_Extensions_SeleniumTestCase
                 'admin/tax',
                 // 'stock',
                 'cash-register',
-                'report/detail',
-                'report/week',
-                'report/month',
-                'report/cart',
-                'report/margin',
+                'report/index/detail',
+                'report/index/week',
+                'report/index/month',
+                'report/index/cart',
+                'report/index/margin',
                 'purchase/index/manage',
                 'dash-board/index/index'
             )
