@@ -5,32 +5,35 @@
  */
 
 /**
- * Description of Category
+ *
  *
  * @author fabrice
  *
- * @property-read Category[] $subCategories Description
+ * @property-read Category[] $subCategories
+ * @property string $reference
+ * @property string $name
+ * @property string $description
  */
-class Category implements ArrayAccess, IteratorAggregate, Countable
+class Category extends PAF_Object_Base implements ArrayAccess, IteratorAggregate, Countable
 {
 
     /**
      *
      * @var string
      */
-    public $reference;
+    protected $_reference;
 
     /**
      *
      * @var string
      */
-    public $name;
+    protected $_name;
 
     /**
      *
      * @var string
      */
-    public $description;
+    protected $_description;
 
     /**
      *
@@ -40,6 +43,7 @@ class Category implements ArrayAccess, IteratorAggregate, Countable
 
     public function __construct()
     {
+        parent::__construct();
         $this->_subCategories = new ArrayObject(array());
     }
 
@@ -89,28 +93,38 @@ class Category implements ArrayAccess, IteratorAggregate, Countable
         return $this->_subCategories->getIterator();
     }
 
-    public function __get($name)
-    {
-        if ($name == 'subCategories')
-        {
-            return $this->_subCategories->getArrayCopy();
-        }
-        else
-        {
-            throw new OutOfRangeException();
-        }
-    }
-
-    public function __set($name, $value)
-    {
-        unset($name, $value);
-        throw new OutOfRangeException();
-    }
-
     public function count()
     {
-        return count($this->_subCategories);
+        return $this->_subCategories->count();
     }
 
+    protected function _initProperties()
+    {
+        $this->_extendReadProperties(array(
+            'subCategories' => 'subCategories'
+        ));
+
+        $this->_extendProperties(array(
+            'name' => 'name',
+            'description' => 'description'
+        ));
+    }
+
+    protected function _getSubCategories()
+    {
+        return $this->_subCategories->getArrayCopy();
+    }
+
+    protected function _setReference($reference)
+    {
+        ModelAssertions::ref($reference, 'Category reference');
+        $this->_reference = $reference;
+    }
+
+    protected function _setName($name)
+    {
+        ModelAssertions::notEmptyStr($name, 'Category name');
+        $this->_name = $name;
+    }
 
 }
